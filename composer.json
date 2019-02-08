@@ -1,12 +1,19 @@
 {
-    "name": "tutoriux",
     "type": "project",
     "license": "proprietary",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@gitlab.com:pascallapointe/tutoriuxdoctrinebehaviorsbundle.git"
+        }
+    ],
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "friendsofsymfony/jsrouting-bundle": "^2.2",
         "sensio/framework-extra-bundle": "^5.1",
+        "snc/redis-bundle": "^2.1",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/expression-language": "*",
@@ -23,7 +30,10 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/yaml": "*"
+        "symfony/webpack-encore-bundle": "^1.0",
+        "symfony/yaml": "*",
+        "tutoriux/doctrine-behaviors-bundle": "dev-master",
+        "algolia/algolia-search-bundle": "2.1.0"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
@@ -34,6 +44,9 @@
         "symfony/web-server-bundle": "*"
     },
     "config": {
+        "platform": {
+            "php": "7.2.1"
+        },
         "preferred-install": {
             "*": "dist"
         },

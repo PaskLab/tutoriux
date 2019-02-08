@@ -1,0 +1,23 @@
+App\Entity\TextTranslation:
+  type: entity
+  table: text_translation
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    text:
+      type: text
+    name:
+      type: string
+      length: 255
+      nullable: true
+    anchor:
+      type: string
+      length: 255
+      nullable: true
+    active:
+      type: boolean
+      nullable: true

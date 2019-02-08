@@ -1,0 +1,29 @@
+App\Entity\Media\Lock:
+  type: entity
+  table: media_lock
+  repositoryClass: App\Entity\Media\LockRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    entityClass:
+      type: string
+      length: 255
+      nullable: false
+    entityId:
+      type: integer
+      nullable: false
+    active:
+      type: boolean
+  lifecycleCallbacks: { }
+  manyToOne:
+    media:
+      targetEntity: App\Entity\Media\Media
+      inversedBy: locks
+      joinColumn:
+        name: media_id
+        referencedColumnName: id
+        onDelete: CASCADE

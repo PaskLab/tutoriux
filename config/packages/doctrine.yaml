@@ -8,22 +8,45 @@ parameters:
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
-
+        driver: 'pdo_pgsql'
+        server_version: '%env(POSTGRESQL_VERSION)%'
+        charset: UTF-8
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
+        metadata_cache_driver: redis
+        query_cache_driver: redis
+        result_cache_driver: redis
         auto_mapping: true
         mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
+            app:
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine_mappings/_app/'
                 prefix: 'App\Entity'
                 alias: App
+                is_bundle: false
+            content:
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine_mappings/content/'
+                prefix: 'App\Entity\Content'
+                alias: Content
+                is_bundle: false
+            document:
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine_mappings/document/'
+                prefix: 'App\Entity\Document'
+                alias: Document
+                is_bundle: false
+            Media:
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine_mappings/media/'
+                prefix: 'App\Entity\Media'
+                alias: Media
+                is_bundle: false
+            school:
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine_mappings/school/'
+                prefix: 'App\Entity\School'
+                alias: School
+                is_bundle: false

@@ -1,0 +1,29 @@
+App\Entity\UserNotification:
+  type: entity
+  table: user_notification
+  repositoryClass: App\Repository\UserNotificationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    viewed:
+      type: boolean
+  lifecycleCallbacks: {  }
+  manyToOne:
+    user:
+      targetEntity: App\Entity\User
+      inversedBy:  notifications
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        onDelete: cascade
+    notification:
+      targetEntity: App\Entity\Notification
+      inversedBy:  users
+      joinColumn:
+        name: notification_id
+        referencedColumnName: id
+        onDelete: cascade

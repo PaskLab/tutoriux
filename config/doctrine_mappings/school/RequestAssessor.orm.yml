@@ -1,0 +1,26 @@
+App\Entity\School\RequestAssessor:
+  type: entity
+  table: request_assessor
+  repositoryClass: App\Repository\School\RequestAssessorRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  lifecycleCallbacks: {  }
+  manyToOne:
+    request:
+      targetEntity: App\Entity\School\Request
+      inversedBy: assessors
+      joinColumn:
+        name: request_id
+        referencedColumnName: id
+        onDelete: cascade
+    assessor:
+      targetEntity: App\Entity\User
+      inversedBy: assignedRequests
+      joinColumn:
+        name: assessor_id
+        referencedColumnName: id
+        onDelete: cascade

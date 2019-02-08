@@ -1,0 +1,60 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{#{% block stylesheets %}#}
+	{#{{ parent() }}#}
+	{#{% stylesheets#}
+		{#'bundles/system/frontend/css/home.css'#}
+	{#%}#}
+	{#<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />#}
+	{#{% endstylesheets %}#}
+{#{% endblock %}#}
+
+{#{% block content_title %}#}
+	{#<h1>{% trans %}Welcome on Tutoriux{% endtrans %} ! <small>{% trans %}Alpha Version{% endtrans %}</small></h1>#}
+{#{% endblock %}#}
+
+{#{% block breadcrumbs %}{% endblock %}#}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="portlet light intro">
+				<div class="portlet-body clearfix">
+					{{ render_esi(controller('App\\Controller\\Site\\TextController::displayTextById', { 'textId': 43 })) }}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="portlet light need-help">
+				<div class="portlet-body clearfix">
+					{#{{ render_esi(controller('SystemBundle:Frontend/Text:displayTextById', { 'textId': 44 })) }}#}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{#{{ render_esi(controller('SystemBundle:Frontend/Text:DisplayTexts')) }}#}
+
+{% endblock %}
+
+{#{% block javascripts %}#}
+	{#{% spaceless %}#}
+		{#{{ parent() }}#}
+
+		{#{% javascripts#}
+			{#'bundles/system/assets/global/plugins/jquery-match-height/dist/jquery.matchHeight-min.js'#}
+			{#'bundles/system/frontend/js/home.js'#}
+		{#%}#}
+		{#<script src="{{ asset_url }}"></script>#}
+		{#{% endjavascripts %}#}
+
+		{#<script>#}
+			{#$(function(){#}
+				{#TutoriuxHome.init({% if app.environment == 'dev' %}{debug: true}{% endif %});#}
+			{#});#}
+		{#</script>#}
+
+	{#{% endspaceless %}#}
+{#{% endblock %}#}

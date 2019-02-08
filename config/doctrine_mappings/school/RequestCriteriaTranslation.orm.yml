@@ -1,0 +1,18 @@
+App\Entity\School\RequestCriteriaTranslation:
+  type: entity
+  table: request_criteria_translation
+  repositoryClass: App\Repository\School\RequestCriteriaTranslationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    criteria:
+      type: string
+      length: 255
+    details:
+      type: text
+      nullable: true
+  lifecycleCallbacks: {  }

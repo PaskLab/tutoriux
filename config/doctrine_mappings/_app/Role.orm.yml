@@ -1,0 +1,34 @@
+App\Entity\Role:
+  type: entity
+  repositoryClass: App\Repository\RoleRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    role:
+      type: string
+      length: 30
+  lifecycleCallbacks: {  }
+  manyToMany:
+    users:
+      targetEntity: App\Entity\User
+      mappedBy: roles
+      orderBy:
+        username: ASC
+    sections:
+      targetEntity: App\Entity\Section
+      inversedBy: roles
+      cascade: [persist]
+      joinTable:
+        name: section_role
+        joinColumns:
+          roleId:
+            referencedColumnName: id
+            onDelete: cascade
+        inverseJoinColumns:
+          sectionId:
+            referencedColumnName: id
+            onDelete: cascade

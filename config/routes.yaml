@@ -1,3 +1,1 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+# Last routes imported, will override other route if bearing same name

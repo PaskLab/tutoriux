@@ -1,0 +1,36 @@
+App\Entity\Content\ContentVersion:
+  type: entity
+  table: content_version
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    content:
+      type: text
+      nullable: true
+    version:
+      type: integer
+    tag:
+      type: string
+      length: 50
+      nullable: true
+    description:
+      type: string
+      length: 255
+      nullable: true
+    schemaVersion:
+      type: string
+      length: 50
+      nullable: true
+  lifecycleCallbacks: {  }
+  manyToOne:
+    master:
+      targetEntity: App\Entity\Content\ContentTranslation
+      inversedBy: versions
+      joinColumn:
+        name: master_id
+        referencedColumnName: id
+        onDelete: cascade

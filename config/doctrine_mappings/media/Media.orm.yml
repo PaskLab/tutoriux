@@ -1,0 +1,100 @@
+App\Entity\Media\Media:
+  type: entity
+  table: null
+  repositoryClass: App\Repository\Media\MediaRepository
+  fields:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+    name:
+      type: string
+      length: 255
+    type:
+      type: string
+      length: 10
+    source:
+      type: string
+      length: 255
+      nullable: true
+    mediaPath:
+      type: string
+      length: 255
+      nullable: true
+    url:
+      type: string
+      length: 255
+      nullable: true
+    embedId:
+      type: string
+      length: 255
+      nullable: true
+    credit:
+      type: string
+      length: 255
+      nullable: true
+    description:
+      type: text
+      nullable: true
+    caption:
+      type: string
+      length: 255
+      nullable: true
+    sourceDetails:
+      type: text
+      nullable: true
+    sourceUrl:
+      type: string
+      length: 255
+      nullable: true
+    mimeType:
+      type: string
+      length: 80
+      nullable: true
+    size:
+      type: decimal
+      nullable: true
+    width:
+      type: smallint
+      nullable: true
+    height:
+      type: smallint
+      nullable: true
+    resizeWidth:
+      type: smallint
+      nullable: true
+    resizeHeight:
+      type: smallint
+      nullable: true
+    cropJson:
+      type: string
+      length: 100
+      nullable: true
+    cropWidth:
+      type: smallint
+      nullable: true
+    cropHeight:
+      type: smallint
+      nullable: true
+    hidden:
+      type: boolean
+    locked:
+      type: boolean
+  lifecycleCallbacks: {  }
+  oneToOne:
+    thumbnail:
+      targetEntity: App\Entity\Media\Media
+      fetch: EAGER
+      joinColumn:
+        name: thumbnail_id
+        referencedColumnName: id
+        onDelete: CASCADE
+  manyToOne:
+    folder:
+      targetEntity: App\Entity\Media\Folder
+      inversedBy: medias
+  oneToMany:
+    locks:
+      targetEntity: App\Entity\Media\Lock
+      mappedBy: media

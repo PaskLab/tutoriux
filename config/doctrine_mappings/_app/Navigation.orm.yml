@@ -1,0 +1,23 @@
+App\Entity\Navigation:
+  type: entity
+  repositoryClass: App\Repository\NavigationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    code:
+      type: string
+      length: 255
+    name:
+      type: string
+      length: 255
+  oneToMany:
+    sectionNavigations:
+      targetEntity: App\Entity\SectionNavigation
+      mappedBy: navigation
+    mappings:
+      targetEntity: App\Entity\Mapping
+      mappedBy: navigation

@@ -1,0 +1,38 @@
+App\Entity\UserSetting:
+  type: entity
+  table: user_setting
+  repositoryClass: App\Repository\UserSettingRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    fullDescription:
+      type: text
+      nullable: true
+    shortDescription:
+      type: text
+      nullable: true
+    website:
+      type: string
+      length: 255
+      nullable: true
+    facebook:
+      type: string
+      length: 255
+      nullable: true
+    twitter:
+      type: string
+      length: 255
+      nullable: true
+    google:
+      type: string
+      length: 255
+      nullable: true
+  lifecycleCallbacks: {  }
+  oneToOne:
+    user:
+      targetEntity: App\Entity\User
+      mappedBy: settings

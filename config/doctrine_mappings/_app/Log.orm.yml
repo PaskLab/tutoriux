@@ -1,0 +1,49 @@
+App\Entity\Log:
+  type: entity
+  table: log
+  repositoryClass: App\Repository\LogRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    token:
+      type: string
+      length: 255
+    parameters:
+      type: array
+    expiration:
+      type: datetime
+    icon:
+      type: string
+      length: 30
+      nullable: true
+    iconColor:
+      type: string
+      length: 30
+      nullable: true
+    route:
+      type: string
+      length: 50
+      nullable: true
+    routeParameters:
+      type: array
+    followersRoute:
+      type: string
+      length: 50
+      nullable: true
+    followersRouteParameters:
+      type: array
+    public:
+      type: boolean
+  lifecycleCallbacks: {  }
+  manyToOne:
+    user:
+      targetEntity: App\Entity\User
+      inversedBy:  logs
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        onDelete: cascade

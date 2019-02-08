@@ -1,0 +1,36 @@
+App\Entity\Section:
+  type: entity
+  repositoryClass: App\Repository\SectionRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    ordering:
+      type: integer
+      nullable: true
+    icon:
+      type: string
+      length: 30
+      nullable: true
+    removeFromUrl:
+      type: boolean
+  oneToMany:
+    texts:
+      targetEntity: App\Entity\Text
+      mappedBy: section
+    sectionNavigations:
+      targetEntity: App\Entity\SectionNavigation
+      mappedBy: section
+      cascade: [persist]
+      orphanRemoval: true
+    mappings:
+      targetEntity: App\Entity\Mapping
+      mappedBy: section
+      cascade: [persist]
+  manyToMany:
+    roles:
+      targetEntity: App\Entity\Role
+      mappedBy: sections

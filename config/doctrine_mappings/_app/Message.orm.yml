@@ -1,0 +1,31 @@
+App\Entity\Message:
+  type: entity
+  table: null
+  repositoryClass: App\Repository\MessageRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    title:
+      type: string
+      length: 255
+      nullable: true
+    message:
+      type: text
+    attachment:
+      type: boolean
+    flag:
+      type: boolean
+    viewed:
+      type: boolean
+  lifecycleCallbacks: {  }
+  manyToOne:
+    user:
+      targetEntity: App\Entity\User
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        onDelete: cascade

@@ -1,0 +1,18 @@
+{# BEGIN GLOBAL MANDATORY STYLES #}
+{% if app.environment == 'prod' %}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+{% else %}
+    {% include 'SystemBundle:Backend/Core:dev_fonts.html.twig' %}
+{% endif %}
+
+{% stylesheets
+    'bundles/system/assets/global/plugins/font-awesome/css/font-awesome.min.css'
+    'bundles/system/assets/global/plugins/simple-line-icons/simple-line-icons.min.css'
+    'bundles/system/assets/global/plugins/bootstrap/css/bootstrap.min.css'
+    'bundles/system/assets/global/plugins/uniform/css/uniform.default.min.css'
+    'bundles/system/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'
+    'bundles/system/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css'
+%}
+<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+{% endstylesheets %}
+{# END GLOBAL MANDATORY STYLES #}

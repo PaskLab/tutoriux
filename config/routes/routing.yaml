@@ -1,0 +1,19 @@
+mapping:
+  resource: 'mapping/'
+  type: mapping_directory
+
+site:
+  resource: 'site/'
+  type: directory
+  prefix:
+    en: ''
+    fr: '/fr'
+  defaults:
+    _tutoriuxContext: 'site'
+
+cms:
+  resource: 'cms/'
+  type: directory
+  prefix: /cms-admin
+  defaults:
+    _tutoriuxContext: 'cms'

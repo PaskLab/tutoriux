@@ -1,0 +1,114 @@
+App\Entity\User:
+  type: entity
+  table: users
+  repositoryClass: App\Repository\UserRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    username:
+      type: string
+      length: 255
+    firstname:
+      type: string
+      length: 255
+      nullable: true
+    lastname:
+      type: string
+      length: 255
+      nullable: true
+    email:
+      type: string
+      length: 255
+      nullable: true
+    active:
+      type: boolean
+    password:
+      type: string
+      length: 255
+    salt:
+      type: string
+      length: 32
+      nullable: true
+    locale:
+      type: string
+      length: 5
+      nullable: true
+    hash:
+      type: string
+      length: 255
+      nullable: true
+    hashCreatedAt:
+      type: datetime
+      nullable: true
+
+    gender:
+      type: string
+      length: 1
+      nullable: true
+
+  lifecycleCallbacks: {  }
+  oneToOne:
+    settings:
+      targetEntity: App\Entity\UserSetting
+      inversedBy: user
+      cascade: [remove, persist]
+      orphanRemoval: true
+      joinColumn:
+        name: setting_id
+        referencedColumnName: id
+  oneToMany:
+    notifications:
+      targetEntity: App\Entity\UserNotification
+      mappedBy: user
+      cascade: [persist]
+      orphanRemoval: true
+    logs:
+      targetEntity: App\Entity\Log
+      mappedBy: user
+      cascade: [persist]
+      orphanRemoval: true
+    requests:
+      targetEntity: App\Entity\School\Request
+      mappedBy: applicant
+    assignedRequests:
+      targetEntity: App\Entity\School\RequestAssessor
+      mappedBy: assessor
+  manyToMany:
+    roles:
+      targetEntity: App\Entity\Role
+      inversedBy: users
+      cascade: [persist]
+      joinTable:
+        name: user_role
+        joinColumns:
+          userId:
+            referencedColumnName: id
+            onDelete: cascade
+        inverseJoinColumns:
+          roleId:
+            referencedColumnName: id
+            onDelete: cascade
+    followers:
+      targetEntity: User
+      inversedBy: follow
+      joinTable:
+        name: users_follow
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+            onDelete: cascade
+        inverseJoinColumns:
+          follower_id:
+            referencedColumnName: id
+            onDelete: cascade
+    follow:
+      targetEntity: User
+      mappedBy: followers
+
+  manyToOne:
+    avatar:
+      targetEntity: App\Entity\Media\Media

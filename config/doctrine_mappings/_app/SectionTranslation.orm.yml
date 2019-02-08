@@ -1,0 +1,16 @@
+App\Entity\SectionTranslation:
+  type: entity
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 255
+      nullable: false
+    active:
+      type: boolean
+      nullable: true

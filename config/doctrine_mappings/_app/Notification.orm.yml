@@ -1,0 +1,45 @@
+App\Entity\Notification:
+  type: entity
+  table: notification
+  repositoryClass: App\Repository\NotificationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    token:
+      type: string
+      length: 255
+    parameters:
+      type: array
+    expiration:
+      type: datetime
+    icon:
+      type: string
+      length: 30
+      nullable: true
+    iconColor:
+      type: string
+      length: 30
+      nullable: true
+    route:
+      type: string
+      length: 50
+      nullable: true
+    routeParameters:
+      type: array
+    toastr:
+      type: boolean
+    toastrType:
+      type: string
+      length: 30
+      nullable: true
+  lifecycleCallbacks: {  }
+  oneToMany:
+    users:
+      targetEntity: App\Entity\UserNotification
+      mappedBy: notification
+      cascade: [persist]
+      orphanRemoval: true

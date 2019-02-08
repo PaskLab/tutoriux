@@ -1,0 +1,41 @@
+App\Entity\School\Request:
+  type: entity
+  table: request
+  repositoryClass: App\Repository\School\RequestRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  uniqueConstraints:
+    request_unique_idx:
+      columns: [resource_type, resource_id, locale]
+  fields:
+    resourceType:
+      type: string
+      nullable: false
+    resourceId:
+      type: integer
+      nullable: false
+    locale:
+      type: string
+      length: 2
+    status:
+      type: string
+      length: 32
+    checklist:
+      type: text
+      nullable: true
+    publishDate:
+      type: datetime
+      nullable: true
+  lifecycleCallbacks: {  }
+  manyToOne:
+    applicant:
+      targetEntity: App\Entity\User
+      inversedBy: requests
+  oneToMany:
+    assessors:
+      targetEntity: App\Entity\School\RequestAssessor
+      mappedBy: request

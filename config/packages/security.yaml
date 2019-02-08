@@ -1,24 +1,48 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    access_decision_manager:
+        strategy: unanimous
+
+    encoders:
+        App\Entity\User:
+            algorithm: argon2i
+
+    role_hierarchy:
+        ROLE_DEVELOPER:       ROLE_BACKEND_ADMIN
+        ROLE_BACKEND_ADMIN:   [ROLE_BACKEND_ACCESS,ROLE_MANAGER]
+        ROLE_MANAGER:         [ROLE_CONTENT_MANAGER, ROLE_CORRECTOR]
+        ROLE_CONTENT_MANAGER: [ROLE_CORRECTOR, ROLE_USER]
+        ROLE_CORRECTOR:       ROLE_USER
+        ROLE_AUTHOR:          ROLE_USER
+        ROLE_BLOGGER:         ROLE_USER
+
     providers:
-        in_memory: { memory: ~ }
+        doctrine:
+            entity: { class: App\Entity\User, property: username }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
+        secure:
+            anonymous:      true
+            switch_user:    { role: ROLE_DEVELOPER, parameter: _want_to_be_this_user }
+            pattern:        ^/
+            provider:       doctrine
+            form_login:
+                check_path:           system_frontend_login_check
+                login_path:           system_frontend_login
+                csrf_token_generator: security.csrf.token_manager
+                use_referer:          true
+            logout:
+                path:                 system_frontend_logout
+                target:               section_id_1
+            remember_me:
+                secret:      '%env(APP_SECRET)%'
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~
 
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    - { path: '^/([a-z]{2}\/)?login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: '^/([a-z]{2}\/)?cms-admin', roles: [ROLE_BACKEND_ACCESS,IS_AUTHENTICATED_FULLY] } # No remember me
+    - { path: '^/([a-z]{2}\/)?u', roles: ROLE_USER }

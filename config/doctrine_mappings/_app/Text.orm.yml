@@ -1,0 +1,28 @@
+App\Entity\Text:
+  type: entity
+  table: text
+  repositoryClass: App\Repository\TextRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    collapsible:
+      type: boolean
+    static:
+      type: boolean
+      default: false
+    ordering:
+      type: integer
+      nullable: true
+
+  manyToOne:
+    section:
+      targetEntity: App\Entity\Section
+      inversedBy: texts
+      joinColumn:
+        name: section_id
+        referencedColumnName: id
+        onDelete: cascade

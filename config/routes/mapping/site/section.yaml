@@ -1,0 +1,3 @@
+app_site_homepage:
+  path: /
+  controller: App\Controller\Site\SectionController::homePage

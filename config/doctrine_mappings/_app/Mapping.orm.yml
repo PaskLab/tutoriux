@@ -1,0 +1,40 @@
+App\Entity\Mapping:
+  type: entity
+  table: mapping
+  repositoryClass: App\Repository\MappingRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    type:
+      type: string
+      length: 255
+    target:
+      type: string
+      length: 255
+    ordering:
+      type: integer
+      nullable: true
+    context:
+      type: string
+      length: 20
+      options:
+        default: 'site'
+  manyToOne:
+    section:
+      targetEntity: App\Entity\Section
+      inversedBy:  mappings
+      joinColumn:
+        name: section_id
+        referencedColumnName: id
+        onDelete: cascade
+    navigation:
+      targetEntity: App\Entity\Navigation
+      inversedBy:  mappings
+      joinColumn:
+        name: navigation_id
+        referencedColumnName: id
+        onDelete: cascade

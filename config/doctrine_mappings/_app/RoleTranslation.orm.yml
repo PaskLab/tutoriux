@@ -1,0 +1,14 @@
+App\Entity\RoleTranslation:
+  type: entity
+  table: role_translation
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 255
+      nullable: true

@@ -1,0 +1,5 @@
+doctrine_behaviors:
+  blameable:
+    user_entity: App\Entity\User
+  localizable:
+    section_entity: App\Entity\Section

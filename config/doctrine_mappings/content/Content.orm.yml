@@ -1,0 +1,21 @@
+App\Entity\Content\Content:
+  type: entity
+  table: content
+  repositoryClass: App\Repository\Content\ContentRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  uniqueConstraints:
+    content_unique_idx:
+      columns: [resource_type, resource_id]
+  fields:
+    resourceType:
+      type: string
+      nullable: false
+    resourceId:
+      type: integer
+      nullable: false
+  lifecycleCallbacks: {  }

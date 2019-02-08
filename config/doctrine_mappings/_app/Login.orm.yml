@@ -1,0 +1,18 @@
+App\Entity\Login:
+  type: entity
+  repositoryClass: App\Repository\MappingRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    username:
+      type: string
+      length: 255
+    ip:
+      type: string
+      length: 16
+    success:
+      type: boolean

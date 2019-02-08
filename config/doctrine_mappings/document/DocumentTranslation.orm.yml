@@ -1,0 +1,53 @@
+App\Entity\Document\DocumentTranslation:
+  type: entity
+  table: document_translation
+  repositoryClass: App\Repository\Document\DocumentTranslationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 255
+    published:
+      type: boolean
+      nullable: false
+    publicationDate:
+      type: datetime
+      nullable: true
+    public:
+      type: boolean
+      nullable: false
+    content:
+      type: text
+      nullable: true
+    description:
+      type: text
+      nullable: true
+    path:
+      type: string
+      length: 255
+      nullable: true
+    type:
+      type: string
+      length: 32
+      nullable: true
+    categories:
+      type: array
+      nullable: true
+    treeCategories:
+      type: array
+      nullable: true
+    pageViews:
+      type: integer
+    votes:
+      type: integer
+  lifecycleCallbacks: {  }
+  oneToMany:
+    voters:
+      targetEntity: App\Entity\Document\DocumentVoter
+      mappedBy: document
+      cascade: [persist]

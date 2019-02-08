@@ -1,0 +1,31 @@
+App\Entity\SectionNavigation:
+  type: entity
+  repositoryClass: App\Repository\SectionNavigationRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    ordering:
+      type: integer
+      nullable: true
+  manyToOne:
+    section:
+      targetEntity: App\Entity\Section
+      inversedBy:  sectionNavigations
+      joinColumn:
+        name: section_id
+        referencedColumnName: id
+        onDelete:  cascade
+    navigation:
+      targetEntity: App\Entity\Navigation
+      inversedBy:  sectionNavigations
+      joinColumn:
+        name: navigation_id
+        referencedColumnName: id
+        onDelete:  cascade
+  uniqueConstraints:
+    section_navigation_unique:
+      columns: [ section_id, navigation_id ]

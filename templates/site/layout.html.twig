@@ -1,0 +1,112 @@
+{% trans_default_domain "site" %}
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="{{ app.request.locale }}" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="{{ app.request.locale }}" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--><html lang="{{ app.request.locale }}" class="no-js"><!--<![endif]-->
+<!-- BEGIN HEAD -->
+	<head>
+		<meta charset="utf-8">
+		{#<title>{% block title %}{{ render(controller('App\\Site\\Navigation::pageTitle')) }}{% endblock %}</title>#}
+
+		{#{% block metas %}#}
+			{#<meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+			{#{% include 'SystemBundle:Frontend/Core:metas.html.twig' %}#}
+		{#{% endblock %}#}
+
+		{#{% block og_metas %}#}
+			{#{% include 'SystemBundle:Frontend/Core:open_graph_metas.html.twig' %}#}
+		{#{% endblock %}#}
+
+		{#{% block stylesheets %}#}
+			{#{% include 'SystemBundle:Frontend/Core:stylesheets.html.twig' %}#}
+		{#{% endblock %}#}
+
+		{# Theme stylesheets overide the other ones, must be loaded at the end #}
+		{#{% include 'SystemBundle:Frontend/Core:theme_stylesheets.html.twig' %}#}
+
+		{#{% include 'SystemBundle:System:favicon.html.twig' %}#}
+
+		{#{% block head_extra %}{{ render_esi(controller('SystemBundle:Frontend/Core:headExtra')) }}{% endblock %}#}
+
+		{#{% javascripts 'bundles/system/assets/global/plugins/docready.min.js' %}#}
+		{#<script src="{{ asset_url }}"></script>#}
+		{#{% endjavascripts %}#}
+	</head>
+
+	<body{% block body_attr %} id="{{ get_bundle_name() }}_bundle" class="{{ get_controller_name() }}_controller {{ get_action_name() }}_action page-header-menu-fixed"{% endblock %}>
+	{% block body %}
+
+		{#{% block header %}#}
+			{#{% include 'SystemBundle:Frontend/Core:header.html.twig' %}#}
+		{#{% endblock %}#}
+
+		{% block wrapper %}
+			<!-- BEGIN CONTAINER -->
+			<div class="page-container">
+
+				{#{% block page_head %}#}
+					{#<!-- BEGIN PAGE HEAD -->#}
+					{#<div class="page-head">#}
+						{#<div class="container">#}
+							{#<!-- BEGIN PAGE TITLE -->#}
+							{#<div class="page-title">#}
+								{#{% block content_title '' %}#}
+							{#</div>#}
+							{#<!-- END PAGE TITLE -->#}
+						{#</div>#}
+					{#</div>#}
+					{#<!-- END PAGE HEAD -->#}
+				{#{% endblock page_head %}#}
+
+				<!-- BEGIN PAGE CONTENT -->
+				<div class="page-content">
+					<div class="container">
+						<main role="main">
+
+							{#<!-- BEGIN PAGE BREADCRUMB -->#}
+							{#{% block breadcrumbs %}#}
+								{#{{ render(controller('SystemBundle:Frontend/Navigation:breadcrumbs')) }}#}
+							{#{% endblock %}#}
+							{#<!-- END PAGE BREADCRUMB -->#}
+
+							{#{% block flash_message %}#}
+								{#{% include 'SystemBundle:System:flash_message.html.twig' %}#}
+							{#{% endblock %}#}
+
+							<!-- BEGIN PAGE CONTENT INNER -->
+							<div class="row">
+								<div class="col-md-12 col-sm-12">
+									{% block content '' %}
+								</div>
+							</div>
+							<!-- END PAGE CONTENT INNER -->
+						</main>
+
+					</div>
+				</div>
+				<!-- END PAGE CONTENT -->
+
+			</div>
+			<!-- END CONTAINER -->
+		{% endblock wrapper %}
+
+		{#{% include 'SystemBundle:Frontend/Core:footer.html.twig' %}#}
+
+	{% endblock body %}
+
+	{#{% block javascripts %}#}
+		{#{% include 'SystemBundle:Frontend/Core:javascripts.html.twig' %}#}
+	{#{% endblock %}#}
+
+	{#{% block modals %}#}
+		{#{% include 'SystemBundle:System:modals.html.twig' %}#}
+		{#{% include 'SystemBundle:Frontend/Search:search_engine.html.twig' %}#}
+	{#{% endblock %}#}
+
+	{#{% block analytics %}#}
+		{#{% include 'SystemBundle:Frontend/Core:analytics.html.twig' %}#}
+	{#{% endblock %}#}
+
+	</body>
+</html>

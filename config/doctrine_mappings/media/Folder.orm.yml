@@ -1,0 +1,19 @@
+App\Entity\Media\Folder:
+  type: entity
+  table: media_folder
+  repositoryClass: App\Repository\Media\FolderRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 255
+  lifecycleCallbacks: {  }
+  oneToMany:
+    medias:
+      targetEntity: App\Entity\Media\Media
+      mappedBy: folder

@@ -1,0 +1,24 @@
+App\Entity\Document\DocumentVoter:
+  type: entity
+  table: document_voter
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  lifecycleCallbacks: {  }
+  manyToOne:
+    document:
+      targetEntity: App\Entity\Document\DocumentTranslation
+      inversedBy: voters
+      joinColumn:
+        name: document_id
+        referencedColumnName: id
+        onDelete: cascade
+    user:
+      targetEntity: App\Entity\User
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        onDelete: cascade

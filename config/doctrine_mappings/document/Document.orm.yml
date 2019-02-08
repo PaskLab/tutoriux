@@ -1,0 +1,15 @@
+App\Entity\Document\Document:
+  type: entity
+  table: document
+  repositoryClass: App\Repository\Document\DocumentRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    indexable:
+      type: boolean
+      nullable: false
+  lifecycleCallbacks: {  }

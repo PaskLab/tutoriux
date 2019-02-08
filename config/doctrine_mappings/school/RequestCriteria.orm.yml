@@ -1,0 +1,22 @@
+App\Entity\School\RequestCriteria:
+  type: entity
+  table: request_criteria
+  repositoryClass: App\Repository\School\RequestCriteriaRepository
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    active:
+      type: boolean
+    optional:
+      type: boolean
+    ordering:
+      type: integer
+    contentType:
+      type: string
+      length: 255
+      nullable: true
+  lifecycleCallbacks: {  }
