@@ -1,0 +1,12 @@
+doctrine:
+    orm:
+        metadata_cache_driver: array
+
+#        query_cache_driver: array
+
+#        result_cache_driver: array
+
+#        second_level_cache:
+#            region_cache_driver: array
+#            enabled: true
+#            region_lifetime: 1800

@@ -36,8 +36,8 @@ services:
 
     # Public
 
-    App\Services\DoctrineInit:
-        public: true
+#    App\Services\DoctrineInit:
+#        public: true
 
     # Private
 
@@ -53,3 +53,33 @@ services:
     App\Routing\MappingYamlFileLoader:
         arguments: ['@file_locator', '@database_connection']
         tags: [routing.loader]
+
+    App\Listeners\DoctrineSubscriber:
+        arguments: ['@App\Services\DoctrineInit']
+        tags:
+            - { name: doctrine.event_subscriber }
+
+
+
+    # Defined multiple time so we can change the namespace. Might be a bug with doctrine
+    # Workaround to force doctrine namespace on redis cache while using symfony TraceableAdapter (cache pool)
+    doctrine.metadata_cache_driver:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments: ['@cache.pool.doctrine_system']
+        calls:
+            - [setNamespace, ['dmc:']]
+    doctrine.query_cache_driver:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments: ['@cache.pool.doctrine_system']
+        calls:
+            - [setNamespace, ['dqc:']]
+    doctrine.result_cache_driver:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments: ['@cache.pool.doctrine_result']
+        calls:
+            - [setNamespace, ['drc:']]
+    doctrine.second_level_cache:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments: ['@cache.pool.doctrine_second_level']
+        calls:
+            - [setNamespace, ['dslc:']]

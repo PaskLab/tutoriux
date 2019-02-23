@@ -13,7 +13,6 @@
         "ext-iconv": "*",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
         "sensio/framework-extra-bundle": "^5.1",
-        "snc/redis-bundle": "^2.1",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/expression-language": "*",
@@ -32,8 +31,7 @@
         "symfony/web-link": "*",
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "*",
-        "tutoriux/doctrine-behaviors-bundle": "dev-master",
-        "algolia/algolia-search-bundle": "2.1.0"
+        "tutoriux/doctrine-behaviors-bundle": "dev-master"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
