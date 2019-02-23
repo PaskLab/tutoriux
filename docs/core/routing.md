@@ -47,7 +47,7 @@ array(
 
 ### Creating an tutoriux enabled request
 
-Attributes are automatically injected when a route is mapped to a section. The mapping process is covered [here](#the-mapping-process).
+Attributes are automatically injected when a route is mapped to a section. The mapping process is covered [here](https://gitlab.com/pascallapointe/tutoriux/blob/master/docs/core/mapping.md).
 
 ### Hardcoded/Manual mapping
 
@@ -70,7 +70,7 @@ The drawback of this method is that every parameters are hardcoded into the rout
 
 ### Booting of a tutoriux enabled request
 
-All of the booting process is done in a [listener](https://gitlab.com/pascallapointe/tutoriux/blob/master/src/Listener/ControllerListener.php) that looks for the presence of the tutoriux attributes in the current request. If those attributes are found and valid then the application core is booted and the normal request flow continues.
+All of the booting process is done in a [listener](https://gitlab.com/pascallapointe/tutoriux/blob/master/src/Listeners/ControllerListener.php) that looks for the presence of the tutoriux attributes in the current request. If those attributes are found and valid then the application core is booted and the normal request flow continues.
 
 The *ApplicationCore* is a service that take care of gathering and building some useful information as:
 - Fetching the current **section entity**.

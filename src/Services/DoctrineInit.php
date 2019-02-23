@@ -54,9 +54,10 @@ class DoctrineInit
     {
         if ($repository instanceof TranslatableRepositoryInterface) {
             if ($this->applicationCore->isEditLocaleEnabled()) {
-                $repository->isEditMode();
+                $repository->setEditMode(true);
                 $repository->setLocale($this->getApplicationCore()->getEditLocale());
             } else {
+                $repository->setEditMode(false);
                 $repository->setLocale($this->getApplicationCore()->getLocale());
             }
         }
@@ -74,13 +75,13 @@ class DoctrineInit
             // Set the Edit Locale on translatable entities
 
             if ($this->getApplicationCore()->isInitialized()
-                && in_array('DoctrineBehaviorsBundle\Model\Translatable\Translatable', class_uses($entity))) {
+                && in_array('Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\Translatable', class_uses($entity))) {
 
                 /** @var Section $entity */
                 if ($this->getApplicationCore()->isEditLocaleEnabled()) {
                     $entity->setCurrentLocale($this->getApplicationCore()->getEditLocale());
                 } else {
-                    $entity->setCurrentLocale($this->requestStack->getCurrentRequest()->getLocale());
+                    $entity->setCurrentLocale($this->getApplicationCore()->getLocale());
                 }
             }
 

@@ -233,9 +233,14 @@ class ApplicationCore implements ApplicationCoreInterface
      */
     public function getSectionId()
     {
-        $tutoriuxRequest = $this->request->attributes->get('_tutoriuxRequest');
+        $sectionId = 0;
 
-        return $tutoriuxRequest['sectionId'] ?: 0;
+        if ($this->request) {
+            $tutoriuxRequest = $this->request->attributes->get('_tutoriuxRequest', ['sectionId' => 0]);
+            $sectionId = $tutoriuxRequest['sectionId'];
+        }
+
+        return $sectionId;
     }
 
     /**
