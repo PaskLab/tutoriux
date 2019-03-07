@@ -1,0 +1,116 @@
+{% trans_default_domain "site" %}
+{% extends 'site/security/layout.html.twig' %}
+{% form_theme forgotForm 'site/core/form/form_fields_vertical.html.twig' %}
+{% form_theme registerForm 'site/core/form/form_fields_vertical.html.twig' %}
+
+{% block content_main %}
+
+    <!-- BEGIN LOGIN -->
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form class="login-form" action="{{ path('system_frontend_login_check') }}" method="post">
+            <h3 class="form-title">{% trans %}Please sign in{% endtrans %}</h3>
+
+            <div class="alert alert-danger{% if not error %} display-hide{% endif %}">
+                <button class="close" data-close="alert"></button>
+                <span>
+                    {% if error %}
+                        {{ error.message|trans }}
+                    {% else %}
+                        {% trans %}Enter any username and password{% endtrans %}.
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label for="login-username" class="control-label visible-ie8 visible-ie9">{% trans %}Username{% endtrans %}</label>
+                <div class="input-icon">
+                    <i class="fa fa-user"></i>
+                    <input id="login-username" value="{{ last_username }}" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{% trans %}Username{% endtrans %}" name="_username"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="login-password" class="control-label visible-ie8 visible-ie9">{% trans %}Password{% endtrans %}</label>
+                <div class="input-icon">
+                    <i class="fa fa-lock"></i>
+                    <input id="login-password" class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{% trans %}Password{% endtrans %}" name="_password"/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <label class="checkbox">
+                    <input type="checkbox" name="_remember_me"/> {% trans %}Remember me{% endtrans %}
+                </label>
+                <button type="submit" class="btn btn-primary pull-right">
+                    {% trans %}Login{% endtrans %} <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+                <div class="clearfix"></div>
+            </div>
+            <div class="forget-password">
+                <h4>{% trans %}Forgot your password{% endtrans %} ?</h4>
+                <p>
+                    {% trans %}no worries, click{% endtrans %}
+                    <a href="javascript:;" id="forget-password">{% trans %}here{% endtrans %}</a>
+                    {% trans %}to reset your password{% endtrans %}.
+                </p>
+            </div>
+            <div class="create-account">
+                <p>
+                    {% trans %}Don't have an account yet{% endtrans %} ?
+                </p>
+                <button type="button" class="btn green-jungle" id="register-btn"><i class="fa fa-key"></i>{% trans %}Create an account{% endtrans %}</button>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        </form>
+        <!-- END LOGIN FORM -->
+        <!-- BEGIN FORGOT PASSWORD FORM -->
+        {{ form_start(forgotForm, {'action':path('system_frontend_user_password_lost'), 'attr':{'class':'forget-form'}}) }}
+            <h3>{% trans %}Forgot your password{% endtrans %} ?</h3>
+            <p>
+                {% trans %}Enter your e-mail address below to reset your password{% endtrans %}.
+            </p>
+            {{ form_row(forgotForm.email, {'icon': 'fa fa-envelope'}) }}
+            <div class="form-actions">
+                <button type="button" id="back-btn" class="btn">
+                    <i class="m-icon-swapleft"></i> {% trans %}Back{% endtrans %} </button>
+                <button type="submit" class="btn green pull-right">
+                    {% trans %}Submit{% endtrans %} <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+        {{ form_end(forgotForm) }}
+        <!-- END FORGOT PASSWORD FORM -->
+        <!-- BEGIN REGISTRATION FORM -->
+        {{ form_start(registerForm, {'action':path('system_frontend_user_register'), 'attr':{'class':'register-form'}}) }}
+            {{ form_errors(registerForm) }}
+            {{ form_row(registerForm.username, {'icon': 'fa fa-user'}) }}
+            {{ form_row(registerForm.email, {'icon': 'fa fa-envelope'}) }}
+            {% for field in registerForm.password %}
+                {% set icon = (loop.first) ? 'fa fa-lock' : 'fa fa-check' %}
+                {{ form_row(field, {'icon': icon, 'attr':{'autocomplete': 'off'}}) }}
+            {% endfor %}
+            <div class="form-group{% if registerForm.tnc.vars.errors|length %} has-error{% endif %}">
+                <label>
+                    {{ form_widget(registerForm.tnc) }}
+                    {% trans %}I agree to the{% endtrans %}
+                    <a href="{{ path('section_id_49') }}">{% trans %}Terms and Conditions{% endtrans %}</a>
+                    {% trans %}and_et_la{% endtrans %}
+                    <a href="{{ path('section_id_48') }}">{% trans %}Privacy Policy{% endtrans %}</a>.
+                </label>
+                <div id="register_tnc_error">
+                    {{ form_errors(registerForm.tnc) }}
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="register-back-btn" type="button" class="btn">
+                    <i class="m-icon-swapleft"></i> {% trans %}Back{% endtrans %} </button>
+                <button type="submit" id="register-submit-btn" class="btn green-haze pull-right">
+                    {% trans %}Sign Up{% endtrans %} <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+        {{ form_end(registerForm) }}
+        <!-- END REGISTRATION FORM -->
+    </div>
+
+{% endblock %}

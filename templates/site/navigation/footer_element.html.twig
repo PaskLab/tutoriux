@@ -1,0 +1,9 @@
+{% if sections %}
+	{% for section in sections %}
+		<li{% if section.isSelected %} class="active"{% endif %}>
+			<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+				<i class="fa fa-angle-right"></i>{{ section }}
+			</a>
+		</li>
+	{% endfor %}
+{% endif %}

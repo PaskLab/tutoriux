@@ -1,0 +1,31 @@
+{% if sections %}
+	<div{% if attr|length %}{% for attribute, value in attr %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+		<ul class="nav navbar-nav">
+			{% for section in sections %}
+				{% if section.hasChildren %}
+					<li class="menu-dropdown mega-menu-dropdown{% if section.isSelected %} active{% endif %}">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+							<i class="{{ section.entity.icon }}"></i> {{ section }} <i class="fa fa-caret-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width:{{ 150 + (section.children|length * 150)  }}px;">
+							<li>
+								<div class="mega-menu-content">
+
+									{% include 'site/navigation/header_element.html.twig' with {'sections': section.children, 'level': 2, 'maxLevel' : maxLevel} %}
+
+								</div>
+							</li>
+						</ul>
+					</li>
+				{% else %}
+					<li{% if section.isSelected %} class="active"{% endif %}>
+						<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+							<i class="{{ section.entity.icon }}"></i>
+							{{ section }}
+						</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}

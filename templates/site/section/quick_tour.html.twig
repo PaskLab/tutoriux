@@ -1,0 +1,55 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block wrapper %}
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+
+		<!-- BEGIN PAGE HEAD -->
+		<div class="page-head">
+			<div class="container">
+				<!-- BEGIN PAGE TITLE -->
+				<div class="page-title">
+					<h1>
+						{{ section }}
+						{% if section.metaDescription is not empty %}
+							<small>"{{ section.metaDescription }}"</small>
+						{% endif %}
+					</h1>
+				</div>
+				<!-- END PAGE TITLE -->
+			</div>
+		</div>
+		<!-- END PAGE HEAD -->
+
+		<!-- BEGIN PAGE CONTENT -->
+		<div class="page-content">
+			<div class="container-fluid">
+				<main role="main">
+
+					<!-- BEGIN PAGE BREADCRUMB -->
+					<div class="container">
+						{{ render(controller('App\\Controller\\Site\\NavigationController:breadcrumbs')) }}
+					</div>
+					<!-- END PAGE BREADCRUMB -->
+
+					{% include 'global/flash_message.html.twig' %}
+
+					<!-- BEGIN PAGE CONTENT INNER -->
+					<div class="row">
+
+							{% block content %}
+								{{ render_esi(controller('App\\Controller\\Site\\TextController:displayTexts')) }}
+							{% endblock %}
+
+					</div>
+					<!-- END PAGE CONTENT INNER -->
+				</main>
+
+			</div>
+		</div>
+		<!-- END PAGE CONTENT -->
+
+	</div>
+	<!-- END CONTAINER -->
+{% endblock wrapper %}

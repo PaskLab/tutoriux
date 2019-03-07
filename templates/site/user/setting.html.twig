@@ -1,0 +1,236 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+{% form_theme passwordForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+{% form_theme avatarForm 'SystemBundle:Frontend/Core/form:form_fields_vertical.html.twig' %}
+{% form_theme languageForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+{% form_theme genderForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+{% form_theme descriptionForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+{% form_theme referenceForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+{% form_theme informationForm 'SystemBundle:Frontend/Core/form:form_fields_vertical_md.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% include 'MediaBundle:Core:stylesheets.html.twig' %}
+	{% stylesheets
+		'bundles/system/assets/admin/pages/css/profile.css'
+	%}
+	<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block content_title %}
+	<h1>
+		{% trans %}Account Settings{% endtrans %}
+	</h1>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<!-- BEGIN PROFILE SIDEBAR -->
+			{% include 'site/user/_profile_sidebar.html.twig' with {'user': user, 'page': 'settings'} %}
+			<!-- END BEGIN PROFILE SIDEBAR -->
+			<!-- BEGIN PROFILE CONTENT -->
+			<div class="profile-content">
+				<div class="row grid-hk">
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="fa icon-info font-blue-madison"></i>
+									<span class="caption-subject bold uppercase">{% trans %}Personal Informations{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(informationForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(informationForm) }}
+									{{ form_row(informationForm.firstname) }}
+									{{ form_row(informationForm.lastname) }}
+									{{ form_row(informationForm.email) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(informationForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(informationForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="icon-camera font-blue-chambray"></i>
+									<span class="caption-subject bold uppercase">{% trans %}Change Avatar{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(avatarForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(avatarForm) }}
+									{{ form_row(avatarForm.avatar, {'required': false}) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(avatarForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(avatarForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="fa fa-language font-blue-chambray"></i>
+									<span class="caption-subject bold uppercase">{% trans %}Default Interface Language{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(languageForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(languageForm) }}
+									{{ form_row(languageForm.locale) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(languageForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(languageForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="fa fa-user font-purple-studio"></i>
+									<span class="caption-subject bold uppercase">{% trans %}User Gender{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(genderForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(genderForm) }}
+									{{ form_row(genderForm.gender) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(genderForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(genderForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="fa fa-link font-blue-chambray"></i>
+									<span class="caption-subject bold uppercase">{% trans %}References{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(referenceForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(referenceForm) }}
+									{{ form_row(referenceForm.website, { 'icon': 'fa fa-globe' }) }}
+									{{ form_row(referenceForm.facebook, { 'icon': 'fa fa-facebook' }) }}
+									{{ form_row(referenceForm.twitter, { 'icon': 'fa fa-twitter' }) }}
+									{{ form_row(referenceForm.google, { 'icon': 'fa fa-google-plus' }) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(referenceForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(referenceForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-blue-madison">
+									<i class="fa fa-pencil font-yellow-gold"></i>
+									<span class="caption-subject bold uppercase">{% trans %}Personal description{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(descriptionForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(descriptionForm) }}
+									{{ form_row(descriptionForm.shortDescription, { 'isTextarea': true }) }}
+								</div>
+								<div class="form-actions">
+									{{ form_widget(descriptionForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(descriptionForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+					<div class="grid-element-hk col-xs-12 col-sm-6 col-md-6">
+						<!-- BEGIN PORTLET -->
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption font-red-sunglo">
+									<i class="icon-lock font-red-thunderbird"></i>
+									<span class="caption-subject bold uppercase">{% trans %}Change Password{% endtrans %}</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								{{ form_start(passwordForm, {'action': path('section_id_35_settings')}) }}
+								<div class="form-body">
+									{{ form_errors(passwordForm) }}
+									{{ form_row(passwordForm.currentPassword, {'icon': 'fa fa-unlock'}) }}
+									{% for field in passwordForm.password %}
+										{% set icon = (loop.first) ? 'fa fa-lock' : 'fa fa-check' %}
+										{{ form_row(field, {'icon': icon, attr:{'autocomplete': 'off'}}) }}
+									{% endfor %}
+								</div>
+								<div class="form-actions noborder">
+									{{ form_widget(passwordForm.save, {'attr':{'class': 'btn blue'}}) }}
+								</div>
+								{{ form_end(passwordForm) }}
+							</div>
+						</div>
+						<!-- END PORTLET -->
+					</div>
+				</div>
+			</div>
+			<!-- END PROFILE CONTENT -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block modals %}
+	{{ parent() }}
+	{% include 'MediaBundle:Core:modals.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% include 'MediaBundle:Core:javascripts.html.twig' %}
+
+	{% javascripts
+		'bundles/system/assets/global/plugins/masonry.min.js'
+		'bundles/system/frontend/js/user/settings.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		TutoriuxMedia.initMediaManager();
+		TutoriuxSettings.init({% if app.environment == 'dev' %}{debug: true}{% endif %});
+	</script>
+{% endblock %}

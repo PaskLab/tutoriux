@@ -1,0 +1,61 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block title %}
+	Tutoriux | {% trans %}Login{% endtrans %}
+{% endblock %}
+
+{% block meta_robots %}
+	<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% stylesheets
+		'bundles/system/assets/admin/pages/css/login3.css'
+	%}
+	<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body_attr %} class="login"{% endblock %}
+
+{% block body %}
+
+	{% block flash_message %}
+		{% include 'global/flash_message.html.twig' %}
+	{% endblock %}
+
+	<!-- BEGIN LOGO -->
+	<div class="logo">
+		<a href="{{ path('section_id_1') }}">
+			<img src="{{ asset('bundles/system/frontend/images/logos/logo_slogan_' ~ app.request.locale ~ '.png') }}" width="280" alt="{{ project_title }}" />
+		</a>
+	</div>
+	<!-- END LOGO -->
+
+	{% block content_main '' %}
+
+	<div class="copyright">
+		{% include 'global/copyright.html.twig' %}
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% javascripts
+		'bundles/system/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'
+		'bundles/system/assets/admin/pages/scripts/login.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		jQuery(document).ready(function() {
+			Login.init();
+			Tutoriux.initForm();
+		});
+	</script>
+
+{% endblock %}

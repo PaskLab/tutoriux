@@ -1,0 +1,66 @@
+{% trans_default_domain "site" %}
+<div id="search_view">
+	<div class="container-fluid">
+		<div class="row margin-top-20">
+			<div class="col-md-12 col-xs-12 col-sm-12">
+				<div class="pull-right">
+					<i id="close_search_view" class="icon-close"></i>
+				</div>
+				<div class="algolia-ref">
+					{% trans %}Search powered by{% endtrans %}
+					<a href="https://www.algolia.com/">
+						<img src="{{ asset('bundles/system/frontend/images/algolia_logo.jpg') }}" width="60" alt="Algolia">
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="alg-search-input" class="input-group margin-top-10">
+					<span class="input-group-addon input-circle-left">
+						<i class="fa fa-search font-blue-madison icon-lg"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="alg-search-refinement"></div>
+			</div>
+		</div>
+		<div class="row margin-top-20">
+			<div class="col-md-3">
+				<div id="filter-portlet" class="portlet light bg-inverse">
+					<div class="portlet-title">
+						<div class="caption font-blue-madison">
+							<i class="fa fa-filter font-blue-madison"></i>
+							<span class="caption-subject bold uppercase">
+								{% trans %}Filters & Categories{% endtrans %}
+							</span>
+						</div>
+						<div class="tools hidden-md hidden-lg">
+							<a href="javascript:;" class="filter-handle font-blue-madison">
+								<i class="fa fa-angle-double-down"></i>
+							</a>
+						</div>
+					</div>
+					<div class="portlet-body hidden-xs hidden-sm">
+						<div class="scroller" style="height:500px">
+							<h4 class="font-grey-silver">{% trans %}Search Language{% endtrans %}</h4>
+							<div id="alg-language" class="form"></div>
+							<h4 class="font-grey-silver">{% trans %}Type{% endtrans %}</h4>
+							<div id="alg-type-filter"></div>
+							<h4 class="font-grey-silver margin-top-20">{% trans %}Categories{% endtrans %}</h4>
+							<div id="alg-categories-filter"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div id="alg-stats" class="text-right"></div>
+				<div id="alg-hits"></div>
+				<div id="alg-pagination" class="text-center margin-top-20"></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,138 @@
+{% extends 'global/form/_form_fields_vertical.html.twig' %}
+
+{# form_row #}
+
+{% block form_row %}
+	{% spaceless %}
+		<div class="{{ 'form-group' ~ ((form.vars.expanded is defined and form.vars.expanded) ? ' form-md-radios':' form-md-line-input form-md-floating-label') }}{% if errors|length > 0 %} has-error{% endif %}{% if isTextarea is defined and isTextarea %} is-textarea{% endif %}">
+			{% if icon is defined %}
+				<div class="input-group right-addon{% if errors|length > 0 %} left-addon{% endif %}">
+			{% elseif errors|length %}
+				<div class="input-group left-addon">
+			{% endif %}
+			{% if errors|length %}
+
+				<span class="input-group-addon">
+					<i class="fa fa-warning tooltips" data-original-title="{{ errors[0].message|trans({}, translation_domain) }}" data-container="body"></i>
+				</span>
+
+				{% if form.vars.expanded is defined and form.vars.expanded %}
+					{{ form_label(form) }}
+				{% endif %}
+
+				{{ form_widget(form, {'attr': {'class': 'form-control' ~ ((form.vars.value is empty) ? '':' edited')} }) }}
+
+				{% if not (form.vars.expanded is defined and form.vars.expanded) %}
+					{{ form_label(form) }}
+				{% endif %}
+			{% else %}
+				{% if form.vars.expanded is defined and form.vars.expanded %}
+					{{ form_label(form) }}
+				{% endif %}
+
+				{{ form_widget(form, {'attr': {'class': 'form-control' ~ ((form.vars.value is empty) ? '':' edited')} }) }}
+
+				{% if not (form.vars.expanded is defined and form.vars.expanded) %}
+					{{ form_label(form) }}
+				{% endif %}
+			{% endif %}
+
+			{% if isChoice is defined and isChoice %}
+				{{ form_label(form, null, {'label_attr': {'class': 'control-label'}} ) }}
+			{% endif %}
+
+			{% if errors|length %}
+				<span id="{{ form.vars.id }}-error" class="help-block">
+					{% for error in errors %}
+						{{ error.message|trans({}, translation_domain) }}{% if not loop.last %}<br>{% endif %}
+					{% endfor %}
+				</span>
+			{% elseif attr.alt is defined %}
+				<span class="help-block">{{ attr.alt|trans({}, translation_domain)|raw }}</span>
+			{% endif %}
+
+			{% if icon is defined %}
+					<span class="input-group-addon">
+						<i class="{{ icon }}"></i>
+					</span>
+				</div>
+			{% elseif errors|length %}
+				</div>
+			{% endif %}
+
+		</div>
+	{% endspaceless %}
+{% endblock form_row %}
+
+{# Widgets #}
+
+{% block form_widget_simple %}
+	{% spaceless %}
+		{% set type = type|default('text') %}
+		{% if type == 'date' %}<div class="input-group input-medium date date-picker" data-date="{% if value %}{{ value|date('Y-m-d') }}{% else %}1990-01-01{% endif %}" data-date-format="yyyy-mm-dd" data-date-viewmode="years">{% endif %}
+			<input type="{{ (type == 'date') ? 'text' : type }}" {{ block('widget_attributes') }}{% if errors|length > 0 %} aria-describedby="{{ form.vars.id }}-error"{% endif %} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+		{% if type == 'date' %}
+		<span class="input-group-btn">
+			<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+			</span>
+		</div>
+		{% endif %}
+	{% endspaceless %}
+{% endblock form_widget_simple %}
+
+{%- block textarea_widget -%}
+	{% spaceless %}
+		<textarea {{ block('widget_attributes') }}{% if errors|length > 0 %} aria-describedby="{{ form.vars.id }}-error"{% endif %}>{{ value }}</textarea>
+	{% endspaceless %}
+{%- endblock textarea_widget -%}
+
+{% block choice_widget %}
+	{% spaceless %}
+		{% if expanded %}
+			<div class="{% if multiple %}md-checkbox-list{% else %}md-radio-list{% endif %}">
+				{% for key, child in form %}
+					<div class="{% if multiple %}md-checkbox{% else %}md-radio{% endif %}">
+						{% if child.vars.label is not same as(false) %}
+						{% if not child.vars.compound %}
+							{% set label_attr = child.vars.label_attr|merge({'for': child.vars.id}) %}
+						{% endif %}
+						{% if child.vars.label is empty %}
+							{% set label = child.vars.name|humanize %}
+						{% endif %}
+						{{ form_widget(child, {'attr': {'class': 'md-radiobtn'}}) }}
+						<label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+						<span></span>
+						<span class="check"></span>
+						<span class="box"></span>
+						{%- if child.vars.data.id is defined -%}
+							{% include 'global/entity_title.html.twig' with { 'entity': child.vars.data } %}
+						{%- else -%}
+							{{ child.vars.label|trans({}, translation_domain)|raw }}
+						{%- endif -%}
+						{% if child.vars.required and child.vars.checked is not defined %}
+							{% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+							<span class="required">* </span>
+						{% endif %}
+						</label>
+					{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+				{% if placeholder is not none %}
+					<option value="">{{ placeholder|trans({}, translation_domain) }}</option>
+				{% endif %}
+				{% if preferred_choices|length > 0 %}
+					{% set options = preferred_choices %}
+					{{ block('choice_widget_options') }}
+					{% if choices|length > 0 and separator is not none %}
+						<option disabled="disabled">{{ separator }}</option>
+					{% endif %}
+				{% endif %}
+				{% set options = choices %}
+				{{ block('choice_widget_options') }}
+			</select>
+		{% endif %}
+	{% endspaceless %}
+{% endblock choice_widget %}

@@ -1,0 +1,61 @@
+{% trans_default_domain "site" %}
+<!-- PORTLET MAIN -->
+<div class="portlet light hidden-xs hidden-sm">
+	<!-- STAT -->
+	<div>
+		<h4 class="font-blue-hoki">
+			{% trans %}Published to date{% endtrans %} ...
+		</h4>
+	</div>
+	<div class="row list-separated profile-stat">
+		<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-md-5 col-sm-5 col-xs-5">
+			<div class="uppercase profile-stat-title">
+				{{ theoryCount }}
+			</div>
+			<div class="uppercase profile-stat-text text-center">
+				{% transchoice theoryCount %}{0} Theoretical Article|]0,Inf[ Theoretical Articles{% endtranschoice %}
+			</div>
+		</div>
+		<div class="col-md-5 col-sm-5 col-xs-5">
+			<div class="uppercase profile-stat-title">
+				{{ guideCount }}
+			</div>
+			<div class="uppercase profile-stat-text">
+				{% transchoice guideCount %}{0} How-to|]0,Inf[ How-tos{% endtranschoice %}
+			</div>
+		</div>
+	</div>
+	<!-- END STAT -->
+	<div>
+		<h5 class="font-blue-madison" style="font-weight: 600;">{% trans %}About{% endtrans %}</h5>
+		<h4 class="profile-desc-title" style="padding-left: 5px;">
+			{{ user.fullName }}
+		</h4>
+		<span class="profile-desc-text">{{ user.settings.shortDescription|nl2br }}</span>
+		{% if user.settings.website is not empty %}
+			<div class="margin-top-20 profile-desc-link">
+				<i class="fa fa-globe"></i>
+				<a href="{{ user.settings.website }}">{{ user.settings.website|replace({ 'http://': '', 'https://': '' }) }}</a>
+			</div>
+		{% endif %}
+		{% if user.settings.twitter is not empty %}
+			<div class="margin-top-20 profile-desc-link">
+				<i class="fa fa-twitter"></i>
+				<a href="{{ user.settings.twitter }}">@{{ user.settings.twitter|replace({ 'https://twitter.com/': '' }) }}</a>
+			</div>
+		{% endif %}
+		{% if user.settings.facebook is not empty %}
+			<div class="margin-top-20 profile-desc-link">
+				<i class="fa fa-facebook"></i>
+				<a href="{{ user.settings.facebook }}">{{ user.settings.facebook|replace({ 'https://www.facebook.com/': '' }) }}</a>
+			</div>
+		{% endif %}
+		{% if user.settings.google is not empty %}
+			<div class="margin-top-20 profile-desc-link">
+				<i class="fa fa-google-plus"></i>
+				<a href="{{ user.settings.google }}">{{ user.fullName }}</a>
+			</div>
+		{% endif %}
+	</div>
+</div>
+<!-- END PORTLET MAIN -->

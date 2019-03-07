@@ -1,0 +1,23 @@
+{% if sections %}
+	{% for section in sections %}
+		<div class="col-md-{{ 12 / sections|length }}">
+			<ul class="mega-menu-submenu">
+				{% if section.hasChildren and level < maxLevel %}
+					<li>
+						<h3>{{ section }}</h3>
+					</li>
+
+					{% include 'site/navigation/header_element_level.html.twig' with { 'sections': section.children, 'level': level + 1, 'maxLevel' : maxLevel} %}
+
+				{% else %}
+					<li{% if section.isSelected %} class="active"{% endif %}>
+						<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+							<i class="fa fa-caret-right"></i>
+							{{ section }}
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	{% endfor %}
+{% endif %}

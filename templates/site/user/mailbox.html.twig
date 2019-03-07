@@ -1,0 +1,57 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% stylesheets
+		'bundles/system/assets/admin/pages/css/profile.css'
+		'bundles/system/assets/admin/pages/css/inbox.css'
+	%}
+	<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block content_title %}
+	<h1>
+		{% trans %}My Messages{% endtrans %}
+	</h1>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<!-- BEGIN PROFILE SIDEBAR -->
+			{% include 'site/user/_profile_sidebar.html.twig' with {'user': user, 'page': 'inbox'} %}
+			<!-- END BEGIN PROFILE SIDEBAR -->
+			<!-- BEGIN PROFILE CONTENT -->
+			<div class="profile-content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet light">
+							<div id="mailbox" class="portlet-body" style="min-height:250px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PROFILE CONTENT -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% javascripts
+		'bundles/system/frontend/js/user/mailbox.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		$(function(){
+			TutoriuxMailbox.init();
+		});
+	</script>
+{% endblock %}

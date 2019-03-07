@@ -1,0 +1,7 @@
+{% if sections %}
+	<nav{% if attr|length %}{% for attribute, value in attr %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+		<ul>
+			{% include 'site/navigation/footer_element.html.twig' with { 'sections' : sections } %}
+		</ul>
+	</nav>
+{% endif %}

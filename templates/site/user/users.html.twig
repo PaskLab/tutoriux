@@ -1,0 +1,85 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block content_title %}
+	<h1>
+		{% trans %}Community members{% endtrans %}
+		<small>{% trans %}You are part of a team{% endtrans %}</small>
+	</h1>
+{% endblock %}
+
+
+{% block breadcrumbs %}
+	<ul class="page-breadcrumb breadcrumb">
+		<li>
+			<a href="{{ path('section_id_1') }}">{% trans %}Home{% endtrans %}</a><i class="fa fa-circle"></i>
+		</li>
+		<li class="active">
+			{% trans %}Members{% endtrans %}
+		</li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="icon-users font-grey-gallery"></i>
+						<span class="caption-subject font-blue-madison bold uppercase">
+							{% trans %}Find members{% endtrans %}
+						</span>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<table id="table-users" class="table table-striped table-hover">
+						<thead>
+							<tr class="uppercase font-grey-silver">
+								<th>{% trans %}Name{% endtrans %}</th>
+								<th>{% trans %}Position{% endtrans %}</th>
+							</tr>
+						</thead>
+						<tbody>
+						{# AJAX content #}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% include 'global/datatables/stylesheets.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% include 'global/datatables/javascripts.html.twig' %}
+
+	<script>
+		$(function(){
+			Tutoriux.initDataTable({
+				"locale": "{{ app.request.locale }}",
+//				"sortIgnore": [4],
+//				"searchIgnore": [4],
+				"stripHtmlTags": [0],
+				"displayLengths": [
+					[10, 25, 50, 100],
+					[10, 25, 50, 100]
+				],
+				"standardOptions": {
+					"ajax": Routing.generate(session_locale + '__RG__section_id_35'),
+					"processing": true,
+					"serverSide": true,
+					"deferRender": true
+				}
+			});
+		});
+	</script>
+
+{% endblock %}

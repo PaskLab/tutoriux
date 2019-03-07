@@ -1,0 +1,20 @@
+{% block meta_viewport %}
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block meta_format_detection %}
+	<meta name="format-detection" content="telephone=no">
+{% endblock %}
+
+{% block meta_description %}
+	{{ render_esi(controller('App\\Controller\\Site\\MetadataController:metadata', { metaName: 'description' })) }}
+{% endblock %}
+
+{# Hidden until complete removal if proven unuseful #}
+{#{% block meta_keywords %}#}
+	{#{{ render_esi(controller('SystemBundle:Frontend/Metadata:metadata', { metaName: 'keywords' })) }}#}
+{#{% endblock %}#}
+
+{% block meta_robots %}
+	<meta name="robots" content="index,follow">
+{% endblock %}

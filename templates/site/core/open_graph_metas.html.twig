@@ -1,0 +1,27 @@
+{% block og %}
+
+	{% block fb_app_id %}
+		<meta property="fb:app_id" content="{{ facebook_app_id }}" />
+	{% endblock %}
+
+	{% block og_title %}
+		<meta property="og:title" content="{{ render_esi(controller('App\\Controller\\Site\\NavigationController:pageTitle')) }}" />
+	{% endblock %}
+
+	{% block og_type %}
+		<meta property="og:type" content="website" />
+	{% endblock %}
+
+	{% block og_url %}
+		<meta property="og:url" content="{{ app.request.uri }}" />
+	{% endblock %}
+
+	{% block og_image %}
+		<meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}{{ asset('bundles/system/frontend/images/logos/logo_ogtag.png') }}" />
+	{% endblock %}
+
+	{% block og_description %}
+		{{ render_esi(controller('App\\Controller\\Site\\MetadataController:metadata', { metaName: 'description', ogMeta: true })) }}
+	{% endblock %}
+
+{% endblock %}

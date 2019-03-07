@@ -1,0 +1,101 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% include 'global/datatables/stylesheets.html.twig' %}
+	{% stylesheets
+		'bundles/system/assets/admin/pages/css/profile.css'
+	%}
+	<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block content_title %}
+	<h1>
+		{{ user }}
+		{% if user.fullName != user.username %}
+			<small>"{{ user.username }}"</small>
+		{% endif %}
+	</h1>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN PROFILE SIDEBAR -->
+			{% include 'site/user/_profile_sidebar.html.twig' with {'user': user, 'page': 'overview'} %}
+			<!-- END PROFILE SIDEBAR -->
+			<!-- BEGIN PROFILE CONTENT -->
+			<div class="profile-content">
+				{{ render(controller('App\\Controller\\Site\\User\\UserController:profileModule', { 'mappingCode': '_profile_module' })) }}
+				<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN PORTLET -->
+						{% if user.id == app.user.id %}
+						<div class="portlet light">
+							<div class="portlet-title tabbable-line">
+								<div class="caption caption-md">
+									<i class="icon-energy font-yellow-lemon"></i>
+									<span class="caption-subject font-blue-madison bold uppercase">
+										{% trans %}Recent Activities{% endtrans %}
+									</span>
+								</div>
+								<div class="actions">
+									<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
+								</div>
+								<ul class="nav nav-tabs">
+									<li class="active">
+										<a href="#tab-all-logs" data-toggle="tab">
+											{% trans %}All{% endtrans %}
+										</a>
+									</li>
+									<li>
+										<a href="#tab-personal-logs" data-toggle="tab">
+											{% trans %}Personal{% endtrans %}
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="portlet-body">
+								<!--BEGIN TABS-->
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-all-logs">
+										<div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2"></div>
+									</div>
+									<div class="tab-pane" id="tab-personal-logs">
+										<div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2"></div>
+									</div>
+								</div>
+								<!--END TABS-->
+							</div>
+						</div>
+						{% endif %}
+						<!-- END PORTLET -->
+					</div>
+				</div>
+			</div>
+			<!-- END PROFILE CONTENT -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% include 'global/datatables/javascripts.html.twig' %}
+	{% javascripts
+		'bundles/system/frontend/js/user/users.js'
+		'bundles/system/frontend/js/user/log.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		$(function(){
+			TutoriuxUsers.initProfile();
+			{% if user.id == app.user.id %}TutoriuxLog.initLogFeed();{% endif %}
+		});
+	</script>
+{% endblock %}

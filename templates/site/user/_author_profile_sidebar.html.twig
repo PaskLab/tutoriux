@@ -1,0 +1,51 @@
+{% trans_default_domain "site" %}
+<div class="profile-sidebar" style="width: 250px;">
+	<!-- PORTLET MAIN -->
+	<div class="portlet light profile-sidebar-portlet clearfix{% if not user.avatar %} avatar{% endif %}">
+		{% if user.avatar %}
+			<!-- SIDEBAR USERPIC -->
+			<div class="profile-userpic">
+				<img src="{{ user.avatar.mediaPath|imagine_filter('media_profile') }}" class="img-responsive" alt="{{ user }}">
+			</div>
+			<!-- END SIDEBAR USERPIC -->
+		{% endif %}
+		<!-- SIDEBAR USER TITLE -->
+		<div class="profile-usertitle">
+			<div class="profile-usertitle-name">
+				{{ user }}
+			</div>
+			<div class="profile-usertitle-job">
+				<ul>
+					{% for role in user.roles %}
+						{% if role.role != 'ROLE_BACKEND_ACCESS' %}
+							<li>
+								<span class="text-{% if role.id > 3 %}primary{% else %}default{% endif %}">
+									{{ role }}
+								</span>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<!-- END SIDEBAR USER TITLE -->
+		{% if is_granted('ROLE_USER') and user.id != app.user.id %}
+		<!-- SIDEBAR BUTTONS -->
+		<div class="profile-userbuttons">
+			<button type="button" id="user-follow" data-username="{{ user.username }}" class="btn btn-circle green-haze btn-sm">
+				<i class="fa fa-check{% if app.user not in user.followers %} hide{% endif %}"></i>
+				{% trans %}Follow{% endtrans %}
+			</button>
+			<a href="{{ path('section_id_35_compose', {'username': user.username}) }}" type="button" class="btn btn-circle btn-danger btn-sm">
+				<i class="fa fa-send-o"></i>
+				{% trans %}Message{% endtrans %}
+			</a>
+		</div>
+		<!-- END SIDEBAR BUTTONS -->
+		{% endif %}
+	</div>
+	<!-- END PORTLET MAIN -->
+	<!-- SIDEBAR MODULE -->
+	{{ render(controller('App\\Controller\\Site\\User\\UserController:profileModule', { 'mappingCode': '_profile_sidebar_module' })) }}
+	<!-- END SIDEBAR MODULE -->
+</div>

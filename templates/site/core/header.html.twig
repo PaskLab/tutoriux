@@ -1,0 +1,97 @@
+{% trans_default_domain "site" %}
+<!-- BEGIN HEADER -->
+<div class="page-header">
+	{% block header_top %}
+		<!-- BEGIN HEADER TOP -->
+		<div class="page-header-top">
+			<div class="container">
+				<!-- BEGIN LOGO -->
+				<div class="page-logo">
+					<a href="{{ path('section_id_1') }}">
+						<img src="{{ asset('bundles/system/frontend/images/logos/logo_slogan_' ~ app.request.locale ~ '.png') }}" width="216" height="72" alt="{{ project_title }}" class="tutoriux-logo"/>
+					</a>
+				</div>
+				<!-- END LOGO -->
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+				<a href="javascript:;" class="menu-toggler"></a>
+				<!-- END RESPONSIVE MENU TOGGLER -->
+				<!-- BEGIN TOP NAVIGATION MENU -->
+				<div class="top-menu">
+					<ul class="nav navbar-nav pull-right">
+						{% block top_menu_widgets %}
+							<!-- BEGIN NOTIFICATION DROPDOWN -->
+							{% if is_granted('ROLE_USER') %}
+								{{ render(controller('App\\Controller\\Site\\NotificationController:headerNotification')) }}
+							{% endif %}
+							<!-- END NOTIFICATION DROPDOWN -->
+							<!-- BEGIN LANGUAGE DROPDOWN -->
+							{{ render(controller('App\\Controller\\Site\\NavigationController:localeSwitcher')) }}
+							<!-- END LANGUAGE DROPDOWN -->
+						{% endblock top_menu_widgets %}
+						<li class="droddown dropdown-separator">
+							<span class="separator"></span>
+						</li>
+						<!-- BEGIN USER LOGIN DROPDOWN -->
+						{% if is_granted('ROLE_USER') %}
+							<li class="dropdown dropdown-user">
+								<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+									{% if app.user.avatar %}<img alt="{{ app.user }}" class="img-circle" src="{{ app.user.avatar.mediaPath|imagine_filter('media_user_avatar_medium_round') }}">{% endif %}
+									<span class="username username-hide-mobile">{{ app.user }}</span>
+									<i class="fa fa-caret-down"></i>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-default">
+									<li>
+										<a href="{{ path('section_id_35', {'username': app.user.username}) }}">
+											<i class="icon-user{% if app.user.gender == 'f' %}-female{% endif %}"></i>{% trans %}My Profile{% endtrans %}</a>
+									</li>
+									<li>
+										<a href="{{ path('section_id_35_messages') }}">
+											<i class="icon-envelope-open"></i>
+											{% trans %}My Inbox{% endtrans %}
+											<span id="hmenu-unread-messages" class="badge badge-danger hide">0</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{ path('section_id_35_settings') }}">
+											<i class="icon-settings"></i>
+											{% trans %}Settings{% endtrans %}
+										</a>
+									</li>
+									<li class="divider">
+									</li>
+									<li>
+										<a href="{{ path('system_frontend_logout') }}"><i class="icon-key"></i> {% trans %}Log Out{% endtrans %}</a>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li class="link">
+								<a class="login-link" href="{{ path('system_frontend_login') }}"><i class="icon-user"></i> {% trans %}Login{% endtrans %}</a>
+							</li>
+						{% endif %}
+						<!-- END USER LOGIN DROPDOWN -->
+					</ul>
+				</div>
+				<!-- END TOP NAVIGATION MENU -->
+			</div>
+		</div>
+		<!-- END HEADER TOP -->
+	{% endblock header_top %}
+	{% block header_menu %}
+		<!-- BEGIN HEADER MENU -->
+		<div class="page-header-menu">
+			<div class="container">
+				<!-- BEGIN SEARCH BUTTON -->
+				<button class="search-button">
+					<i class="icon-magnifier"></i>
+				</button>
+				<!-- END SEARCH BUTTON -->
+
+				{{ render_esi(controller('App\\Controller\\Site\\NavigationController:byCode', { code: 'header', template: 'header', maxLevel: 4, attr: { class: 'hor-menu hor-menu-light'} })) }}
+
+			</div>
+		</div>
+		<!-- END HEADER MENU -->
+	{% endblock header_menu %}
+</div>
+<!-- END HEADER -->

@@ -1,0 +1,22 @@
+{% trans_default_domain "site" %}
+{% spaceless %}
+	{% if column == 0 %}
+		<a style="margin-right: 10px;" href="{{ path('section_id_35', { 'username': entity.username }) }}">
+			{% if entity.avatar %}
+				<img alt="{{ entity }}" class="img-circle" style="width: 30px;" src="{{ entity.avatar.mediaPath|imagine_filter('media_user_avatar_medium_round') }}">
+			{% else %}
+				<i class="icon-user{% if entity.gender == 'f' %}-female{% endif %} bg-grey-cascade font-white bold"></i>
+			{% endif %}
+		</a>
+		<a class="primary-link{% if not entity.active %} font-grey-silver{% endif %}" href="{{ path('section_id_35', { 'username': entity.username }) }}">{{ entity }}</a>
+	{% endif %}
+	{% if column == 1 %}
+		{% for role in entity.roles %}
+			{% if role.role != 'ROLE_BACKEND_ACCESS' %}
+				<span class="badge badge-{% if role.id > 3 %}info{% else %}default{% endif %}">
+					{{ role }}
+				</span>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+{% endspaceless %}

@@ -1,0 +1,46 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="portlet light clearfix col-sm-offset-1 col-sm-10">
+			<div class="portlet-title">
+				<div class="caption">
+					{% if section.icon is not empty %}<i class="{{ section.icon }}"></i>{% endif %}
+					<span class="caption-subject bold uppercase"> {{ section }}</span>
+				</div>
+				<div class="actions">
+					<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
+				</div>
+			</div>
+			<div class="portlet-body row">
+				<div class="col-xs-offset-0 col-xs-12 col-md-offset-1 col-md-10">
+					{% if texts %}
+						{% set textId = 0 %}
+						{% for text in texts %}
+							{% if text.collapsable %}
+								<div class="portlet box grey-cascade">
+									<div class="portlet-title">
+										<div class="caption">
+											{{ text.name }}
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="expand" data-original-title="" title=""></a>
+										</div>
+									</div>
+									<div class="portlet-body display-hide" style="display: none;">
+										<div class="rich-text">{{ text.text|raw }}</div>
+									</div>
+								</div>
+							{% else %}
+								<div class="block{% if textId == text.id %} selected{% endif %}" id="block-{{ text.id }}">
+									<div class="rich-text">{{ text.text|raw }}</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

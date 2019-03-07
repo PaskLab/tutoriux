@@ -1,0 +1,19 @@
+{% trans_default_domain "site" %}
+{% if elements %}
+	<ul class="page-breadcrumb breadcrumb{% if elements|length < 1 %} hide{% endif %}">
+		<li>
+			<a href="{{ path('section_id_1') }}">{% trans %}Home{% endtrans %}</a><i class="fa fa-circle"></i>
+		</li>
+		{% for element in elements %}
+			{% if loop.last %}
+				<li class="active">
+					{% include 'global/entity_title.html.twig' with { 'entity': element } %}
+				</li>
+			{% else %}
+				<li>
+					<a href="{{ path(element.route, element.routeParams) }}">{% include 'global/entity_title.html.twig' with { 'entity': element } %}</a><i class="fa fa-circle"></i>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+{% endif %}

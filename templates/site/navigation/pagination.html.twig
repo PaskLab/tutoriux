@@ -1,0 +1,49 @@
+{% if pageCount > 1 %}
+    <div class="pagination">
+        <ul>
+            {% if first is defined and current != first %}
+                <li class="first arrow">
+                    <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&lt;&lt;</a>
+                </li>
+            {% endif %}
+
+            {% if previous is defined %}
+                <li class="previous arrow">
+                    <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&lt;</a>
+                </li>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if pageCount > pageRange and page == current %}
+                    <li class="select">
+                        <select>
+                            {% for i in 1..pageCount %}
+                                <option value="{{ path(route, query|merge({(pageParameterName): i})) }}"{% if i == page %} selected="selected"{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                {% elseif page == current %}
+                    <li class="selected number">
+                        <strong>{{ page }}</strong>
+                    </li>
+                {% else %}
+                    <li class="number">
+                        <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if next is defined %}
+                <li class="next arrow">
+                    <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">&gt;</a>
+                </li>
+            {% endif %}
+
+            {% if last is defined and current != last %}
+                <li class="last arrow">
+                    <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">&gt;&gt;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}

@@ -1,0 +1,22 @@
+{% if sections %}
+	{% for section in sections %}
+		{% if section.hasChildren and level < maxLevel %}
+			<li class="dropdown-submenu{% if section.isSelected %} active{% endif %}">
+				<a href=javascript:;>
+					<i class="icon-folder"></i>
+					{{ section }}
+				</a>
+				<ul class="dropdown-menu">
+					{% include 'site/navigation/header_element_level.html.twig' with { 'sections': section.children, 'level': level + 1, 'maxLevel' : maxLevel} %}
+				</ul>
+			</li>
+		{% else %}
+			<li{% if section.isSelected %} class="active"{% endif %}>
+				<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+					<i class="fa fa-caret-right"></i>
+					{{ section }}
+				</a>
+			</li>
+		{% endif %}
+	{% endfor %}
+{% endif %}

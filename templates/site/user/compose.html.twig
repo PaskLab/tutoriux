@@ -1,0 +1,91 @@
+{% trans_default_domain "site" %}
+{% extends 'site/layout.html.twig' %}
+{% form_theme form 'site/core/form/form_fields_vertical_md.html.twig' %}
+
+{% block content_title %}
+	<h1>
+		{% trans %}Private message{% endtrans %}
+	</h1>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<!-- BEGIN PROFILE SIDEBAR -->
+			{% include 'site/user/_profile_sidebar.html.twig' with {'user': user} %}
+			<!-- END BEGIN PROFILE SIDEBAR -->
+			<!-- BEGIN PROFILE CONTENT -->
+			<div class="profile-content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet light">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-send-o font-grey-cascade"></i>
+									<span class="caption-subject font-blue-madison bold uppercase">
+										{% trans %}Send a private message{% endtrans %}
+									</span>
+								</div>
+							</div>
+							{{ form_start(form, {'action': path('section_id_35_compose', {'username': user.username})}) }}
+							<div class="portlet-body font-grey-gallery" style="font-size: 1.1em">
+								{{ form_errors(form) }}
+								{{ form_row(form.title) }}
+								<div class="form-group{% if form.message.vars.errors|length %} has-error{% endif %}">
+									{{ form_widget(form.message) }}
+									{{ form_errors(form.message) }}
+								</div>
+							</div>
+							<div class="form-actions noborder margin-top-20">
+								<button type="submit" class="btn blue">
+									<i class="fa fa-send"></i>
+									{% trans %}Send{% endtrans %}
+								</button>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PROFILE CONTENT -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block modals %}
+	{{ parent() }}
+	{% include 'MediaBundle:Core:modals.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	{% include 'MediaBundle:Core:stylesheets.html.twig' %}
+
+	{% stylesheets
+	'bundles/system/assets/admin/pages/css/profile.css'
+	'bundles/system/assets/admin/pages/css/inbox.css'
+	%}
+	<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% include 'MediaBundle:Core:javascripts.html.twig' %}
+
+	{% javascripts
+		'bundles/system/frontend/js/user/users.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	<script>
+		$(function(){
+			TutoriuxUsers.initProfile();
+		});
+	</script>
+{% endblock %}

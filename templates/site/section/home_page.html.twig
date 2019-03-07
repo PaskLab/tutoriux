@@ -29,13 +29,13 @@
 		<div class="col-md-6">
 			<div class="portlet light need-help">
 				<div class="portlet-body clearfix">
-					{#{{ render_esi(controller('SystemBundle:Frontend/Text:displayTextById', { 'textId': 44 })) }}#}
+					{#{{ render_esi(controller('App\\Controller\\Site\\TextController:displayTextById', { 'textId': 44 })) }}#}
 				</div>
 			</div>
 		</div>
 	</div>
 
-	{#{{ render_esi(controller('SystemBundle:Frontend/Text:DisplayTexts')) }}#}
+	{#{{ render_esi(controller('App\\Controller\\Site\\TextController:DisplayTexts')) }}#}
 
 {% endblock %}
 
