@@ -5,6 +5,7 @@ namespace App\Library;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Services\ApplicationCore;
 use App\Entity\Section;
+use App\Services\DoctrineInit;
 
 /**
  * Class BaseController
@@ -21,12 +22,19 @@ abstract class BaseController extends AbstractController
     private $applicationCore;
 
     /**
-     * ApplicationController constructor.
-     * @param ApplicationCore $applicationCore
+     * @var DoctrineInit
      */
-    public function __construct(ApplicationCore $applicationCore)
+    private $doctrineInit;
+
+    /**
+     * BaseController constructor.
+     * @param ApplicationCore $applicationCore
+     * @param DoctrineInit $doctrineInit
+     */
+    public function __construct(ApplicationCore $applicationCore, DoctrineInit $doctrineInit)
     {
         $this->applicationCore = $applicationCore;
+        $this->doctrineInit = $doctrineInit;
     }
 
     /**
@@ -60,9 +68,11 @@ abstract class BaseController extends AbstractController
      * @param $name
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    protected function getRepository($name)
+    protected function getRepository($className)
     {
-        return $this->getDoctrine()->getRepository($name);
+        return $this->getDoctrineInit()->initRepository(
+            $this->getDoctrine()->getRepository($className)
+        );
     }
 
     /**
@@ -72,15 +82,6 @@ abstract class BaseController extends AbstractController
     protected function setFlash($type, $message)
     {
         $this->get('session')->getFlashBag()->set($type, $message);
-    }
-
-    /**
-     * @param string $type
-     * @param string $message
-     */
-    protected function addFlash($type, $message)
-    {
-        $this->get('session')->getFlashBag()->add($type, $message);
     }
 
     /**
@@ -128,6 +129,7 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param $element
+     * @throws \Exception
      */
     protected function addNavigationElement($element)
     {
@@ -138,7 +140,6 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param $element
-     * @throws \Exception
      */
     protected function pushNavigationElement($element)
     {
@@ -152,16 +153,16 @@ abstract class BaseController extends AbstractController
      * @param string $route
      * @param array  $routeParams
      *
-     * @return NavigationElement
+     * @return NavigationElementInterface
      */
     protected function createNavigationElement($name, $route, $routeParams = array(), $icon = null)
     {
         $navigationElement = new NavigationElement();
-        $navigationElement->setContainer($this->container)
-            ->setName($name)
-            ->setRouteFrontend($route)
-            ->setRouteFrontendParams($routeParams)
-            ->setIcon($icon);
+        $navigationElement
+            ->setElementName($name)
+            ->setRoute($route)
+            ->setRouteParams($routeParams)
+            ->setElementIcon($icon);
 
         return $navigationElement;
     }
@@ -177,5 +178,13 @@ abstract class BaseController extends AbstractController
     {
         $navigationElement = $this->createNavigationElement($name, $route, $routeParams, $icon);
         $this->pushNavigationElement($navigationElement);
+    }
+
+    /**
+     * @return DoctrineInit|null
+     */
+    protected function getDoctrineInit(): ?DoctrineInit
+    {
+        return $this->doctrineInit;
     }
 }

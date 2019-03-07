@@ -74,7 +74,7 @@ class DoctrineInit
         if ($entity instanceof EntityInterface) {
             // Set the Edit Locale on translatable entities
 
-            if ($this->getApplicationCore()->isInitialized()
+            if ($this->getApplicationCore()->isReady()
                 && in_array('Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\Translatable', class_uses($entity))) {
 
                 /** @var Section $entity */

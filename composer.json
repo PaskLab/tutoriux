@@ -31,7 +31,8 @@
         "symfony/web-link": "*",
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "*",
-        "tutoriux/doctrine-behaviors-bundle": "dev-master"
+        "tutoriux/doctrine-behaviors-bundle": "dev-master",
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

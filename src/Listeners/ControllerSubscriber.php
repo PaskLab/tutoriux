@@ -15,7 +15,7 @@ use App\Library\BaseController,
  * Class ControllerListener
  * @package App\Listeners
  */
-class ControllerListener implements EventSubscriberInterface
+class ControllerSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ContainerInterface

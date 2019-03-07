@@ -201,15 +201,15 @@ class Section extends BaseEntity implements NodeInterface
         return $this->ordering;
     }
 
-    /**
-     * Set Route
-     *
-     * @param string $route A route
-     */
-    public function setRoute($route)
-    {
-        $this->route = $route;
-    }
+//    /**
+//     * Set Route
+//     *
+//     * @param string $route A route
+//     */
+//    public function setRoute($route)
+//    {
+//        $this->route = $route;
+//    }
 
     /**
      * Get sectionNavigations
@@ -370,10 +370,10 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Add roles
      *
-     * @param  \SystemBundle\Entity\Role $roles
+     * @param  Role $roles
      * @return Section
      */
-    public function addRole(\SystemBundle\Entity\Role $roles)
+    public function addRole(Role $roles)
     {
         $this->roles[] = $roles;
 
@@ -393,9 +393,9 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Remove roles
      *
-     * @param \SystemBundle\Entity\Role $roles
+     * @param Role $roles
      */
-    public function removeRole(\SystemBundle\Entity\Role $roles)
+    public function removeRole(Role $roles)
     {
         $this->roles->removeElement($roles);
     }
@@ -413,9 +413,9 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Remove texts
      *
-     * @param \SystemBundle\Entity\Text $texts
+     * @param Text $texts
      */
-    public function removeText(\SystemBundle\Entity\Text $texts)
+    public function removeText(Text $texts)
     {
         $this->texts->removeElement($texts);
     }
@@ -423,9 +423,9 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Remove sectionNavigations
      *
-     * @param \SystemBundle\Entity\SectionNavigation $sectionNavigations
+     * @param SectionNavigation $sectionNavigations
      */
-    public function removeSectionNavigation(\SystemBundle\Entity\SectionNavigation $sectionNavigations)
+    public function removeSectionNavigation(SectionNavigation $sectionNavigations)
     {
         $this->sectionNavigations->removeElement($sectionNavigations);
     }
@@ -433,10 +433,10 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Add mappings
      *
-     * @param  \SystemBundle\Entity\Mapping $mappings
+     * @param Mapping $mappings
      * @return Section
      */
-    public function addMapping(\SystemBundle\Entity\Mapping $mappings)
+    public function addMapping(Mapping $mappings)
     {
         $this->mappings[] = $mappings;
 
@@ -446,9 +446,9 @@ class Section extends BaseEntity implements NodeInterface
     /**
      * Remove mappings
      *
-     * @param \SystemBundle\Entity\Mapping $mappings
+     * @param Mapping $mappings
      */
-    public function removeMapping(\SystemBundle\Entity\Mapping $mappings)
+    public function removeMapping(Mapping $mappings)
     {
         $this->mappings->removeElement($mappings);
     }

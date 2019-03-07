@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Library;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Services\ApplicationCore;
 
 /**
  * Interface EntityInterface
@@ -16,17 +14,6 @@ interface EntityInterface
      * @abstract
      */
     public function __toString();
-
-    /**
-     * @return string
-     */
-    public function getRoute(): string;
-
-    /**
-     * @param array $params
-     * @return array
-     */
-    public function getRouteParams(array $params = []): array;
 
     /**
      * Is Active

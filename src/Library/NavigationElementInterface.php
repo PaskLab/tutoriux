@@ -9,64 +9,113 @@ namespace App\Library;
 interface NavigationElementInterface
 {
     /**
-     * isSelected
-     *
-     * @abstract
+     * @return mixed
      */
-    public function isSelected();
+    public function getId();
 
     /**
-     * setSelected
-     *
-     * @param boolean $bool Selected State
-     *
-     * @abstract
+     * @param string $name
+     * @return NavigationElementInterface
      */
-    public function setSelected($bool);
+    public function setElementName(string $name): NavigationElementInterface;
 
     /**
-     * Get Children
-     *
-     * @abstract
+     * @return string|null
      */
-    public function getChildren();
+    public function getElementName(): ?string;
 
     /**
-     * Has Children
-     *
-     * @abstract
+     * @return bool
      */
-    public function hasChildren();
+    public function isSelectedElement(): bool;
 
     /**
-     * Get Parent
-     *
-     * @abstract
+     * @param bool $selected
+     * @return NavigationElementInterface
      */
-    public function getParent();
+    public function setSelectedElement(bool $selected): NavigationElementInterface;
 
     /**
-     * Set Parent
-     *
-     * @param object $parent The Parent
-     *
-     * @abstract
+     * @param NavigationElementInterface|null $parent
+     * @return NavigationElementInterface
      */
-    public function setParent($parent);
+    public function setParentElement(NavigationElementInterface $parent = null): NavigationElementInterface;
 
     /**
-     * Get Level
-     *
-     * @abstract
+     * @return NavigationElementInterface
      */
-    public function getLevel();
+    public function getParentElement(): NavigationElementInterface;
 
     /**
-     * Set Level
-     *
-     * @param integer $level The Level
-     *
-     * @abstract
+     * @return bool
      */
-    public function setLevel($level);
+    public function hasChildrenElements(): bool;
+
+    /**
+     * @param array $children
+     * @return NavigationElementInterface
+     */
+    public function setChildrenElements(array $children = []): NavigationElementInterface;
+
+    /**
+     * @return array
+     */
+    public function getChildrenElements(): array;
+
+    /**
+     * @param NavigationElementInterface $child
+     * @return NavigationElementInterface
+     */
+    public function addChildElement(NavigationElementInterface $child): NavigationElementInterface;
+
+    /**
+     * @param NavigationElementInterface $child
+     * @return NavigationElementInterface
+     */
+    public function removeChildElement(NavigationElementInterface $child): NavigationElementInterface;
+
+    /**
+     * @param int $level
+     * @return NavigationElementInterface
+     */
+    public function setElementLevel(int $level): NavigationElementInterface;
+
+    /**
+     * @return int|null
+     */
+    public function getElementLevel(): ?int;
+
+    /**
+     * @param string $route
+     * @return NavigationElementInterface
+     */
+    public function setRoute(string $route): NavigationElementInterface;
+
+    /**
+     * @return string
+     */
+    public function getRoute(): ?string;
+
+    /**
+     * @param array $routeParams
+     * @return NavigationElementInterface
+     */
+    public function setRouteParams(array $routeParams): NavigationElementInterface;
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getRouteParams(array $params = []): array;
+
+    /**
+     * @param string|null $icon
+     * @return NavigationElementInterface
+     */
+    public function setElementIcon(string $icon = null): NavigationElementInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getElementIcon(): ?string;
 }

@@ -108,6 +108,20 @@ class ApplicationCore implements ApplicationCoreInterface
     /**
      * @return bool
      */
+    public function isReady(): bool
+    {
+        return isset(
+            $this->request,
+            $this->doctrine,
+            $this->session,
+            $this->breadcrumbs,
+            $this->pageTitle
+        );
+    }
+
+    /**
+     * @return bool
+     */
     public function isInitialized() : bool
     {
         return $this->initialized;

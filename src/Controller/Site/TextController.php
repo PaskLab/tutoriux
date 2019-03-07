@@ -47,7 +47,9 @@ class TextController extends BaseController
             $sectionId = $this->getSection()->getId();
         }
 
-        $textLastUpdate = $this->textRepository->findLastUpdate(null, $sectionId);
+        /** @var TextRepository $textRepository */
+        $textRepository = $this->getEm()->getRepository(Text::class);
+        $textLastUpdate = $textRepository->findLastUpdate(null, $sectionId);
 
         $response = new Response();
         $response->setPublic();
@@ -57,7 +59,7 @@ class TextController extends BaseController
             return $response;
         }
 
-        $texts = $this->textRepository->findBy(
+        $texts = $textRepository->findBy(
             ['section' => $sectionId, 'static' => false, 'active' => true],
         ['ordering' => 'ASC']);
 
@@ -77,9 +79,12 @@ class TextController extends BaseController
      * @return Response
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function displayTextById(Request $request, $textId)
+    public function displayTextById(Request $request, DoctrineInit $doctrineInit, $textId)
     {
-        $textLastUpdate = $this->textRepository->findLastUpdate(null, null, $textId);
+        /** @var TextRepository $textRepository */
+        $textRepository = $doctrineInit
+            ->initRepository($this->getEm()->getRepository(Text::class));
+        $textLastUpdate = $textRepository->findLastUpdate(null, null, $textId);
 
         $response = new Response();
         $response->setPublic();
@@ -89,7 +94,8 @@ class TextController extends BaseController
             return $response;
         }
 
-        $text = $this->textRepository->findOneBy([
+        /** @var Text $text */
+        $text = $textRepository->findOneBy([
             'id' => $textId,
             'active' => true
         ]);

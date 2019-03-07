@@ -2,69 +2,35 @@
 
 namespace App\Library;
 
+use App\Library\Traits\NavigationElementTrait;
+
 /**
  * Class NavigationElement
- * @package App\Library
+ *
+ * @package \App\Library
  */
-class NavigationElement extends BaseEntity
+class NavigationElement implements NavigationElementInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    use NavigationElementTrait;
 
     /**
-     * @var string
+     * @var
      */
-    private $icon;
+    protected $id;
 
     /**
-     * Return a string representing the Element
-     *
-     * @return string
+     * NavigationElement constructor.
      */
-    public function __toString()
+    public function __construct()
     {
-        return $this->name;
+        $this->id = uniqid();
     }
 
     /**
-     * @param $name
-     * @return $this
+     * @return mixed|string
      */
-    public function setName($name)
+    public function getId()
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get Name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
+        return $this->id;
     }
 }

@@ -56,8 +56,7 @@ services:
 
     App\Listeners\DoctrineSubscriber:
         arguments: ['@App\Services\DoctrineInit']
-        tags:
-            - { name: doctrine.event_subscriber }
+        tags: [doctrine.event_subscriber]
 
 
 
@@ -83,3 +82,6 @@ services:
         arguments: ['@cache.pool.doctrine_second_level']
         calls:
             - [setNamespace, ['dslc:']]
+
+    # Autowire alias
+    Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter: '@doctrine_behaviors.metadatable_getter'
