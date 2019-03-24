@@ -21,7 +21,8 @@ use Symfony\Component\Config\FileLocatorInterface;
  */
 class MappingYamlFileLoader extends FileLoader
 {
-    private const DEFAULT_ROUTE = 'app_site_text';
+    private const DEFAULT_ROUTE     = 'app_site_text';
+    private const DEFAULT_LOCALE    = 'en';
 
     /**
      * @var array
@@ -194,10 +195,9 @@ class MappingYamlFileLoader extends FileLoader
             throw new \InvalidArgumentException('You cannot import mapped routing with localized prefix.');
         }
 
-        $route = new Route($config['path'], $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
-
         if (isset($this->targetIndexedMappings[$name])) {
             foreach ($this->targetIndexedMappings[$name] as $mapping) {
+                $route = new Route($config['path'], $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
                 $this->generate($mapping, $route, $collection);
             }
         }
@@ -225,7 +225,6 @@ class MappingYamlFileLoader extends FileLoader
             if ($alias = $route->getOption('mapping_alias')) {
                 $name .= '_' . $alias;
             }
-            $name .= '.' . $mapping['locale'];
         }
 
         // If the section is mapped to the default text controller and does not have any active text,
@@ -234,6 +233,11 @@ class MappingYamlFileLoader extends FileLoader
             if ($firstChildMapping = $this->findFirstChild($mapping['section_id'], $mapping['locale'])) {
                 return $this->generate($firstChildMapping, $route, $collection, $name);
             }
+        }
+
+        // Prepend locale to path
+        if (self::DEFAULT_LOCALE != $mapping['locale']) {
+            $route->setPath('/'.$mapping['locale'].$route->getPath());
         }
 
         // Compute expanded path only if required
@@ -260,8 +264,11 @@ class MappingYamlFileLoader extends FileLoader
                 'sectionsPath' => $sectionsPath
             ],
             '_locale' => $mapping['locale'],
-            '_canonical_route' => sprintf('%s [%s]', $name, $sourceName)
+            '_canonical_route' => $name
         ]);
+
+        // Append locale code to the route name
+        $name .= '.' . $mapping['locale'];
 
         // adding the route to the main collection
         $collection->add($name, $route);
