@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
+use App\Entity\Locale;
+use App\Library\NavigationElementInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
-
-use App\Library\EntityInterface;
-use App\Entity\Section;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Services\ApplicationCore;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Cache\Adapter\TraceableAdapter;
 
 /**
  * Class LocaleSwitcher
@@ -17,25 +17,12 @@ use App\Services\ApplicationCore;
  */
 class LocaleSwitcher
 {
+    const FALLBACK_CACHE_EXPIRE = 86400;
+
     /**
-     * @var EntityInterface
+     * @var NavigationElementInterface
      */
     protected $element;
-
-    /**
-     * @var Registry
-     */
-    protected $doctrine;
-
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var I18nRouter
-     */
-    protected $router;
 
     /**
      * @var Request
@@ -43,223 +30,144 @@ class LocaleSwitcher
     protected $request;
 
     /**
-     * @var Core
+     * @var RouterInterface
      */
-    protected $core;
+    protected $router;
 
     /**
-    * @var array
-    */
-    protected $parameters;
+     * @var RegistryInterface
+     */
+    protected $doctrine;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var TraceableAdapter
+     */
+    protected $cache;
 
     /**
      * LocaleSwitcher constructor.
-     * @param ContainerInterface $container
-     * @param Core $frontendCore
+     * @param RequestStack $requestStack
+     * @param RouterInterface $router
+     * @param RegistryInterface $doctrine
+     * @param LoggerInterface $logger
      */
-    public function __construct(ContainerInterface $container, Core $frontendCore)
+    public function __construct(RequestStack $requestStack, RouterInterface $router,
+                                RegistryInterface $doctrine, LoggerInterface $logger)
     {
-        $this->setDoctrine($container->get('doctrine'));
-        $this->router = $container->get('router');
-        $this->core = $frontendCore;
-        $this->request = $container->get('request_stack')->getCurrentRequest();
-
-        $this->parameters = array();
+        $this->request = $requestStack->getMasterRequest();
+        $this->router = $router;
+        $this->doctrine = $doctrine;
+        $this->logger = $logger;
     }
 
     /**
      * @return array
-     * @throws \ReflectionException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function generate()
     {
-        $localizedUrls = array();
+        $locales = $this->doctrine->getRepository(Locale::class)
+            ->findAllActive(43200);
 
-        $locales = $this->doctrine->getRepository('SystemBundle:Locale')->findAllExcept($this->request->getLocale());
+        $routes = $this->router->getRouteCollection();
+        $currentLocale = $this->request->getLocale();
+        $localizedUrls = [];
+        $currentRoute = $this->request->get('_route');
+        $currentParams = $this->request->request->all();
+        $currentQuery = $this->request->query->all();
 
-        // Get the object class (it may be a proxy...)
-        $className = $this->getClassNameFromEntity($this->element);
+        /** @var Locale $locale */
+        foreach ($locales as $locale) {
 
-        // Reload Element with all locales
-        $element = $this->reloadElement($className);
-
-        if ($element) {
-
-            foreach ($locales as $locale) {
-
-                // If the homepage of the currently processed locale is not active, we jump to the next one.
-                try {
-                    $this->router->generate('section_id_1', array('_locale' => $locale->getCode()));
-                } catch (\Exception $e) {
-                    continue;
-                }
-
-                if (in_array('DoctrineBehaviorsBundle\Model\Translatable\Translatable', (new \ReflectionClass($element))->getTraitNames())) {
-
-                    $element->setCurrentLocale($locale->getCode());
-
-                    // Validating the element route parameters
-                    $parameters = $element->getRouteParams();
-                    $parameters['_locale'] = $locale->getCode();
-                    $parameters = array_filter($parameters); // Remove any FALSE values
-
-                    // Generating route ...
-                    try {
-                        $url = $this->router->generate($element->getRoute($this->core->getSectionId()), $parameters);
-                    } catch (\Exception $e) {
-                        // Fallback if no route found
-                        $url = $this->fallBack($element, $locale);
-                    }
-
-                } else {
-
-                    // If the homepage of the currently processed locale is not active, we jump to the next one.
-                    try {
-                        $url = $this->router->generate($element->getRoute(), array_merge($element->getRouteParams(), ['_locale' => $locale->getCode()]));
-                    } catch (\Exception $e) {
-                        $url = $this->fallBack($element, $locale);
-                    }
-                }
-
-                $data = array();
-                $data['locale'] = $locale;
-                $data['url'] = $url;
-
-                $localizedUrls[$locale->getCode()] = $data;
+            if ($currentLocale == $locale->getCode()) {
+                continue;
             }
+
+            $i18nRouteName = $currentRoute.'.'.$locale->getCode();
+
+            if ($routes->get($i18nRouteName)) {
+                // Generate
+                $url = $this->router->generate($i18nRouteName, array_merge($currentParams, $currentQuery));
+            } elseif (!$url = $this->fallBack($currentRoute, $locale)) {
+                $this->logger->info(
+                    sprintf('Impossible to create %s fallback for route %s.', $locale->getName(), $i18nRouteName),
+                    ['Context' => 'LocaleSwitcher.php']
+                );
+                continue;
+            }
+
+            $localizedUrls[$locale->getCode()] = [
+                'locale' => $locale,
+                'url' => $url
+            ];
         }
 
         return $localizedUrls;
     }
 
     /**
-     * Fallback
-     *
-     * Fallback to the parent if it exists or to the current Section in the Core
-     *
-     * @param $element
-     * @param $locale
-     *
-     * @return mixed
+     * @param string $routeName
+     * @param Locale $locale
+     * @return bool|mixed
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    protected function fallBack($element, $locale)
+    protected function fallBack(string $routeName, Locale $locale)
     {
-        if ($parent = $element->getParent()) {
-
-            $this->setElement($parent);
-
-            $data = $this->generate();
-            $url = $data[$locale->getCode()]['url'];
-
-        } elseif (false == $element instanceof Section) {
-
-            $this->setElement($this->core->getSection());
-            $data = $this->generate();
-            $url = $data[$locale->getCode()]['url'];
-        } else {
-
-            // Fallback to the homepage
-            try {
-                $url = $this->router->generate('section_id_1', array('_locale' => $locale->getCode()));;
-            } catch (\Exception $e) {
-                $url = '';
-            }
+        if (!$this->element) {
+            return false;
         }
 
-        return $url;
-    }
+        $cacheId = sprintf('localeswitcher_%s_%s_fallback', $routeName, $locale->getCode());
+        $cachedUrl = $this->cache->getItem($cacheId);
 
-    /**
-     * Get Class Name From Entity
-     *
-     * Get the object class name (it may be a proxy...)
-     *
-     * @param $entity
-     *
-     * @return string
-     */
-    protected function getClassNameFromEntity($entity)
-    {
-        $className = get_class($entity);
-        $reflectionClass = new \ReflectionClass($entity);
+        if (!$cachedUrl->isHit()) {
+            $url = false;
 
-        if ($reflectionClass->implementsInterface('Doctrine\ORM\Proxy\Proxy')) {
-            $className = $this->doctrine->getManager()->getClassMetadata($className)->name;
-        }
+            while ($parent = $this->element->getParentElement()) {
 
-        unset($reflectionClass);
+                try {
+                    $url = $this->router->generate(
+                        $parent->getRoute(),
+                        $parent->getRouteParams(['_locale' => $locale->getCode()])
+                    );
+                } catch (\Exception $e) {
+                    $this->logger->error($e->getMessage(), ['Context' => 'LocaleSwitcher.php']);
+                    continue;
+                }
 
-        return $className;
-    }
-
-    /**
-     * Reload Element
-     *
-     * Reload the element with all locales LEFT JOINED
-     *
-     * @param $className
-     *
-     * @return EntityInterface|object
-     */
-    protected function reloadElement($className)
-    {
-        // If a repository exists
-        if (class_exists($className . 'Repository')) {
-            $repository = $this->em->getRepository($className);
-
-            if (in_array('DoctrineBehaviorsBundle\Model\Repository\TranslatableEntityRepository', (new \ReflectionClass($repository))->getTraitNames())) {
-                $repository->setCurrentAppName('backend'); // Faking backend access to force a left join on future queries
+                break;
             }
 
-            $element = $repository->find($this->element->getId());
-        }
-        // Otherwise, set the current element with this Custom Element
-        else {
-            $element = $this->element;
+            $cachedUrl->set($url);
+            $cachedUrl->expiresAfter(self::FALLBACK_CACHE_EXPIRE);
+            $this->cache->save($cachedUrl);
         }
 
-        return $element;
+        return $cachedUrl->get();
     }
 
     /**
-     * @param array $parameters The parameters
+     * @param NavigationElementInterface $element
+     * @return LocaleSwitcher
      */
-    public function setParameters($parameters)
-    {
-        $this->parameters = $parameters;
-    }
-
-    /**
-     * Set the element that will be used to generate the routes
-     *
-     * @param object $element The element
-     */
-    public function setElement($element)
+    public function setElement(NavigationElementInterface $element): LocaleSwitcher
     {
         $this->element = $element;
+        return $this;
     }
 
     /**
-     * Set doctrine
-     *
-     * @param Registry $doctrine The Doctrine Registry
+     * @param TraceableAdapter $cacheAdapter
+     * @return LocaleSwitcher
      */
-    public function setDoctrine($doctrine)
+    public function setCacheAdapter(TraceableAdapter $cacheAdapter): LocaleSwitcher
     {
-        $this->doctrine = $doctrine;
-
-        // Create a temporary Entity Manager that we'll use to fetch objects on different locales
-        $em = $this->doctrine->getManager();
-        $this->em = $em::create($em->getConnection(), $em->getConfiguration());
-    }
-
-    /**
-     * Unset Entity Manager
-     *
-     * Unset the temporary Entity Manager
-     */
-    protected function unsetEntityManager()
-    {
-        unset($this->em);
+        $this->cache = $cacheAdapter;
+        return $this;
     }
 }
