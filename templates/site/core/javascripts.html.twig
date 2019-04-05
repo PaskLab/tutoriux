@@ -5,49 +5,11 @@
 </script>
 {# END GLOBAL VARS #}
 
-{# BEGIN IE FIX SCRIPTS #}
-<!--[if lt IE 9]>
-<script src="{{ asset('bundles/system/assets/global/plugins/respond.min.js') }}"></script>
-<script src="{{ asset('bundles/system/assets/global/plugins/excanvas.min.js') }}"></script>
-<![endif]-->
-{# END IE FIX SCRIPTS #}
-
 <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
 
-{# BEGIN CORE PLUGINS #}
-{% javascripts
-	'bundles/system/assets/global/plugins/jquery.min.js'
-	'bundles/system/assets/global/plugins/jquery-migrate.min.js'
-	'bundles/system/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js'
-	'bundles/system/assets/global/plugins/jquery.ui.touch-punch.min.js'
-	'bundles/system/assets/global/plugins/bootstrap/js/bootstrap.min.js'
-	'bundles/system/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'
-	'bundles/system/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'
-	'bundles/system/assets/global/plugins/jquery.blockui.min.js'
-	'bundles/system/assets/global/plugins/jquery.cokie.min.js'
-	'bundles/system/assets/global/plugins/uniform/jquery.uniform.min.js'
-	'bundles/system/assets/global/plugins/reactjsx/react-0.14.3.min.js'
-	'bundles/system/assets/global/plugins/reactjsx/react-dom-0.14.3.min.js'
-	'bundles/system/assets/global/plugins/moment/moment-2.14.1.js'
-	'bundles/fosjsrouting/js/router.js'
-	'js/fos_js_routes.js'
-	'bundles/system/assets/global/plugins/bootstrap-toastr/toastr.min.js'
-
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{# END CORE PLUGINS #}
-
-{# BEGIN CORE SCRIPTS #}
-{% javascripts
-	'bundles/system/assets/global/scripts/metronic.js'
-	'bundles/system/assets/admin/layout3/scripts/layout.js'
-	'bundles/system/system/js/translations.js'
-	'bundles/system/system/js/core-scripts.js'
-	'bundles/system/frontend/js/search_engine.js'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+{{ encore_entry_script_tags('global_app') }}
+{{ encore_entry_script_tags('site_app') }}
+{{ encore_entry_script_tags('site_search') }}
 
 <script>
 	jQuery(document).ready(function() {
@@ -62,4 +24,3 @@
 		});
 	});
 </script>
-{# END CORE SCRIPTS #}

@@ -1,9 +1,8 @@
-{% include 'global/_stylesheets.html.twig' %}
+{% block global_stylesheets %}
+	{% include 'global/_stylesheets.html.twig' %}
+{% endblock %}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
 
-{% stylesheets
-	'bundles/system/frontend/css/search.css'
-%}
-<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-{% endstylesheets %}
+{{ encore_entry_link_tags('site_app') }}
+{{ encore_entry_link_tags('site_search') }}

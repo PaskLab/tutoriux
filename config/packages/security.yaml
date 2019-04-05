@@ -29,12 +29,12 @@ security:
             pattern:        ^/
             provider:       doctrine
             form_login:
-                check_path:           system_frontend_login_check
-                login_path:           system_frontend_login
+                check_path:           site_login_check
+                login_path:           site_login
                 csrf_token_generator: security.csrf.token_manager
                 use_referer:          true
             logout:
-                path:                 system_frontend_logout
+                path:                 site_logout
                 target:               section_id_1
             remember_me:
                 secret:      '%env(APP_SECRET)%'

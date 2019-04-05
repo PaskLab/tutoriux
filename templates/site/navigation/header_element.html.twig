@@ -10,8 +10,8 @@
 					{% include 'site/navigation/header_element_level.html.twig' with { 'sections': section.children, 'level': level + 1, 'maxLevel' : maxLevel} %}
 
 				{% else %}
-					<li{% if section.isSelected %} class="active"{% endif %}>
-						<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+					<li{% if section.isSelectedElement %} class="active"{% endif %}>
+						<a href="{% if section.route %}{{ path(section.route, section.routeParams) }}{% endif %}">
 							<i class="fa fa-caret-right"></i>
 							{{ section }}
 						</a>

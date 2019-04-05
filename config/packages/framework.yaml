@@ -29,10 +29,10 @@ framework:
         pools:
             cache.pool.doctrine_system:
                 adapter: cache.adapter.redis
-                default_lifetime: 1800
+                default_lifetime: 3600
             cache.pool.doctrine_result:
                 adapter: cache.adapter.redis
                 default_lifetime: 600
             cache.pool.doctrine_second_level:
                 adapter: cache.adapter.redis
-                default_lifetime: 1800
+#                default_lifetime: 1800 # Not taken in account

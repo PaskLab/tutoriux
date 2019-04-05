@@ -1,6 +1,6 @@
-doctrine:
-    orm:
-        metadata_cache_driver: array
+#doctrine:
+#    orm:
+#        metadata_cache_driver: array
 
 #        query_cache_driver: array
 

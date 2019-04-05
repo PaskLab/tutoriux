@@ -1,7 +1,7 @@
 {% if sections %}
 	{% for section in sections %}
 		{% if section.hasChildren and level < maxLevel %}
-			<li class="dropdown-submenu{% if section.isSelected %} active{% endif %}">
+			<li class="dropdown-submenu{% if section.isSelectedElement %} active{% endif %}">
 				<a href=javascript:;>
 					<i class="icon-folder"></i>
 					{{ section }}
@@ -11,8 +11,8 @@
 				</ul>
 			</li>
 		{% else %}
-			<li{% if section.isSelected %} class="active"{% endif %}>
-				<a href="{% if section.entity.route %}{{ path(section.entity.route, section.entity.routeParams) }}{% endif %}">
+			<li{% if section.isSelectedElement %} class="active"{% endif %}>
+				<a href="{% if section.route %}{{ path(section.route, section.routeParams) }}{% endif %}">
 					<i class="fa fa-caret-right"></i>
 					{{ section }}
 				</a>

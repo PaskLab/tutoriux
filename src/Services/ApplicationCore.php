@@ -57,13 +57,12 @@ class ApplicationCore implements ApplicationCoreInterface
     protected $section;
 
     /**
-     * The current element (can be any entity implementing NavigationElementInterface)
-     * @var object
+     * @var NavigationElementInterface
      */
-    protected $element;
+    protected $currentElement;
 
     /**
-     * @var array Array of elements
+     * @var array Array of element
      */
     protected $elements;
 
@@ -101,6 +100,8 @@ class ApplicationCore implements ApplicationCoreInterface
         $this->breadcrumbs = $breadcrumbs;
         $this->pageTitle = $pageTitle;
         $this->locale = null;
+        $this->currentElement = null;
+        $this->elements = [];
 
         $this->initialized = false;
     }
@@ -129,9 +130,8 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
      */
-    public function init()
+    public function init(): void
     {
         if (!$this->initialized) {
             $em = $this->doctrine->getManager();
@@ -179,9 +179,9 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @param Request $request
-     * @return $this
+     * @return ApplicationCoreInterface
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): ApplicationCoreInterface
     {
         $this->request = $request;
 
@@ -198,9 +198,9 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @param RegistryInterface $doctrine
-     * @return $this
+     * @return ApplicationCoreInterface
      */
-    public function setDoctrine(RegistryInterface $doctrine)
+    public function setDoctrine(RegistryInterface $doctrine): ApplicationCoreInterface
     {
         $this->doctrine = $doctrine;
 
@@ -217,9 +217,9 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @param SessionInterface $session
-     * @return $this
+     * @return ApplicationCoreInterface
      */
-    public function setSession(SessionInterface $session)
+    public function setSession(SessionInterface $session): ApplicationCoreInterface
     {
         $this->session = $session;
 
@@ -227,25 +227,11 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * Add an element to the Breadcrumbs and the Page Title
-     *
-     * @param NavigationElementInterface $element The element to push in the navigation stack
-     */
-    public function addNavigationElement(NavigationElementInterface $element)
-    {
-        $this->breadcrumbs->addElement($element);
-        $this->pageTitle->addElement($element);
-
-        $this->elements[] = $element;
-        $this->element = $element;
-    }
-
-    /**
      * Get the current Section ID
      *
      * @return integer
      */
-    public function getSectionId()
+    public function getSectionId(): int
     {
         $sectionId = 0;
 
@@ -258,21 +244,20 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * Set Section
-     *
-     * @param Section $section
+     * @param $section
+     * @return ApplicationCoreInterface
      */
-    public function setSection($section)
+    public function setSection($section): ApplicationCoreInterface
     {
         $this->section = $section;
+
+        return $this;
     }
 
     /**
-     * Get current section
-     *
      * @return Section|null
      */
-    public function getSection()
+    public function getSection(): ?Section
     {
         if ($this->section) {
             return $this->section;
@@ -282,45 +267,62 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * Get the current (last pushed) element entity.
+     * Get the current (last pushed) navigation element.
      *
-     * @return object
+     * @return NavigationElementInterface
      */
-    public function getElement()
+    public function getCurrentElement(): NavigationElementInterface
     {
-        return $this->element;
+        return $this->currentElement;
     }
 
     /**
-     * Set the Breadcrumbs
-     *
-     * @param Breadcrumbs $breadcrumbs The Breadcrumbs management object
+     * @param Breadcrumbs $breadcrumbs
+     * @return ApplicationCoreInterface
      */
-    public function setBreadcrumbs($breadcrumbs)
+    public function setBreadcrumbs(Breadcrumbs $breadcrumbs): ApplicationCoreInterface
     {
         $this->breadcrumbs = $breadcrumbs;
+
+        return $this;
     }
 
     /**
-     * Set the Page Title
-     *
-     * @param PageTitle $pageTitle
+     * @return Breadcrumbs
      */
-    public function setPageTitle($pageTitle)
+    public function getBreadcrumbs(): Breadcrumbs
+    {
+        return $this->breadcrumbs;
+    }
+
+    /**
+     * @param PageTitle $pageTitle
+     * @return ApplicationCoreInterface
+     */
+    public function setPageTitle(PageTitle $pageTitle): ApplicationCoreInterface
     {
         $this->pageTitle = $pageTitle;
+
+        return $this;
     }
 
     /**
-     * Set the locale
-     *
-     * @param string $locale The locale
-     *
-     * @return void
+     * @return PageTitle
      */
-    public function setLocale($locale)
+    public function getPageTitle(): PageTitle
+    {
+        return $this->pageTitle;
+    }
+
+    /**
+     * @param string $locale
+     * @return ApplicationCoreInterface
+     */
+    public function setLocale(string $locale): ApplicationCoreInterface
     {
         $this->locale = $locale;
+
+        return $this;
     }
 
     /**
@@ -328,7 +330,7 @@ class ApplicationCore implements ApplicationCoreInterface
      *
      * @return string
      */
-    public function getLocale() : string
+    public function getLocale(): string
     {
         if (!$this->locale) {
             $this->locale = $this->getRequest()->getLocale();
@@ -344,7 +346,7 @@ class ApplicationCore implements ApplicationCoreInterface
      *
      * @return string
      */
-    public function getEditLocale() : string
+    public function getEditLocale(): string
     {
         if ($this->request->get('edit-locale')) {
             $this->getSession()->set('edit-locale', $this->request->get('edit-locale'));
@@ -367,9 +369,9 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @param bool $editLocaleEnabled
-     * @return $this
+     * @return ApplicationCoreInterface
      */
-    public function setEditLocaleEnabled(bool $editLocaleEnabled)
+    public function setEditLocaleEnabled(bool $editLocaleEnabled): ApplicationCoreInterface
     {
         $this->editLocaleEnabled = $editLocaleEnabled;
 
@@ -381,26 +383,43 @@ class ApplicationCore implements ApplicationCoreInterface
      *
      * @return array
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->elements;
     }
 
     /**
-     * Remove a navigation element
-     *
      * @param NavigationElementInterface $element
+     * @return ApplicationCoreInterface
      */
-    public function removeNavigationElement(NavigationElementInterface $element)
+    public function addNavigationElement(NavigationElementInterface $element): ApplicationCoreInterface
+    {
+        $this->breadcrumbs->addElement($element);
+        $this->pageTitle->addElement($element);
+
+        $this->elements[] = $element;
+        $this->currentElement = $element;
+
+        return $this;
+    }
+
+    /**
+     * @param NavigationElementInterface $element
+     * @return ApplicationCoreInterface
+     */
+    public function removeNavigationElement(NavigationElementInterface $element): ApplicationCoreInterface
     {
         foreach ($this->elements as $k => $existingElement) {
             if ($element == $existingElement) {
                 unset($this->elements[$k]);
                 $this->breadcrumbs->removeElement($element);
                 $this->pageTitle->removeElement($element);
+                $this->currentElement = end($this->elements);
                 break;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -414,10 +433,10 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * @param DoctrineInit $doctrineInit
-     * @return $this
+     * @param callable $doctrineInit
+     * @return ApplicationCoreInterface
      */
-    public function setDoctrineInit(callable $doctrineInit)
+    public function setDoctrineInit(callable $doctrineInit): ApplicationCoreInterface
     {
         $this->doctrineInit = $doctrineInit;
 

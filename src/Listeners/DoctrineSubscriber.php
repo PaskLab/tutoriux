@@ -8,6 +8,7 @@ use Doctrine\ORM\Events;
 
 use App\Library\BaseEntity;
 use App\Services\DoctrineInit;
+use Doctrine\ORM\Proxy\Proxy;
 
 /**
  * Class PostLoadListener
@@ -50,7 +51,7 @@ class DoctrineSubscriber implements EventSubscriber
         /** @var BaseEntity $entity */
         $entity = $args->getEntity();
 
-        if ($entity instanceof BaseEntity) {
+        if (is_subclass_of(get_class($entity), BaseEntity::class)) {
             $this->doctrineInit->initEntity($entity);
         }
     }

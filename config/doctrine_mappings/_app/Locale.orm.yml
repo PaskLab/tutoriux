@@ -1,6 +1,9 @@
 App\Entity\Locale:
   type: entity
   repositoryClass: App\Repository\LocaleRepository
+  cache:
+    usage: READ_ONLY
+    region: entity_locale
   id:
     id:
       type: integer

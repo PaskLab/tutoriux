@@ -31,4 +31,24 @@ class LocaleRepository extends BaseEntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * @param int|null $resultCacheLifetime
+     * @return mixed
+     */
+    public function findAllActive(int $resultCacheLifetime = null)
+    {
+        $query = $this->createQueryBuilder('l')
+            ->where('l.active = true')
+            ->orderBy('l.ordering', 'ASC')
+            ->getQuery();
+
+        if ($resultCacheLifetime) {
+            $query
+                ->useResultCache(true)
+                ->setResultCacheLifetime($resultCacheLifetime);
+        }
+
+        return $query->getResult();
+    }
 }

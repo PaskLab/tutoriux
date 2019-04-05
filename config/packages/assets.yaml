@@ -1,3 +1,10 @@
 framework:
     assets:
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
+        packages:
+            global_logo:
+                base_path: '/static/img/global/logo'
+                version: 'v1'
+            global_font:
+                base_path: '/static/font/global'
+                version: 'v1'

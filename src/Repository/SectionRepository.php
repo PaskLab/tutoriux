@@ -20,10 +20,9 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
         TutoriuxORMBehaviors\Repository\MaterializedPathRepository;
 
     /**
-     * Extend trait getCriteria method
-     *
      * @param QueryBuilder $queryBuilder
      * @return QueryBuilder
+     * @throws \Exception
      */
     public function getCriteria(QueryBuilder $queryBuilder)
     {
@@ -34,7 +33,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             ->addOrderBy('s.ordering')
         ;
 
-        if ($this->getCurrentAppName() != 'backend') {
+        if (!$this->isEditMode()) {
             $queryBuilder->innerJoin('s.translations', 'st')
                 ->andWhere('st.active = true')
                 ->andWhere('st.locale = :locale')
@@ -46,13 +45,11 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     }
 
     /**
-     * Find All For Tree
-     *
-     * @param integer|null $appId
      * @param array $excludedSectionIds
      * @return array
+     * @throws \Exception
      */
-    public function findAllForTree($appId = null, $excludedSectionIds = array())
+    public function findAllForTree($excludedSectionIds = array())
     {
         $queryBuilder = $this->getTreeFromQB(null, 's')
             ->select('s','st')
@@ -63,20 +60,13 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             ->orderBy('s.ordering','ASC')
             ->addOrderBy('sn.ordering','ASC');
 
-        if ($appId !== null) {
-            $queryBuilder
-                ->innerJoin('s.app','a')
-                ->andWhere('a.id = :appId')
-                ->setParameter('appId',$appId);
-        }
-
         if (!empty($excludedSectionIds)) {
             $queryBuilder
                 ->andWhere('s.id NOT IN (:excludedSectionIds)')
                 ->setParameter('excludedSectionIds',$excludedSectionIds);
         }
 
-        if ($this->getCurrentAppName() == 'backend') {
+        if ($this->isEditMode()) {
             $queryBuilder->leftJoin('s.translations','st','WITH','st.locale = :locale')
                 ->setParameter('locale',$this->getLocale());
         } else {
@@ -89,26 +79,21 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     }
 
     /**
-     * Find By Navigation and App
-     *
-     * @param integer $navigationId
-     * @param integer $appId
-     *
-     * @return array
+     * @param $navigationId
+     * @return mixed
+     * @throws \Exception
      */
-    public function findByNavigationAndApp($navigationId, $appId)
+    public function findByNavigation($navigationId)
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->select('s', 'st')
             ->innerJoin('s.sectionNavigations', 'sn')
-            ->where('s.app = :appId')
-            ->andWhere('sn.navigation = :navigationId')
+            ->where('sn.navigation = :navigationId')
             ->orderBy('sn.ordering')
 
-            ->setParameter('appId', $appId)
             ->setParameter('navigationId', $navigationId);
 
-        if ($this->getCurrentAppName() != 'backend') {
+        if (!$this->isEditMode()) {
             $queryBuilder->innerJoin('s.translations', 'st')
                 ->andWhere('st.active = true')
                 ->andWhere('st.locale = :locale')
@@ -128,10 +113,10 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     }
 
     /**
-     * @param $appId
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findByAppJoinChildren($appId)
+    public function allWithJoinChildren()
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->select('s', 'st', 'sm', 'c', 'ct', 'cm')
@@ -140,19 +125,17 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             ->leftJoin('s.children', 'c')
             ->leftJoin('c.translations', 'ct')
             ->leftJoin('c.mappings', 'cm')
-            ->where('s.app = :appId')
             ->orderBy('s.ordering')
-            ->addOrderBy('st.name')
-            ->setParameter('appId', $appId->getId());
+            ->addOrderBy('st.name');
 
         return $this->processQuery($queryBuilder);
     }
 
     /**
-     * @param null $appId
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findRootsWithoutNavigation($appId = null)
+    public function findRootsWithoutNavigation()
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->select('s', 'st', 'c', 'ct')
@@ -163,11 +146,6 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             ->where('s.parent IS NULL')
             ->andWhere('n.id IS NULL')
             ->orderBy('s.ordering');
-
-        if ($appId) {
-            $queryBuilder->andWhere('s.app = :appId');
-            $queryBuilder->setParameter('appId', $appId);
-        }
 
         return $this->processQuery($queryBuilder);
     }

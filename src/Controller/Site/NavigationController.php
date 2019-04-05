@@ -2,23 +2,17 @@
 
 namespace App\Controller\Site;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Navigation;
 use App\Entity\Section;
 use App\Entity\SectionNavigation;
-use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request;
-
-use App\Repository\NavigationRepository,
-    App\Repository\SectionNavigationRepository,
-    App\Library\BaseController,
-    App\Repository\MappingRepository,
-    App\Repository\SectionRepository,
-    App\Services\NavigationBuilder,
-    App\Services\PageTitle,
-    App\Services\LocaleSwitcher,
-    App\Services\DoctrineInit,
-    App\Services\Breadcrumbs;
-
+use App\Repository\NavigationRepository;
+use App\Repository\SectionNavigationRepository;
+use App\Library\BaseController;
+use App\Repository\SectionRepository;
+use App\Services\NavigationBuilder;
+use App\Services\LocaleSwitcher;
 use Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter;
 
 /**
@@ -27,39 +21,6 @@ use Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter;
  */
 class NavigationController extends BaseController
 {
-//    /**
-//     * @var SectionRepository
-//     */
-//    protected $sectionRepository;
-//
-//    /**
-//     * @var MappingRepository
-//     */
-//    protected $mappingRepository;
-//
-//    /**
-//     * @var NavigationRepository
-//     */
-//    protected $navigationRepository;
-//
-//    /**
-//     * @var SectionNavigationRepository
-//     */
-//    protected $sectionNavigationRepository;
-
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     */
-    public function init()
-    {
-        $this->sectionRepository = $this->container->get(DoctrineInit::class)->initRepository(
-            $this->getEm()->getRepository('SystemBundle:Section')
-        );
-        $this->sectionNavigationRepository = $this->getEm()->getRepository('SystemBundle:SectionNavigation');
-        $this->mappingRepository = $this->getEm()->getRepository('SystemBundle:Mapping');
-        $this->navigationRepository = $this->getEm()->getRepository('SystemBundle:Navigation');
-    }
-
     /**
      * @param Request $request
      * @param NavigationBuilder $navigationBuilder
@@ -71,7 +32,7 @@ class NavigationController extends BaseController
      * @return Response
      * @throws \Exception
      */
-    public function byCodeAction(Request $request, NavigationBuilder $navigationBuilder, $code, $maxLevel = 10, $exploded = false, $template = '', $attr = array())
+    public function byCode(Request $request, NavigationBuilder $navigationBuilder, $code, $maxLevel = 10, $exploded = false, $template = '', $attr = array())
     {
         /** @var SectionRepository $sectionRepository */
         $sectionRepository = $this->getRepository(Section::class);
@@ -100,7 +61,7 @@ class NavigationController extends BaseController
             throw new \Exception('Can\'t find a navigation entity using code "' . $code . '"');
         }
 
-        $sections = $sectionRepository->findByNavigationAndApp($navigation->getId(), 2);
+        $sections = $sectionRepository->findByNavigation($navigation->getId());
 
         $template = ($template ? '_' . $template : '');
 
@@ -108,8 +69,7 @@ class NavigationController extends BaseController
         $navigationBuilder->setSelectedElement($this->getSection());
         $elements = $navigationBuilder->build();
 
-        return $this->render(
-            'site/navigation/by_code_' . $template . '.html.twig',
+        return $this->render('site/navigation/by_code' . $template . '.html.twig',
             [
                 'code' => $code,
                 'sections' => $elements,
@@ -135,13 +95,16 @@ class NavigationController extends BaseController
      * @return Response
      * @throws \Doctrine\ORM\ORMException
      */
-    public function fromSectionAction(Request $request, NavigationBuilder $navigationBuilder, $section, $maxLevel = 10, $exploded = false, $template = '', $attr = [])
+    public function fromSection(Request $request, NavigationBuilder $navigationBuilder, $section, $maxLevel = 10, $exploded = false, $template = '', $attr = [])
     {
+        /** @var SectionRepository $sectionRepository */
+        $sectionRepository = $this->getRepository(Section::class);
+
         // Cache
         $response = new Response();
         $response->setPublic();
 
-        $response->setEtag($this->sectionRepository->findLastUpdate());
+        $response->setEtag($sectionRepository->findLastUpdate());
 
         if ($response->isNotModified($request)) {
             return $response;
@@ -149,7 +112,7 @@ class NavigationController extends BaseController
 
         // Rebuild the cache
         if (is_numeric($section)) {
-            $section = $this->sectionRepository->find($section);
+            $section = $sectionRepository->find($section);
         }
 
         $elements = [];
@@ -162,14 +125,11 @@ class NavigationController extends BaseController
 
         $template = ($template ? '_' . $template : '');
 
-        $navigationBuilder->setElements($elements, true);
-        $navigationBuilder->setSelectedElement($this->getCore()->getSection());
-        $navigationBuilder->build();
+        $navigationBuilder->setElements($elements);
+        $navigationBuilder->setSelectedElement($this->getSection());
+        $elements = $navigationBuilder->build();
 
-        $elements = $navigationBuilder->getElements();
-
-        return $this->render(
-            'SystemBundle:Frontend/Navigation:from_section' . $template . '.html.twig',
+        return $this->render('site/navigation/from_section' . $template . '.html.twig',
             array(
                 'sections' => $elements,
                 'maxLevel' => $maxLevel,
@@ -182,30 +142,30 @@ class NavigationController extends BaseController
     }
 
     /**
-     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
-    public function breadcrumbsAction(Breadcrumbs $breadcrumbs)
+    public function breadcrumbs()
     {
-        $elementCurrent = $this->getCore()->getElement();
+        $breadcrumbs = $this->getApplicationCore()->getBreadcrumbs();
+        $elementCurrent = $this->getApplicationCore()->getCurrentElement();
         $elements = $breadcrumbs->getElements();
 
-        return $this->render(
-            'SystemBundle:Frontend/Navigation:breadcrumbs.html.twig',
-            array(
+        return $this->render('site/navigation/breadcrumbs.html.twig',
+            [
                 'elements' => $elements,
                 'elementCurrent' => $elementCurrent
-            )
+            ]
         );
     }
 
     /**
-     * @param PageTitle $pageTitle
      * @param MetadatableGetter $metadatableGetter
      * @return Response
      */
-    public function pageTitle(PageTitle $pageTitle, MetadatableGetter $metadatableGetter)
+    public function pageTitle(MetadatableGetter $metadatableGetter)
     {
+        $pageTitle = $this->getApplicationCore()->getPageTitle();
+
         $elements = $pageTitle->getElements();
 
         $elementPageTitle = null;
@@ -222,32 +182,27 @@ class NavigationController extends BaseController
             }
         }
 
-        return $this->render(
-            'global/page_title.html.twig',
-            array(
+        return $this->render('global/page_title.html.twig',
+            [
                 'element_page_title' => $elementPageTitle,
                 'element_override_page_title' => $elementOverridePageTitle,
                 'elements' => $elements
-            )
+            ]
         );
     }
 
     /**
      * @param LocaleSwitcher $localeSwitcher
      * @return Response
+     * @throws \ReflectionException
      */
-//    public function localeSwitcherAction(LocaleSwitcher $localeSwitcher)
-//    {
-//        $localeSwitcher->setElement($this->getCore()->getElement());
-//
-//        $routes = $localeSwitcher->generate();
-//
-//        return $this->render(
-//            'SystemBundle:Frontend/Navigation:locale_switcher.html.twig',
-//            array(
-//                'routes' => $routes,
-//            )
-//        );
-//    }
+    public function localeSwitcher(LocaleSwitcher $localeSwitcher)
+    {
+        $localeSwitcher->setElement($this->getApplicationCore()->getCurrentElement());
+
+        $routes = $localeSwitcher->generate();
+
+        return $this->render('site/navigation/locale_switcher.html.twig', ['routes' => $routes]);
+    }
 
 }

@@ -1,0 +1,157 @@
+/* INTERNAL SEARCH ENGINE */
+#search_view {
+	display: none;
+	position: fixed;
+	outline: none;
+	overflow-y: auto !important;
+	margin: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	background-color: #fff;
+	z-index: 10060;
+
+	.icon-close {
+		position: relative;
+		color: #657383;
+		font-size: 30px;
+		opacity: 0.7;
+		cursor: pointer;
+	}
+
+	.algolia-ref {
+		color: #999;
+		padding-left: 3px;
+	}
+
+	#alg-search-input {
+		input {
+			font-size: 16px;
+		}
+	}
+
+	#alg-search-refinement {
+		.ais-current-refined-values--clear-all {
+			float: left;
+			margin-top: 2px;
+		}
+
+		.ais-current-refined-values--item {
+			display: inline-block;
+			padding-left: 4px;
+			margin-top: 2px;
+		}
+	}
+
+	#alg-type-filter,
+	#alg-categories-filter {
+		.ais-refinement-list--item,
+		.ais-hierarchical-menu--item {
+
+			.count {
+				padding-right: 5px;
+				color: #888;
+				line-height: 20px;
+			}
+
+			&.ais-refinement-list--item__active,
+			&.ais-hierarchical-menu--item__active {
+				>div >div >.count {
+					color: #fff;
+				}
+			}
+
+			a {
+				display: block;
+				margin-bottom: 2px;
+				text-align: left;
+
+				i {
+					padding-right: 4px;
+				}
+			}
+		}
+	}
+
+	#alg-stats {
+		color: #999;
+	}
+
+	#alg-hits {
+
+		em {
+			background-color: #fbeeb9;
+		}
+
+		.ais-hits--item {
+			padding-bottom: 5px;
+			margin-bottom: 5px;
+			border-bottom: 1px solid #e5e5e5;
+		}
+
+		.document {
+			background-color: #eee;
+			border-left: solid 2px #578EBE;
+			padding: 0 10px 5px 10px;
+
+			h3 {
+				padding-top: 10px;
+				a {
+					color: #000;
+				}
+			}
+
+			&:hover {
+				background-color: #fff;
+				border-color: #3A9F48;
+				transition: all 0.3s ease-in-out 0s;
+				-moz-transition: all 0.3s ease-in-out 0s;
+				-webkit-transition: all 0.3s ease-in-out 0s;
+
+				h3 a,
+				a.author {
+					color: #5b9bd1 !important;
+				}
+
+				.sub-categories li .sub-category {
+					background-color: #eee;
+					transition: all 0.3s ease-in-out 0s;
+					-moz-transition: all 0.3s ease-in-out 0s;
+					-webkit-transition: all 0.3s ease-in-out 0s;
+				}
+			}
+		}
+
+		.list-inline {
+			i {
+				color: #578EBE;
+			}
+		}
+
+		.sub-categories {
+			li {
+				margin-right: 0;
+				padding-right: 0;
+
+				.sub-category {
+					background-color: #e5e5e5;
+					padding: 1px 4px;
+					display: inline-block;
+				}
+			}
+		}
+	}
+
+	#alg-pagination {
+		li{
+			padding: 0;
+			&.number.selected a {
+				background-color: #eee;
+			}
+		}
+	}
+}

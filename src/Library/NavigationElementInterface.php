@@ -37,14 +37,14 @@ interface NavigationElementInterface
 
     /**
      * @param NavigationElementInterface|null $parent
-     * @return NavigationElementInterface
+     * @return NavigationElementInterface|null
      */
     public function setParentElement(NavigationElementInterface $parent = null): NavigationElementInterface;
 
     /**
-     * @return NavigationElementInterface
+     * @return NavigationElementInterface|null
      */
-    public function getParentElement(): NavigationElementInterface;
+    public function getParentElement(): ?NavigationElementInterface;
 
     /**
      * @return bool

@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use App\Entity\Section,
     App\Library\EntityInterface,
     App\Library\TranslatableRepositoryInterface;
+use Doctrine\ORM\Proxy\Proxy;
 
 /**
  * Class DoctrineInit
@@ -71,11 +72,17 @@ class DoctrineInit
      */
     public function initEntity($entity)
     {
-        if ($entity instanceof EntityInterface) {
+        if ($entity instanceof Proxy) {
+            $classUses = class_uses(get_parent_class($entity));
+        } else {
+            $classUses = class_uses($entity);
+        }
+
+        if (is_subclass_of(get_class($entity), EntityInterface::class)) {
             // Set the Edit Locale on translatable entities
 
             if ($this->getApplicationCore()->isReady()
-                && in_array('Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\Translatable', class_uses($entity))) {
+                && in_array('Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\Translatable', $classUses)) {
 
                 /** @var Section $entity */
                 if ($this->getApplicationCore()->isEditLocaleEnabled()) {

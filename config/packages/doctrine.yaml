@@ -35,7 +35,12 @@ doctrine:
                 type: service
                 id: doctrine.second_level_cache
             enabled: true
-            region_lifetime: 1800
+            regions:
+                entity_locale:
+                    cache_driver:
+                        type: service
+                        id: doctrine.second_level_cache
+                    lifetime: 3600
 
         # Mapping config
         auto_mapping: true

@@ -42,7 +42,7 @@ class Section extends BaseEntity implements NodeInterface
     private $sectionNavigations;
 
     /**
-     * @var array
+     * @var ArrayCollection
      */
     private $texts;
 
@@ -66,6 +66,7 @@ class Section extends BaseEntity implements NodeInterface
         $this->roles = new ArrayCollection();
         $this->mappings = new ArrayCollection();
         $this->sectionNavigations = new ArrayCollection();
+        $this->texts = new ArrayCollection();
     }
 
     public function __toString()
@@ -151,36 +152,6 @@ class Section extends BaseEntity implements NodeInterface
         return array_merge($this->routeParams, $params);
     }
 
-//    /**
-//     * Get route
-//     *
-//     * @return string
-//     */
-//    public function getRouteBackend()
-//    {
-//        foreach ($this->mappings as $mapping) {
-//            if ($mapping->getType() == 'route') {
-//                return $mapping->getTarget();
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Get Backend route params
-//     *
-//     * @return bool|array
-//     */
-//    public function getRouteBackendParams()
-//    {
-//        if ($this->routeParams) {
-//            return $this->routeParams;
-//        }
-//
-//        return array(
-//            'sectionId' => $this->id
-//        );
-//    }
-
     /**
      * Set ordering
      *
@@ -200,16 +171,6 @@ class Section extends BaseEntity implements NodeInterface
     {
         return $this->ordering;
     }
-
-//    /**
-//     * Set Route
-//     *
-//     * @param string $route A route
-//     */
-//    public function setRoute($route)
-//    {
-//        $this->route = $route;
-//    }
 
     /**
      * Get sectionNavigations
@@ -262,8 +223,6 @@ class Section extends BaseEntity implements NodeInterface
     }
 
     /**
-     * Get texts
-     *
      * @return ArrayCollection
      */
     public function getTexts()
@@ -272,11 +231,9 @@ class Section extends BaseEntity implements NodeInterface
     }
 
     /**
-     * Set the array of texts
-     *
-     * @param array $texts An array of texts
+     * @param ArrayCollection $texts
      */
-    public function setTexts($texts)
+    public function setTexts(ArrayCollection $texts)
     {
         $this->texts = $texts;
     }

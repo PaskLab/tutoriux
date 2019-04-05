@@ -5,6 +5,14 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    project_title: Tutoriux
+    algolia.app.id: JT5Q3HU3DP
+    algolia.app.api_key: 8862b7379729d0a9ad4ea999cf109781
+    algolia.indexer.class: App\Library\Indexer
+    google_analytics_id: UA-106183386-1
+    facebook_app_id: 418290478567896
+    liip_imagine.data_root:
+        - '%env(LIIP_IMAGINE_DATA_ROOT)%'
 
 services:
     # default configuration for services in *this* file
@@ -58,6 +66,10 @@ services:
         arguments: ['@App\Services\DoctrineInit']
         tags: [doctrine.event_subscriber]
 
+    App\Services\LocaleSwitcher:
+        autowire: true
+        calls:
+            - ['setCacheAdapter', ['@cache.app']]
 
 
     # Defined multiple time so we can change the namespace. Might be a bug with doctrine
@@ -66,22 +78,22 @@ services:
         class: Symfony\Component\Cache\DoctrineProvider
         arguments: ['@cache.pool.doctrine_system']
         calls:
-            - [setNamespace, ['dmc:']]
+            - [setNamespace, ['dmc']]
     doctrine.query_cache_driver:
         class: Symfony\Component\Cache\DoctrineProvider
         arguments: ['@cache.pool.doctrine_system']
         calls:
-            - [setNamespace, ['dqc:']]
+            - [setNamespace, ['dqc']]
     doctrine.result_cache_driver:
         class: Symfony\Component\Cache\DoctrineProvider
         arguments: ['@cache.pool.doctrine_result']
         calls:
-            - [setNamespace, ['drc:']]
+            - [setNamespace, ['drc']]
     doctrine.second_level_cache:
         class: Symfony\Component\Cache\DoctrineProvider
         arguments: ['@cache.pool.doctrine_second_level']
         calls:
-            - [setNamespace, ['dslc:']]
+            - [setNamespace, ['dslc']]
 
     # Autowire alias
     Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter: '@doctrine_behaviors.metadatable_getter'

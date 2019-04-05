@@ -104,7 +104,7 @@ trait NavigationElementTrait
     /**
      * @return mixed
      */
-    public function getParentElement(): NavigationElementInterface
+    public function getParentElement(): ?NavigationElementInterface
     {
         return $this->parentElement;
     }

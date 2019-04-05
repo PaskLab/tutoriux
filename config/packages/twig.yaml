@@ -2,3 +2,10 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        project_title:    "%project_title%"
+        alg_app_id:       "%algolia.app.id%"
+        alg_app_api_key:  "%algolia.app.api_key%"
+        alg_index_prefix: "%env(ALGOLIA_INDEX_NAME_PREFIX)%"
+        google_analytics_id: "%google_analytics_id%"
+        facebook_app_id: "%facebook_app_id%"
