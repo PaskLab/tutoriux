@@ -4,5 +4,6 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
 
-{{ encore_entry_link_tags('site_app') }}
-{{ encore_entry_link_tags('site_search') }}
+{% block page_stylesheets %}
+	{{ encore_entry_link_tags('site_homepage') }}
+{% endblock %}

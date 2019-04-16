@@ -10,6 +10,8 @@ use App\Library\BaseEntityRepository;
  */
 class SectionNavigationRepository extends BaseEntityRepository
 {
+    const LAST_UPDATE_LIFETIME = 86400;
+
     /**
      * Find the last update of a Section entity
      *
@@ -26,7 +28,10 @@ class SectionNavigationRepository extends BaseEntityRepository
             return $queryBuilder->select('sn.updatedAt')
                 ->addOrderBy('sn.updatedAt', 'DESC')
                 ->setMaxResults(1)
-                ->getQuery()->getSingleScalarResult();
+                ->getQuery()
+                ->setResultCacheLifetime(self::LAST_UPDATE_LIFETIME)
+                ->useResultCache(true)
+                ->getSingleScalarResult();
         } catch (\Exception $e) {
             return null;
         }

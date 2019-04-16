@@ -1,0 +1,3 @@
+site_text:
+  path:  /{sectionsPath}
+  controller: App\Controller\Site\TextController:index

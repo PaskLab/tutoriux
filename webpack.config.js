@@ -19,12 +19,10 @@ Encore
      */
 
     // Global
-    .addEntry('global_app', './assets/entry/global/app.js')
 	.addEntry('global_docready', './assets/entry/global/docready.js')
 
 	// Site
-	.addEntry('site_app', './assets/entry/site/app.js')
-	.addEntry('site_search', './assets/entry/site/search.js')
+	.addEntry('site_homepage', './assets/entry/site/homepage.js')
 
 	// CMS
 	// ...
@@ -55,7 +53,7 @@ Encore
     //.enableTypeScriptLoader()
 
     // uncomment if you're having problems with a jQuery plugin
-    // .autoProvidejQuery()
+    .autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     .enableReactPreset()

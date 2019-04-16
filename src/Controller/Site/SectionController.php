@@ -37,7 +37,7 @@ class SectionController extends BaseController
         $response->setSharedMaxAge(86400); // 1 day
 
         return $this->render(
-            'SystemBundle:Frontend/Section:quick_tour.html.twig',
+            'site/section/quick_tour.html.twig',
             [],
             $response
         );

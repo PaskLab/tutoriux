@@ -7,20 +7,14 @@
 
 <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
 
-{{ encore_entry_script_tags('global_app') }}
-{{ encore_entry_script_tags('site_app') }}
-{{ encore_entry_script_tags('site_search') }}
+{% block page_scripts %}
+	{{ encore_entry_script_tags('site_homepage') }}
+{% endblock %}
 
 <script>
-	jQuery(document).ready(function() {
-		Metronic.init();
-		Layout.init();
-		Tutoriux.init();
-		Tutoriux.initFrontend();
-		TutoriuxSearch.init({
-			app_id: '{{ alg_app_id }}',
-			api_key: '{{ alg_app_api_key }}',
-			index_prefix: '{{ alg_index_prefix }}'
-		});
-	});
+	var algolia_config = {
+		app_id: '{{ alg_app_id }}',
+		api_key: '{{ alg_app_api_key }}',
+		index_prefix: '{{ alg_index_prefix }}'
+	};
 </script>

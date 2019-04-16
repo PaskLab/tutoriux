@@ -1,0 +1,66 @@
+{% trans_default_domain "site_admin" %}
+{% extends 'site/layout.html.twig' %}
+{% form_theme form 'site/core/form/form_fields_vertical_md.html.twig' %}
+
+{% block content_title %}
+	<h1>
+		{% trans %}Send a Feedback{% endtrans %}
+		<small>{% trans %}Your ideas help us to grow{% endtrans %}!</small>
+	</h1>
+{% endblock %}
+
+{% block content %}
+	<!-- BEGIN PAGE CONTENT INNER -->
+	{#<div class="row">#}
+		{#<div class="col-md-12">#}
+			{#{{ render(controller('SystemBundle:Frontend/Text:displayTexts')) }}#}
+		{#</div>#}
+	{#</div>#}
+
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8">
+			<!-- BEGIN PORTLET -->
+			<div class="portlet light">
+				<div class="portlet-body">
+					{{ render(controller('SystemBundle:Frontend/Text:displayTexts')) }}
+				</div>
+				<div class="portlet-title">
+					<div class="caption font-blue-madison">
+						<i class="fa fa-envelope font-blue-chambray"></i>
+						<span class="caption-subject bold uppercase">{% trans %}Feedback form{% endtrans %}</span>
+					</div>
+				</div>
+				<div class="portlet-body form">
+					{{ form_start(form) }}
+					<div class="form-body">
+						{{ form_errors(form) }}
+						{{  form_row(form.fullname, {'icon': 'fa fa-user'}) }}
+						{{  form_row(form.email, {'icon': 'fa fa-envelope-o'}) }}
+						{{  form_row(form.subject, {'icon': 'fa fa-question'}) }}
+						{{ form_row(form.message, { 'isTextarea': true }) }}
+					</div>
+					<div class="form-actions">
+						{{ form_widget(form.send, {'attr':{'class': 'btn blue'}}) }}
+					</div>
+					{{ form_end(form) }}
+				</div>
+			</div>
+			<!-- END PORTLET -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT INNER -->
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script>
+		jQuery(document).ready(function() {
+			Tutoriux.initForm();
+			$('form').submit(function(){
+				$('#{{ form.width.vars.id }}').val(window.screen.width);
+			});
+		});
+	</script>
+
+{% endblock %}

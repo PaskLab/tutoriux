@@ -1,0 +1,32 @@
+Subject: {{ subject }}
+********************************************************************************
+
+Sent by: {{ fullname }}
+Email: {{ email }}
+
+FEEDBACK MESSAGE BELOW :
+---------------------------------------------------------------------------------
+
+{{ message }}
+
+
+---------------------------------------------------------------------------------
+
+
+CLIENT INFO
+*********************************************************************************
+Informations below are for technical support usage only...
+Do not include those informations in your response !!!
+
+[ Display Width ] {{ width }}px
+
+[ Website Locale ] {{ websiteLocale }}
+
+[ Client IP ] {{ clientIp }}
+
+{% for key, value in extraInfo %}
+{% if value is iterable %}
+[ {{ key }} ] {{ value[0] }}
+
+{% endif %}
+{% endfor %}

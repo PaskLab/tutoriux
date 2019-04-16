@@ -14,10 +14,9 @@ class NavigationRepository extends BaseEntityRepository
     const SECTION_MODULE_BAR_ID = 2;
     const GLOBAL_MODULE_BAR_ID = 3;
     const APP_MODULE_BAR_ID = 4;
+    const NAVIGATION_LIFETIME = 86400;
 
     /**
-     * Select all albums that have photos
-     *
      * @param $appId
      *
      * @return mixed
@@ -38,5 +37,23 @@ class NavigationRepository extends BaseEntityRepository
         }
 
         return $this->processQuery($query);
+    }
+
+    /**
+     * @param string $code
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByCode(string $code)
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.code = :code')
+            ->setParameter('code', $code)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
+            ->useResultCache(true)
+            ->getSingleResult();
     }
 }

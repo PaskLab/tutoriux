@@ -13,7 +13,7 @@
 				{{ theoryCount }}
 			</div>
 			<div class="uppercase profile-stat-text text-center">
-				{% transchoice theoryCount %}{0} Theoretical Article|]0,Inf[ Theoretical Articles{% endtranschoice %}
+				{% trans with {'%count%': theoryCount} %}{0} Theoretical Article|]0,Inf[ Theoretical Articles{% endtrans %}
 			</div>
 		</div>
 		<div class="col-md-5 col-sm-5 col-xs-5">
@@ -21,7 +21,7 @@
 				{{ guideCount }}
 			</div>
 			<div class="uppercase profile-stat-text">
-				{% transchoice guideCount %}{0} How-to|]0,Inf[ How-tos{% endtranschoice %}
+				{% trans with {'%count%': guideCount} %}{0} How-to|]0,Inf[ How-tos{% endtrans %}
 			</div>
 		</div>
 	</div>

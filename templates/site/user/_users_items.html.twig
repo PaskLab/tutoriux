@@ -1,5 +1,5 @@
 {% trans_default_domain "site" %}
-{% spaceless %}
+{% filter spaceless %}
 	{% if column == 0 %}
 		<a style="margin-right: 10px;" href="{{ path('section_id_35', { 'username': entity.username }) }}">
 			{% if entity.avatar %}
@@ -19,4 +19,4 @@
 			{% endif %}
 		{% endfor %}
 	{% endif %}
-{% endspaceless %}
+{% endfilter %}

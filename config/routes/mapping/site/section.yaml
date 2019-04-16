@@ -1,3 +1,11 @@
 app_site_homepage:
   path: /
   controller: App\Controller\Site\SectionController::homePage
+
+site_quick_tour:
+  path: /{sectionsPath}
+  controller: App\Controller\Site\SectionController::quickTour
+
+site_portlet:
+  path: /{sectionsPath}
+  controller: App\Controller\Site\SectionController::portlet

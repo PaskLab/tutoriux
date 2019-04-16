@@ -2,10 +2,10 @@
 
 namespace App\Extensions;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\RequestStack;
-use Twig_SimpleFunction,
-    Twig_Extension;
 
 /**
  * This class purpose is to provide context information in twig templates.
@@ -13,7 +13,7 @@ use Twig_SimpleFunction,
  * Class ApplicationContextExtension
  * @package App\Extensions
  */
-class ApplicationContextExtension extends Twig_Extension
+class ApplicationContextExtension extends AbstractExtension
 {
     /**
      * @var Request
@@ -37,9 +37,9 @@ class ApplicationContextExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            new Twig_SimpleFunction('get_bundle_name', [$this, 'getBundleName'], ['needs_environment' => true]),
-            new Twig_SimpleFunction('get_controller_name', [$this, 'getControllerName'], ['needs_environment' => true]),
-            new Twig_SimpleFunction('get_action_name', [$this, 'getActionName'], ['needs_environment' => true]),
+            new TwigFunction('get_bundle_name', [$this, 'getBundleName'], ['needs_environment' => true]),
+            new TwigFunction('get_controller_name', [$this, 'getControllerName'], ['needs_environment' => true]),
+            new TwigFunction('get_action_name', [$this, 'getActionName'], ['needs_environment' => true]),
         ];
     }
 

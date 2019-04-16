@@ -19,6 +19,9 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     use TutoriuxORMBehaviors\Repository\TranslatableEntityRepository,
         TutoriuxORMBehaviors\Repository\MaterializedPathRepository;
 
+    const NAVIGATION_LIFETIME = 86400;
+    const LAST_UPDATE_LIFETIME = 86400;
+
     /**
      * @param QueryBuilder $queryBuilder
      * @return QueryBuilder
@@ -100,13 +103,20 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
                 ->setParameter('locale', $this->getLocale());
         }
 
-        $result = $queryBuilder->getQuery()->getResult();
+        $result = $queryBuilder
+            ->getQuery()
+            ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
+            ->useResultCache((!$this->isEditMode()))
+            ->getResult();
 
         $this->buildTree(
             $this->getTreeFromQB($this->getNodeIds($result), 's')
                 ->orderBy('s.ordering', 'ASC')
                 ->addOrderBy('st.name', 'ASC')
-                ->getQuery()->getResult()
+                ->getQuery()
+                ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
+                ->useResultCache((!$this->isEditMode()))
+                ->getResult()
         );
 
         return $result;
@@ -193,7 +203,10 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             return $queryBuilder->select('s.updatedAt')
                 ->addOrderBy('s.updatedAt', 'DESC')
                 ->setMaxResults(1)
-                ->getQuery()->getSingleScalarResult();
+                ->getQuery()
+                ->setResultCacheLifetime(self::LAST_UPDATE_LIFETIME)
+                ->useResultCache(true)
+                ->getSingleScalarResult();
         } catch (\Exception $e) {
             return null;
         }

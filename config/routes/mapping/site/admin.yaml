@@ -1,0 +1,3 @@
+site_feedback_form:
+  path:     /{sectionsPath}
+  controller: App\Controller\Site\Admin\FeedbackController::feedback

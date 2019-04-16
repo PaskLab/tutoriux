@@ -8,9 +8,9 @@
 		<ul class="dropdown-menu">
 			<li class="external">
 				<h3>
-					{% transchoice newCount with {'%new_count%': newCount} %}
-					{0} You have <strong>no new</strong> notification| {1} You have <strong>one new</strong> notification|]1,Inf] You have <strong>%new_count% new</strong> notifications
-					{% endtranschoice %}
+					{% trans with {'%count%': newCount} %}
+					{0} You have <strong>no new</strong> notification| {1} You have <strong>one new</strong> notification|]1,Inf] You have <strong>%count% new</strong> notifications
+					{% endtrans %}
 				</h3>
 			</li>
 			<li>

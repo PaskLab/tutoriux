@@ -2,15 +2,18 @@
 
 namespace App\Extensions;
 
+use App\Entity\Locale;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Common\Persistence\Proxy;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Library of helper functions
  */
-class TranslationExtension extends \Twig_Extension
+class TranslationExtension extends AbstractExtension
 {
     /**
      * @var Registry
@@ -38,7 +41,7 @@ class TranslationExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return [new \Twig_SimpleFilter('transTitle', [$this, 'transTitle'])];
+        return [new TwigFilter('transTitle', [$this, 'transTitle'])];
     }
 
     /**
@@ -60,7 +63,7 @@ class TranslationExtension extends \Twig_Extension
         $entityPreviousLocale = $entity->getCurrentLocale();
 
         if (false == $this->locales) {
-            $this->locales = $this->doctrine->getManager()->getRepository('SystemBundle:Locale')->findBy(
+            $this->locales = $this->doctrine->getManager()->getRepository(Locale::class)->findBy(
                 array('active' => true),
                 array('ordering' => 'ASC')
             );

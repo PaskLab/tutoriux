@@ -1,0 +1,9 @@
+# Authors profiles and list
+
+site_authors:
+    path: /{sectionsPath}/{username}
+    controller: App\Controller\Site\User\AuthorController::authors
+    defaults:
+        username: NULL
+    options:
+        expose: true
