@@ -100,7 +100,7 @@
 {# Choice widget #}
 
 {% block choice_widget %}
-	{% filter %}
+	{% filter spaceless %}
 		{% if expanded %}
 			<div class="{% if multiple %}checkbox-list{% else %}radio-list{% endif %}">
 				{% for key, child in form %}
