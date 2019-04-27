@@ -2,14 +2,15 @@
 
 namespace App\Repository\Document;
 
-use App\Library\BaseEntityRepository,
-    Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\BaseEntityRepository;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\TranslatableRepositoryInterface;
 
 /**
  * Class DocumentRepository
  * @package App\Repository\Document
  */
-class DocumentRepository extends BaseEntityRepository
+class DocumentRepository extends BaseEntityRepository implements TranslatableRepositoryInterface
 {
     use TutoriuxORMBehaviors\Repository\TranslatableEntityRepository;
 

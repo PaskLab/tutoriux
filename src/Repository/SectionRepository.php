@@ -3,9 +3,7 @@
 namespace App\Repository;
 
 use App\Library\TranslatableRepositoryInterface;
-use Doctrine\ORM\Query,
-    Doctrine\ORM\QueryBuilder;
-
+use Doctrine\ORM\QueryBuilder;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors,
     Tutoriux\DoctrineBehaviorsBundle\Model\Repository\NodeRepositoryInterface,
     App\Library\BaseEntityRepository;
