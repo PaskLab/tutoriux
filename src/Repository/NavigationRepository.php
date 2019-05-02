@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use App\Library\BaseEntityRepository;
 
 /**
@@ -17,9 +20,9 @@ class NavigationRepository extends BaseEntityRepository
     const NAVIGATION_LIFETIME = 86400;
 
     /**
-     * @param $appId
-     *
-     * @return mixed
+     * @param null $appId
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findHaveSections($appId = null)
     {
@@ -42,8 +45,8 @@ class NavigationRepository extends BaseEntityRepository
     /**
      * @param string $code
      * @return mixed
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function findOneByCode(string $code)
     {

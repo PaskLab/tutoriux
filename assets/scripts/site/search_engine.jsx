@@ -1,7 +1,7 @@
 /**
  * Module name: TutoriuxSearch
  */
-module.exports = function () {
+export default (function () {
 
 	// PRIVATE
 
@@ -435,4 +435,4 @@ module.exports = function () {
 		}
 	};
 
-}();
+}());

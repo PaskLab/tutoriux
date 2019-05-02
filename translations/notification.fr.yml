@@ -1,0 +1,3 @@
+user:
+  follow: '%user% a décidé(e) de vous suivre'
+  new_message: 'Nouveau message envoyé par %user%'

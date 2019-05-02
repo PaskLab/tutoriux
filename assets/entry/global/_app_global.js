@@ -25,7 +25,6 @@ require('../../plugins/jquery.blockui');
 require('../../plugins/uniform/jquery.uniform');
 require('../../plugins/reactjsx/react-0.14.3');
 require('../../plugins/reactjsx/react-dom-0.14.3');
-// require('../../plugins/bootstrap-toastr/toastr');
 
 // Global Scripts
 require('../../../public/bundles/fosjsrouting/js/router');

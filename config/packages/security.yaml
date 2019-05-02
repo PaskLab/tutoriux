@@ -5,6 +5,10 @@ security:
     encoders:
         App\Entity\User:
             algorithm: argon2i
+        App\Entity\TestUser:
+            algorithm: argon2i
+
+
 
     role_hierarchy:
         ROLE_DEVELOPER:       ROLE_BACKEND_ADMIN
@@ -16,8 +20,11 @@ security:
         ROLE_BLOGGER:         ROLE_USER
 
     providers:
-        doctrine:
-            entity: { class: App\Entity\User, property: username }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
 
     firewalls:
         dev:
@@ -27,7 +34,7 @@ security:
             anonymous:      true
             switch_user:    { role: ROLE_DEVELOPER, parameter: _want_to_be_this_user }
             pattern:        ^/
-            provider:       doctrine
+            provider:       app_user_provider
             form_login:
                 check_path:           site_login_check
                 login_path:           site_login

@@ -1,0 +1,204 @@
+# General
+Tutoriux, share your knowledge: Tutoriux, partagez vos connaissances
+Username: Utilisateur
+Password: Mot de passe
+Email: Courriel
+Back: Retour
+Submit: Envoyer
+Save: Sauvegarder
+Reset: Réinitialiser
+Home: Accueil
+Previous: Précédent
+Next: Suivant
+
+# General System
+## exception
+"%code% Error": Erreur %code%
+Return home: Retourner à l'accueil
+or try the search bar below: ou essayez la barre de recherche ci-dessous
+Search on: Chercher sur
+### 403
+Sorry, restricted resource: Désolé, ressource restreinte
+You don't have permission to view this resource: Vous n'avez pas l'autorisation d'accéder à cette ressource
+### 404
+Oops! You're lost: Oops! Vous êtes égaré
+We can not find the page you're looking for: Nous ne pouvons pas trouver la page que vous cherchez
+### 405
+Oops! Method Not Allowed: Oups! Méthode non autorisée
+That URL should not be used that way: Cette URL ne devrait pas être utilisée de cette façon
+### 500
+Oops! Something went wrong: Oups! Quelque chose ne va pas
+We are fixing it: Nous allons réparer cela
+Please come back in a while: S'il vous plaît revenir à un autre moment
+
+# HOME PAGE
+Welcome on Tutoriux: Bienvenue sur Tutoriux
+What's Tutoriux?: Qu'est-ce que Tutoriux?
+Alpha Version: Version Alpha
+
+# Login
+Please sign in: Veuillez vous connecter
+Enter any username and password: Entrez un nom d'utilisateur et un mot de passe
+Bad credentials.: Nom d'utilisateur et/ou mot de passe invalide.
+Remember me: Se souvenir de moi
+Login: Se connecter
+Log Out: Se déconnecter
+Forgot your password: Vous avez oublié votre mot de passe
+no worries, click: ne vous en faites pas, cliquez
+here: ici
+to reset your password: pour réinitialiser votre mot de passe
+Don't have an account yet: Vous n'avez pas encore un compte
+Create an account: Créer un compte
+Password recovery: Récupération de mot de passe
+Enter your e-mail address below to reset your password: Entrez votre adresse courriel ci-dessous pour récupérer votre mot de passe
+This is a system generated email and reply is not required: Ce courriel a été généré par le système, merci de ne pas y répondre
+Please click the following URL to change your password: S'il vous plaît, cliquez sur le lien suivant afin de changer votre mot de passe
+If clicking the URL above does not work, copy and paste the URL into a browser window: Si le lien ci-dessus ne fonctionne pas, essayez d'entrer l'URL directement dans votre navigateur
+Tutoriux - Password Recovery: Tutoriux - Récupération de mot de passe
+If the email you specified exists in our system, we've sent a password reset link to it.: Si l'adresse courriel que vous avez entrée existe dans notre système, un lien de réinitialisation du mot de passe sera envoyé.
+An error has occurred, please contact an administrator.: Une erreur est survenue, merci de contacter un administrateur.
+Enter your username and new password: Entrez votre nom d'utilisateur et nouveau mot de passe
+Your password have been changed!: Votre mot de passe a été changé!
+Wrong username ...: Mauvais nom d'utilisateur
+Time limit expired, please make a new request.: Délais expiré, merci de faire une nouvelle demande.
+User account is disabled.: Le compte n'est pas activé.
+
+# Reset password
+Reset password: Réinitialiser le mot de passe
+New password: Nouveau mot de passe
+Confirm password: Confirmez le mot de passe
+Enter your username and new password bellow.: Entrez votre nom d'utilisateur et nouveau mot de passe ci-dessous.
+
+# Register
+I agree to the: J'accepte les
+Terms and Conditions: termes et conditions
+and_et_la: et la
+Privacy Policy: politique de confidentialité
+A confirmation request has been sent to %email%.: Une demande de confirmation a été envoyé à %email%.
+Sign Up: S'enregistrer
+Account Creation Confirmation: Confirmation de création de compte
+Please click the following URL to confirm the creation of a new account: S'il vous plaît, cliquez sur le lien suivant afin de confirmer la création d'un nouveau compte
+Your account have been created! Thank you for your interest.: Votre compte a été créé! Merci pour votre intérêt.
+
+# Form General
+Active: Actif
+Featured: Vedette
+Name: Nom
+Title: Titre
+Updated At: Mise à jour
+Last update: Mise à jour
+
+# Related to Section
+Root Sections: Sections racines
+Manage root sections: Gérer sections racines
+Metadata: Méta-données
+SEO Informations: Informations SEO
+Parameters: Paramètres
+Slug: Code URL
+Page title: Titre de page
+Head code: Code d'entête
+This section has one or more subsections.: Cette section a des sous-sections qui lui sont reliées.
+This action can cause Url's inconsistency.: Cette action peut causer des incohérences parmis les Url's.
+
+# Mapping
+Mapping: Correspondance
+Mappings: correspondances
+Add new mapping: Ajouter une nouvelle correspondance
+Target: Cible
+Without navigation: Sans navigation
+New mapping: Nouvelle correspondance
+
+# Users
+Users: Utilisateurs
+Members: Membres
+Community members: Membres de la communauté
+You are part of a team: Vous faites parti d'une équipe
+Find members: Trouver un membre
+This member does not exist or has been disabled: Ce membre n'existe pas ou a été désactivé
+Follow: Suivre
+Sorry, we do not find this user: Désolé, nous ne trouvons pas cet utilisateur
+Activities: Activités
+Recent Activities: Activités récentes
+All: Toutes
+Personal: Personnel
+Overview: Vue d'ensemble
+Account Settings: Paramètres du compte
+Current password: Mot de passe actuel
+We have not been able to change your password, please check all fields.: Nous n'avons pas pu changer votre mot de passe, merci de vérifier tous les champs.
+Change Password: Changer le mote de passe
+Wrong password.: Mauvais mot de passe.
+Your password has been changed!: Votre mot de passe a été changé!
+My Inbox: Mes messages
+Mailbox: Boîte aux lettres
+My Messages: Mes messages
+Private message: Message privé
+Send a private message: Envoyer un message privé
+Send: Envoyer
+Your message has been sent!: Votre message a été envoyé!
+Change Avatar: Changer d'avatar
+Your avatar has been changed!: Votre avatar a été changé!
+Sorry, we have not been able to change your avatar...: Désolé, nous n'avons pas réussi à changer votre avatar...
+Try again or contact technical support.: Essayez encore ou contactez le support technique.
+Interface Language: Langue de l'interface
+The default interface language has been changed!: La langue par défaut de l'interface a été modifiée!
+Sorry, we have not been able to change your default language...: Désolé, nous n'avons pas réussi à changer votre langue par défaut...
+Default Interface Language: Langue de l'interface par défaut
+Available Languages: Langues disponibles
+Your informations has been changed!: Vos informations ont été changés!
+Sorry, we have not been able to change your informations...: Désolé, nous n'avons pas réussi à changer vos informations...
+Female: Femme
+Male: Homme
+Select your gender: Sélectionnez votre sexe
+Personal description: Description personnelle
+Short description of you and your expertise: Brève description de vous et votre expertise
+500 characters maximum: 500 caractères maximum
+References: Références
+Website: Site web
+User Gender: Genre de l'utilisateur
+Personal Informations: Informations personnelles
+First Name: Prénom
+Last Name: Nom de famille
+# USER/AUTHOR PROFILE
+About: À propos de
+"{0} Theoretical Article|]0,Inf[ Theoretical Articles": "{0} Article théorique|]0,Inf[ Articles théoriques"
+"{0} How-to|]0,Inf[ How-tos": "{0} Guide|]0,Inf[ Guides"
+Published to date: Publiés à ce jour
+We would love to hear from you: Nous aimerions recevoir vos commentaires
+Send a feedback: Envoyer un commentaire
+More On Us: En savoir plus
+Find Authors: Trouver un auteur
+Titles: Titres
+Our Authors: Nos auteurs
+Learn more about them: En savoir plus sur eux
+Filters & Categories: Filtres & Catégories
+Search powered by: Recherche effectuée par
+Categories: Catégories
+Search Language: Langue de la recherche
+
+# Layout Header
+My Profile: Mon profil
+Settings: Paramètres
+"{0} You have <strong>no new</strong> notification| {1} You have <strong>one new</strong> notification|]1,Inf] You have <strong>%new_count% new</strong> notifications": "{0} Vous n'avez <strong>aucune nouvelle</strong> notification| {1} Vous avez <strong>une nouvelle</strong> notification|]1,Inf] Vous avez <strong>%new_count% nouvelles</strong> notifications"
+
+# Layout Footer
+Tutoriux is a community based on sharing knowledge and expertise of its members.: Tutoriux est une communauté fondée sur le partage des connaissances et de l'expertise de ses membres.
+Our mission: Notre mission
+is to create the ideal tool to make accessible knowledge on various topics in the best possible format.: est de créer l'outil idéal afin de rendre accessible des connaissances sur divers sujets dans le meilleur format possible.
+Stay tuned: Soyez à l'écoute
+my@email.com: mon@courriel.com
+Follow Us On: Suivez-nous sur
+
+# Modals
+
+Delete confirmation: Confirmez la suppression
+Delete: Supprimer
+Confirmation required: Confirmation requise
+Continue: Continuer
+Cancel: Annuler
+Info: Info
+Ok: Ok
+Error: Erreur
+no object: auncun objet
+
+# Flash Messages
+Some fields are invalid.: Certains champs ne sont pas valides.

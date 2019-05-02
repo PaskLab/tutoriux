@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository,
-    Doctrine\ORM\NoResultException;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\User;
 
 /**
  * LogRepository
@@ -17,6 +18,7 @@ class LogRepository extends EntityRepository
      * @param User $user
      * @param null $filter
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getCount(User $user, $filter = null)
     {

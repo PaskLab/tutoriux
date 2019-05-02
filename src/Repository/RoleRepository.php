@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use App\Library\TranslatableRepositoryInterface;
 use App\Library\BaseEntityRepository;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
@@ -27,9 +29,8 @@ class RoleRepository extends BaseEntityRepository implements TranslatableReposit
     }
 
     /**
-     * Find All
-     *
-     * @return mixed
+     * @return array|QueryBuilder|mixed|object[]
+     * @throws NonUniqueResultException
      */
     public function findAll()
     {
@@ -43,11 +44,9 @@ class RoleRepository extends BaseEntityRepository implements TranslatableReposit
     }
 
     /**
-     * Find All Except
-     *
-     * @param mixed $roles
-     *
-     * @return mixed
+     * @param $roles
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findAllExcept($roles)
     {

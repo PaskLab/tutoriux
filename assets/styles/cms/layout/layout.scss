@@ -44,9 +44,7 @@ $screen-md-max:              		($screen-lg-min - 1) !default;
 @import 'layout/_sidebar';  // page sidebar        
 @import 'layout/_quick-sidebar';  // page quick sidebar     
 @import 'layout/_content'; // page consnde                        
-@import 'layout/_footer';   // page footer                     
- 
-@import 'layout/_theme-panel';  // theme customizer panel
+@import 'layout/_footer';   // page footer
 
 @import 'tutoriux';
 

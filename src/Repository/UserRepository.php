@@ -2,14 +2,14 @@
 
 namespace App\Repository;
 
-use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
-use App\Library\BaseEntityRepository;
-
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\User;
+use App\Entity\Role;
+use App\Library\BaseEntityRepository;
 
 /**
  * UserRepository
@@ -65,8 +65,7 @@ class UserRepository extends BaseEntityRepository implements UserProviderInterfa
      * @param $userId
      * @param $saltedHash
      * @param bool $checkActive
-     *
-     * @return null|object
+     * @return object|null
      */
     public function findByIdAndHash($userId, $saltedHash, $checkActive = true)
     {
@@ -89,13 +88,11 @@ class UserRepository extends BaseEntityRepository implements UserProviderInterfa
     }
 
     /**
-     * Find users that have the specified role
-     *
-     * @param Role $role
-     *
-     * @return ArrayCollection|QueryBuilder
+     * @param $role
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
-    public function findByRole($role)
+    public function findByRole(Role $role)
     {
         $queryBuilder = $this->createQueryBuilder('u')
             ->select('u')
@@ -111,6 +108,7 @@ class UserRepository extends BaseEntityRepository implements UserProviderInterfa
      * @param array $parameters
      * @param $locale
      * @return array
+     * @throws NonUniqueResultException
      */
     public function dataTableResult(array $parameters, $locale)
     {

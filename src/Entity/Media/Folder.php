@@ -72,12 +72,10 @@ class Folder implements NodeInterface
     }
 
     /**
-     * Add medias
-     *
-     * @param \MediaBundle\Entity\Media $medias
-     * @return Folder
+     * @param Media $medias
+     * @return $this
      */
-    public function addMedia(\MediaBundle\Entity\Media $medias)
+    public function addMedia(Media $medias)
     {
         $this->medias[] = $medias;
     
@@ -85,11 +83,9 @@ class Folder implements NodeInterface
     }
 
     /**
-     * Remove medias
-     *
-     * @param \MediaBundle\Entity\Media $medias
+     * @param Media $medias
      */
-    public function removeMedia(\MediaBundle\Entity\Media $medias)
+    public function removeMedia(Media $medias)
     {
         $this->medias->removeElement($medias);
     }

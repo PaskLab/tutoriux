@@ -10,12 +10,11 @@
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	{% stylesheets
-		'bundles/system/assets/admin/pages/css/login3.css'
-	%}
-	<link rel="stylesheet" href="{{ asset_url }}" />
-	{% endstylesheets %}
+	{% embed 'site/core/stylesheets.html.twig' %}
+		{% block page_stylesheets %}
+			{{ encore_entry_link_tags('site_login') }}
+		{% endblock %}
+	{% endembed %}
 {% endblock %}
 
 {% block body_attr %} class="login"{% endblock %}
@@ -29,7 +28,7 @@
 	<!-- BEGIN LOGO -->
 	<div class="logo">
 		<a href="{{ path('section_id_1') }}">
-			<img src="{{ asset('bundles/system/frontend/images/logos/logo_slogan_' ~ app.request.locale ~ '.png') }}" width="280" alt="{{ project_title }}" />
+			<img src="{{ asset('logo_slogan_' ~ app.request.locale ~ '.png', 'global_logo') }}" width="280" alt="{{ project_title }}" />
 		</a>
 	</div>
 	<!-- END LOGO -->
@@ -43,19 +42,12 @@
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	{% javascripts
-		'bundles/system/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'
-		'bundles/system/assets/admin/pages/scripts/login.js'
-	%}
-	<script src="{{ asset_url }}"></script>
-	{% endjavascripts %}
-
+	{# BEGIN GLOBAL VARS #}
 	<script>
-		jQuery(document).ready(function() {
-			Login.init();
-			Tutoriux.initForm();
-		});
+		var session_locale = '{{ app.request.locale }}';
 	</script>
-
+	{# END GLOBAL VARS #}
+	{{ encore_entry_script_tags('site_login') }}
 {% endblock %}
+
+{% block modals %}{% endblock %}

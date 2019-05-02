@@ -23,6 +23,7 @@ Encore
 
 	// Site
 	.addEntry('site_homepage', './assets/entry/site/homepage.js')
+	.addEntry('site_login', './assets/entry/site/login.js')
 
 	// CMS
 	// ...

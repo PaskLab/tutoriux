@@ -1,7 +1,7 @@
 /**
  * @type {{server_error: {en: string, fr: string}, required_username: {fr: string, en: string}, required_password: {fr: string, en: string}, required_confirm_password: {fr: string, en: string}, required_email: {fr: string, en: string}, invalid_email: {fr: string, en: string}, confirm_password: {fr: string, en: string}, minlength_password: {fr: string, en: string}, accept_tnc: {fr: string, en: string}, processing: {fr: string, en: string}, reordering: {fr: string, en: string}, previous: {fr: string, en: string}, next: {fr: string, en: string}, see_more: {fr: string, en: string}, wait: {en: string, fr: string}, all: {en: string, fr: string}, small: {en: string, fr: string}, quote_author: {en: string, fr: string}, muted_text: {en: string, fr: string}, primary_text: {en: string, fr: string}, success_text: {en: string, fr: string}, info_text: {en: string, fr: string}, warning_text: {en: string, fr: string}, danger_text: {en: string, fr: string}, warning_highlight: {en: string, fr: string}, info_highlight: {en: string, fr: string}, danger_highlight: {en: string, fr: string}, default_highlight: {en: string, fr: string}, notes: {en: string, fr: string}}}
  */
-module.exports = {
+export default ({
 	server_error: {en: '<h4 class="text-center">Sorry, an internal error occurred ...</h4>', fr: '<h4 class="text-center">Désolé, une erreur interne est survenue ...</h4>'},
 	required_username: {fr: 'Le nom d\'utilisateur est requis.', en: 'Username is required.'},
 	required_password: {fr: 'Le mot de passe est requis.', en: 'Password is required.'},
@@ -35,4 +35,4 @@ module.exports = {
 	acceptFileTypes: {en: 'File type not allowed', fr: 'Type de fichier non autorisé'},
 	maxFileSize: {en: 'File is too large', fr: 'Le fichier est trop volumineux'},
 	minFileSize: {en: 'File is too small', fr: 'Le fichier est trop petit'}
-};
+});

@@ -1,7 +1,12 @@
 {# BEGIN GLOBAL VARS #}
 <script>
 	var session_locale = '{{ app.request.locale }}',
-		system_badges = {{ render(controller('App\\Controller\\Site\\NotificationController:badges')) }};
+		system_badges = {{ render(controller('App\\Controller\\Site\\NotificationController:badges')) }},
+		algolia_config = {
+		app_id: '{{ alg_app_id }}',
+		api_key: '{{ alg_app_api_key }}',
+		index_prefix: '{{ alg_index_prefix }}'
+	};
 </script>
 {# END GLOBAL VARS #}
 
@@ -10,11 +15,3 @@
 {% block page_scripts %}
 	{{ encore_entry_script_tags('site_homepage') }}
 {% endblock %}
-
-<script>
-	var algolia_config = {
-		app_id: '{{ alg_app_id }}',
-		api_key: '{{ alg_app_api_key }}',
-		index_prefix: '{{ alg_index_prefix }}'
-	};
-</script>

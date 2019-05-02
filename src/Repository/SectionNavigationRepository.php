@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Exception;
 use App\Library\BaseEntityRepository;
 
 /**
@@ -13,10 +14,8 @@ class SectionNavigationRepository extends BaseEntityRepository
     const LAST_UPDATE_LIFETIME = 86400;
 
     /**
-     * Find the last update of a Section entity
-     *
      * @param null $queryBuilder
-     * @return mixed
+     * @return mixed|null
      */
     public function findLastUpdate($queryBuilder = null)
     {
@@ -32,7 +31,7 @@ class SectionNavigationRepository extends BaseEntityRepository
                 ->setResultCacheLifetime(self::LAST_UPDATE_LIFETIME)
                 ->useResultCache(true)
                 ->getSingleScalarResult();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

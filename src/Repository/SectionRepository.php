@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use Exception;
 use App\Library\TranslatableRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors,
     Tutoriux\DoctrineBehaviorsBundle\Model\Repository\NodeRepositoryInterface,
     App\Library\BaseEntityRepository;
@@ -23,7 +25,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     /**
      * @param QueryBuilder $queryBuilder
      * @return QueryBuilder
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCriteria(QueryBuilder $queryBuilder)
     {
@@ -48,7 +50,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     /**
      * @param array $excludedSectionIds
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function findAllForTree($excludedSectionIds = array())
     {
@@ -82,7 +84,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     /**
      * @param $navigationId
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function findByNavigation($navigationId)
     {
@@ -122,7 +124,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
 
     /**
      * @return QueryBuilder|mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function allWithJoinChildren()
     {
@@ -141,7 +143,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
 
     /**
      * @return QueryBuilder|mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findRootsWithoutNavigation()
     {
@@ -186,10 +188,8 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     }
 
     /**
-     * Find the last update of a Section entity
-     *
      * @param null $queryBuilder
-     * @return mixed
+     * @return mixed|null
      */
     public function findLastUpdate($queryBuilder = null)
     {
@@ -205,7 +205,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
                 ->setResultCacheLifetime(self::LAST_UPDATE_LIFETIME)
                 ->useResultCache(true)
                 ->getSingleScalarResult();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

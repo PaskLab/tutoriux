@@ -2,6 +2,8 @@
 
 namespace App\Repository\Content;
 
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
 use App\Library\BaseEntityRepository;
 
 /**
@@ -14,7 +16,8 @@ class ContentTranslationRepository extends BaseEntityRepository
      * @param $contentType
      * @param $contentId
      * @param $locale
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findWithLocale($contentType, $contentId, $locale)
     {

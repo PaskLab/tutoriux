@@ -20,21 +20,21 @@ class FolderRepository extends BaseEntityRepository implements NodeRepositoryInt
      * @param User $user
      * @return array
      */
-    public function findFoldersTree(App $app, User $user)
+    public function findFoldersTree(User $user)
     {
         $queryBuilder = $this->getRootNodesQB('f')
             ->select('f')
             ->innerJoin('f.app', 'a')
-            ->andWhere('a.id = :appId')
-            ->setParameter('appId', $app->getId())
+//            ->andWhere('a.id = :appId')
+//            ->setParameter('appId', $app->getId())
             ->orderBy('f.name', 'ASC');
 
-        if ($app->getId() != AppRepository::BACKEND_APP_ID) {
+//        if ($app->getId() != AppRepository::BACKEND_APP_ID) {
             $queryBuilder
                 ->innerJoin('f.createdBy', 'u')
                 ->andWhere('u.id = :userId')
                 ->setParameter('userId', $user->getId());
-        }
+//        }
 
         $result = $queryBuilder->getQuery()->getResult();
 

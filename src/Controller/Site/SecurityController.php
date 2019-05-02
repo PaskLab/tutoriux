@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Security\Core\Security;
 
 use App\Entity\Login;
-use App\Form\Frontend\Security\ChangePasswordType;
-use App\Form\Frontend\Security\ForgotPasswordType;
-use App\Form\Frontend\Security\RegisterType;
+use App\Form\Site\Security\ChangePasswordType;
+use App\Form\Site\Security\ForgotPasswordType;
+use App\Form\Site\Security\RegisterType;
 use App\Library\BaseController;
 use App\Entity\User;
 
@@ -52,7 +52,7 @@ class SecurityController extends BaseController
         // Forgot password section
 
         $forgotForm = $this->createForm(ForgotPasswordType::class, null, [
-            'translation_domain' => 'system'
+            'translation_domain' => 'site'
         ]);
 
         // Register section
@@ -61,10 +61,10 @@ class SecurityController extends BaseController
 
         $registerForm = $this->createForm(RegisterType::class, $user, array(
             'validation_groups' => 'new',
-            'translation_domain' => 'system'
+            'translation_domain' => 'site'
         ));
 
-        return $this->render('SystemBundle:Frontend/Security:login.html.twig', array(
+        return $this->render('site/security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
             'forgotForm' => $forgotForm->createView(),
@@ -97,7 +97,7 @@ class SecurityController extends BaseController
         $t = $this->get('translator');
 
         $form = $this->createForm(ForgotPasswordType::class, null, [
-            'translation_domain' => 'system'
+            'translation_domain' => 'site'
         ]);
 
         if ('POST' == $request->getMethod()) {
@@ -117,14 +117,15 @@ class SecurityController extends BaseController
                 if (count($errorList) == 0) {
                     $m = $this->getDoctrine()->getManager();
 
-                    $user = $m->getRepository('SystemBundle:User')->findOneBy(array('email' => $email));
+                    /** @var User $user */
+                    $user = $m->getRepository(User::class)->findOneBy(array('email' => $email));
 
                     if ($user) {
                         $this->sendPasswordLostEmail($user);
                     }
 
                     // Same message in both cases to not give away users informations
-                    $this->get('session')->getFlashBag()->add('info', $t->trans("If the email you specified exists in our system, we've sent a password reset link to it.", [], 'system'));
+                    $this->get('session')->getFlashBag()->add('info', $t->trans("If the email you specified exists in our system, we've sent a password reset link to it.", [], 'site'));
 
                 } else {
                     foreach ($errorList as $error) {
@@ -133,7 +134,7 @@ class SecurityController extends BaseController
                 }
             }
 
-            return $this->redirect($this->generateUrl('system_frontend_login'));
+            return $this->redirect($this->generateUrl('site_login'));
 
         } else {
             throw new NotFoundHttpException();
@@ -150,7 +151,7 @@ class SecurityController extends BaseController
 
         $form = $this->createForm(ChangePasswordType::class, null, [
             'validation_groups' => 'reset_password',
-            'translation_domain' => 'system'
+            'translation_domain' => 'site'
         ]);
 
         if ('POST' == $request->getMethod()) {
@@ -159,7 +160,7 @@ class SecurityController extends BaseController
 
             if ($form->isValid()) {
 
-                $user = $this->getDoctrine()->getRepository('SystemBundle:User')->findOneBy(array('username' => $form->get('username')->getData()));
+                $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('username' => $form->get('username')->getData()));
 
                 if ($user && $user->getId() == $request->query->get('id')) {
 
@@ -172,16 +173,16 @@ class SecurityController extends BaseController
 
                         $this->getDoctrine()->getManager()->flush();
 
-                        $this->get('session')->getFlashBag()->set('success', $t->trans('Your password have been changed!', [], 'system'));
+                        $this->get('session')->getFlashBag()->set('success', $t->trans('Your password have been changed!', [], 'site'));
 
-                        return $this->redirect($this->generateUrl('system_frontend_login'));
+                        return $this->redirect($this->generateUrl('site_login'));
                     }
                 } else {
-                    $this->get('session')->getFlashBag()->add('error', $t->trans('Wrong username ...', [], 'system'));
+                    $this->get('session')->getFlashBag()->add('error', $t->trans('Wrong username ...', [], 'site'));
                 }
             }
 
-            return $this->render('SystemBundle:Frontend/Security:create_new_password.html.twig', array(
+            return $this->render('site/security/create_new_password.html.twig', array(
                 'id' => $request->query->get('id'),
                 'key' => $request->query->get('key'),
                 'form' => $form->createView()
@@ -190,18 +191,18 @@ class SecurityController extends BaseController
         } else {
             if ($request->query->has('id') && $request->query->has('key')) {
 
-                $user = $this->getDoctrine()->getRepository('SystemBundle:User')->find($request->query->get('id'));
+                $user = $this->getDoctrine()->getRepository(User::class)->find($request->query->get('id'));
 
                 if ($user) {
 
                     if ($user->getHash() == $request->query->get('key')) {
 
                         if ($user->getHashCreatedAt() < new \DateTime()) {
-                            $this->get('session')->getFlashBag()->set('error', $t->trans('Time limit expired, please make a new request.', [], 'system'));
-                            return $this->redirect($this->generateUrl('system_frontend_login'));
+                            $this->get('session')->getFlashBag()->set('error', $t->trans('Time limit expired, please make a new request.', [], 'site'));
+                            return $this->redirect($this->generateUrl('site_login'));
                         }
 
-                        return $this->render('SystemBundle:Frontend/Security:create_new_password.html.twig', array(
+                        return $this->render('site/security/create_new_password.html.twig', array(
                             'id' => $request->query->get('id'),
                             'key' => $request->query->get('key'),
                             'form' => $form->createView()
@@ -211,9 +212,9 @@ class SecurityController extends BaseController
             }
         }
 
-        $this->get('session')->getFlashBag()->add('error', $t->trans('An error has occurred, please contact an administrator.', [], 'system'));
+        $this->get('session')->getFlashBag()->add('error', $t->trans('An error has occurred, please contact an administrator.', [], 'site'));
 
-        return $this->redirect($this->generateUrl('system_frontend_login'));
+        return $this->redirect($this->generateUrl('site_login'));
     }
 
     /**
@@ -236,10 +237,10 @@ class SecurityController extends BaseController
         $this->getDoctrine()->getManager()->flush();
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($t->trans('Tutoriux - Password Recovery', [], 'system'))
-            ->setFrom($this->container->getParameter('system.system_email'))
+            ->setSubject($t->trans('Tutoriux - Password Recovery', [], 'site'))
+            ->setFrom($this->container->getParameter('app.system_email'))
             ->setTo($user->getEmail())
-            ->setBody($this->renderView('SystemBundle:Frontend/Security:password_lost_email.html.twig', array(
+            ->setBody($this->renderView('site/security/password_lost_email.html.twig', array(
                     'id' => $user->getId(),
                     'key' => $hash
                 )),

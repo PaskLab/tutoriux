@@ -9,8 +9,8 @@ require('../../styles/site/search.scss');
 // Page Script
 var Metronic = require('../../scripts/global/metronic');
 var Layout = require('../../scripts/site/layout');
-var Tutoriux = require('../../scripts/global/core-scripts');
-var TutoriuxSearch = require('../../scripts/site/search_engine');
+import Tutoriux from '../../scripts/global/tutoriux';
+import TutoriuxSearch from '../../scripts/site/search_engine';
 
 // Page Script
 jQuery(document).ready(function() {

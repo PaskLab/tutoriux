@@ -14,7 +14,7 @@ use App\Library\BaseEntity,
 
 /**
  * Class User
- * @package SystemBundle\Entity
+ * @package App\Entity
  */
 class User extends BaseEntity implements UserInterface, \Serializable
 {
@@ -344,7 +344,7 @@ class User extends BaseEntity implements UserInterface, \Serializable
      *
      * @return $this
      */
-    public function addRole(\SystemBundle\Entity\Role $role)
+    public function addRole(Role $role)
     {
         $this->roles[] = $role;
 

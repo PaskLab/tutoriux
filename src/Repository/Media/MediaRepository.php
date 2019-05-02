@@ -2,6 +2,8 @@
 
 namespace App\Repository\Media;
 
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
 use App\Library\BaseEntityRepository,
     App\Entity\User;
 
@@ -12,9 +14,8 @@ use App\Library\BaseEntityRepository,
 class MediaRepository extends BaseEntityRepository
 {
     /**
-     * Get All Uploaded Media
-     *
-     * @return array|mixed
+     * @return array|QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findAll()
     {
@@ -25,10 +26,9 @@ class MediaRepository extends BaseEntityRepository
     }
 
     /**
-     * Get Media by type
-     *
      * @param $type
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findByType($type)
     {
@@ -44,29 +44,30 @@ class MediaRepository extends BaseEntityRepository
     /**
      * @param string $folderId
      * @param string $type
+     * @param string $view
      * @param string $sort
      * @param string $text
-     * @param App $app
-     * @param User $user
-     * @return mixed
+     * @param User|null $user
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
-    public function findByFolderType($folderId = 'root', $type = 'any', $view = 'ckeditor', $sort = 'newer', $text = '', App $app = null, User $user = null)
+    public function findByFolderType($folderId = 'root', $type = 'any', $view = 'ckeditor', $sort = 'newer', $text = '', User $user = null)
     {
         $qb = $this->createQueryBuilder('m')
             ->select('m')
             ->innerJoin('m.app', 'a')
             ->where('a.id = :appId')
-            ->setParameter('appId', $app->getId())
+//            ->setParameter('appId', $app->getId())
             ->groupBy('m')
         ;
 
-        if ($app->getId() != AppRepository::BACKEND_APP_ID) {
+//        if ($app->getId() != AppRepository::BACKEND_APP_ID) {
             $qb
                 ->innerJoin('m.createdBy', 'u')
                 ->andWhere('u.id = :userId')
                 ->setParameter('userId', $user->getId())
             ;
-        }
+//        }
 
         if (is_numeric($folderId)) {
             $qb->andWhere('m.folder = :folderId')

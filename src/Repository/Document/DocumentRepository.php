@@ -2,6 +2,7 @@
 
 namespace App\Repository\Document;
 
+use Doctrine\ORM\NonUniqueResultException;
 use App\Library\BaseEntityRepository;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 use App\Library\TranslatableRepositoryInterface;
@@ -18,7 +19,7 @@ class DocumentRepository extends BaseEntityRepository implements TranslatableRep
      * @param $documentId
      * @param $locale
      * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findWithLocale($documentId, $locale)
     {
@@ -39,7 +40,7 @@ class DocumentRepository extends BaseEntityRepository implements TranslatableRep
     /**
      * @param $documentId
      * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOneWithAllLocale($documentId)
     {
@@ -55,6 +56,7 @@ class DocumentRepository extends BaseEntityRepository implements TranslatableRep
     /**
      * @param $documentId
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function countTranslations($documentId)
     {

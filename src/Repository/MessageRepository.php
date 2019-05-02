@@ -2,17 +2,22 @@
 
 namespace App\Repository;
 
+use DateTime;
+use Exception;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\User;
 
 /**
  * Class MessageRepository
- * @package App\Entity
+ * @package App\Repository
  */
 class MessageRepository extends EntityRepository
 {
     /**
      * @param User $user
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function countUnreadMessage(User $user)
     {
@@ -34,6 +39,7 @@ class MessageRepository extends EntityRepository
      * @param $view
      * @param null $filter
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function countMessage(User $user, $view, $filter = null)
     {
@@ -54,13 +60,13 @@ class MessageRepository extends EntityRepository
                 $queryBuilder
                     ->where('mu.id = :userId AND m.deletedAt <= :now')
                     ->setParameter('userId', $user->getId())
-                    ->setParameter('now', new \DateTime());
+                    ->setParameter('now', new DateTime());
                 break;
             default:
                 $queryBuilder
                     ->where('mu.id = :userId AND (m.deletedAt > :now OR m.deletedAt IS NULL)')
                     ->setParameter('userId', $user->getId())
-                    ->setParameter('now', new \DateTime());
+                    ->setParameter('now', new DateTime());
         }
 
         if ($filter) {
@@ -84,6 +90,7 @@ class MessageRepository extends EntityRepository
      * @param $page
      * @param null $filter
      * @return mixed
+     * @throws Exception
      */
     public function findMessages(User $user, $view,  $length, $page, $filter = null)
     {
@@ -109,13 +116,13 @@ class MessageRepository extends EntityRepository
                 $queryBuilder
                     ->where('mu.id = :userId AND m.deletedAt <= :now')
                     ->setParameter('userId', $user->getId())
-                    ->setParameter('now', new \DateTime());
+                    ->setParameter('now', new DateTime());
                 break;
             default:
                 $queryBuilder
                     ->where('mu.id = :userId AND (m.deletedAt > :now OR m.deletedAt IS NULL)')
                     ->setParameter('userId', $user->getId())
-                    ->setParameter('now', new \DateTime());
+                    ->setParameter('now', new DateTime());
         }
 
         if ($filter) {

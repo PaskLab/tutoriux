@@ -1,0 +1,19 @@
+# Register
+
+site_user_register:
+  path: /register
+  controller: App\Controller\Site\User\RegisterController::register
+  defaults:
+    _tutoriuxContext: 'site'
+    _tutoriuxEnabled: true
+    _tutoriuxRequest:
+      sectionId: 1
+
+site_user_register_confirm:
+  path: /register-confirm
+  controller: App\Controller\Site\User\RegisterController::registerConfirm
+  defaults:
+    _tutoriuxContext: 'site'
+    _tutoriuxEnabled: true
+    _tutoriuxRequest:
+      sectionId: 1

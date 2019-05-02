@@ -1,0 +1,104 @@
+App\Entity\User:
+    properties:
+        username:
+            - NotBlank: { groups: [new, backend_new, edit] }
+            - Length: { groups: [new, backend_new, edit], min: 3, minMessage: Your username must be between 3 and 38 characters, max: 38, maxMessage: Your username must be between 3 and 38 characters }
+            - Regex:
+                pattern: '/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i'
+                match:   false
+                message: Your name cannot contain a number
+        email:
+            - Email: { groups: [new, backend_new, edit, forgot_password, change_information] }
+            - NotBlank: { groups: [new, backend_new, edit, forgot_password, change_information] }
+        password:
+            - NotBlank: { groups: [new, backend_new, reset_password, change_password] }
+            - Length: { groups: [new, backend_new, edit, reset_password, change_password], min: 8, minMessage: Password must be at least 8 characters long }
+        roles:
+            - Count: { groups: [backend_new, edit], min: 1, minMessage: You must select at least 1 role }
+    constraints:
+      - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: username, groups: [new, edit] }
+      - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: email, groups: [new, edit]  }
+      - Callback: usernameValid
+
+App\Entity\SectionTranslation:
+    properties:
+        name:
+            - NotBlank: { groups: [Default] }
+
+App\Entity\Section:
+    properties:
+        icon:
+            - Length:
+                max: 30
+
+App\Entity\TextTranslation:
+    properties:
+        text:
+            - NotBlank: ~
+    constraints:
+        - Callback: isCollapsableValid
+
+App\Entity\RoleTranslation:
+    properties:
+        name:
+            - NotBlank: ~
+            
+App\Entity\Locale:
+    properties:
+        name:
+            - NotBlank: ~
+        code:
+            - NotBlank: ~
+                        
+App\Entity\App:
+    properties:
+        name:
+            - NotBlank: ~
+        prefix:
+            - Regex: { pattern: "/^[a-zA-Z0-9-_]*$/"}
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: prefix, ignoreNull: false }
+
+App\Entity\Token:
+    properties:
+        token:
+            - NotBlank: ~
+
+App\Entity\Mapping:
+    properties:
+        type:
+            - NotBlank: ~
+        target:
+            - NotBlank: ~
+
+App\Entity\Message:
+    properties:
+        message:
+            - NotBlank: ~
+
+App\Entity\UserSetting:
+    properties:
+        fullDescription:
+            - Length:
+                max: 10000
+                groups: [setting_description]
+        shortDescription:
+            - Length:
+                max: 500
+                groups: [setting_description]
+        website:
+            - Url:
+                protocols: [http, https]
+                groups: [setting_url]
+        facebook:
+            - Url:
+                protocols: [http, https]
+                groups: [setting_url]
+        twitter:
+            - Url:
+                protocols: [http, https]
+                groups: [setting_url]
+        google:
+            - Url:
+                protocols: [http, https]
+                groups: [setting_url]

@@ -2,6 +2,8 @@
 
 namespace App\Repository\Content;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use App\Library\TranslatableRepositoryInterface;
 use App\Library\BaseEntityRepository;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
@@ -18,7 +20,8 @@ class ContentRepository extends BaseEntityRepository implements TranslatableRepo
      * @param $contentType
      * @param $contentId
      * @param $locale
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function findWithLocale($contentType, $contentId, $locale)
     {
@@ -59,6 +62,7 @@ class ContentRepository extends BaseEntityRepository implements TranslatableRepo
      * @param $contentId
      * @param $locale
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function countVersions($contentId, $locale)
     {

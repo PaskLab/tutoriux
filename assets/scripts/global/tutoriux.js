@@ -1,10 +1,12 @@
 /**
  * Module name: Tutoriux
  */
-module.exports = function () {
+
+import TutoriuxTranslations from '../global/translations';
+
+export default (function () {
 	'use strict';
 
-	let TutoriuxTranslations = require('../global/translations');
 	let toastr = require('../../plugins/bootstrap-toastr/toastr');
 
 	// PRIVATE
@@ -744,4 +746,4 @@ module.exports = function () {
 		}
 	};
 
-}();
+}());

@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
-use App\Library\TranslatableRepositoryInterface;
+use Exception;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 use App\Library\BaseEntityRepository;
+use App\Library\TranslatableRepositoryInterface;
 
 /**
  * TextRepository
@@ -17,13 +18,10 @@ class TextRepository extends BaseEntityRepository implements TranslatableReposit
     use TutoriuxORMBehaviors\Repository\TranslatableEntityRepository;
 
     /**
-     * Find the last update of a Text entity
-     *
      * @param null $queryBuilder
-     * @param int|null $sectionId
-     * @param int|null $textId
-     *
-     * @return mixed
+     * @param null $sectionId
+     * @param null $textId
+     * @return mixed|null
      */
     public function findLastUpdate($queryBuilder = null, $sectionId = null, $textId = null)
     {
@@ -46,7 +44,7 @@ class TextRepository extends BaseEntityRepository implements TranslatableReposit
                 ->addOrderBy('t.updatedAt', 'DESC')
                 ->setMaxResults(1)
                 ->getQuery()->getSingleScalarResult();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

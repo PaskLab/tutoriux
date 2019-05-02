@@ -1,0 +1,3 @@
+user:
+  follow: '%user% now follows you'
+  new_message: 'New message from %user%'

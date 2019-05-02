@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\AbstractQuery;
-
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\User;
 use App\Library\BaseEntityRepository;
 
 /**
@@ -14,7 +15,8 @@ class UserNotificationRepository extends BaseEntityRepository
 {
     /**
      * @param User $user
-     * @return int
+     * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getNewNotificationCount(User $user)
     {
@@ -29,7 +31,8 @@ class UserNotificationRepository extends BaseEntityRepository
 
     /**
      * @param User $user
-     * @return mixed
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
      */
     public function getNotificationsForUser(User $user)
     {

@@ -2,6 +2,8 @@
 
 namespace App\Repository\Document;
 
+use Doctrine\ORM\Query;
+use Doctrine\ORM\NonUniqueResultException;
 use App\Entity\Section;
 use App\Library\BaseEntityRepository;
 use App\Entity\User;
@@ -47,7 +49,7 @@ class DocumentTranslationRepository extends BaseEntityRepository implements Tran
     /**
      * @param Section $section
      * @param $locale
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getSubjectDocumentsQuery(Section $section, $locale)
     {
@@ -68,11 +70,13 @@ class DocumentTranslationRepository extends BaseEntityRepository implements Tran
     }
 
     /**
-     * @return array
+     * @param Section $section
+     * @param string $locale
+     * @return mixed
      */
-    public function findSubjectDocuments($locale)
+    public function findSubjectDocuments(Section $section, string $locale)
     {
-        $query = $this->getSubjectDocumentsQuery($locale);
+        $query = $this->getSubjectDocumentsQuery($section, $locale);
 
         return $query->getResult();
     }
@@ -81,7 +85,7 @@ class DocumentTranslationRepository extends BaseEntityRepository implements Tran
      * @param $documentSlug
      * @param $sectionId
      * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findPublished($documentSlug, $sectionId)
     {
@@ -117,6 +121,7 @@ class DocumentTranslationRepository extends BaseEntityRepository implements Tran
      * @param User $user
      * @param null $rootNodeId
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function getUserPublishedCount(User $user, $rootNodeId = null)
     {

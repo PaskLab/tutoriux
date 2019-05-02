@@ -1,0 +1,15 @@
+# Time ago in words - Twig Extension
+less than %seconds seconds ago: "< %secondss"
+half a minute ago: "Il y a 30s"
+less than a minute ago: "Il y a 1m"
+1 minute ago: "Il y a 1m"
+"%minutes minutes ago": "Il y a %minutesm"
+about 1 hour ago: "Il y a 1h"
+about %hours hours ago: "Il y a %hoursh"
+1 day ago: "Il y a 1j"
+"%days days ago": "Il y a %daysj"
+"{1} 1 month ago |]1,Inf[ %months months ago": "{1} Il y a 1 mois |]1,Inf[ Il y a %months mois"
+"{1} 1 year ago |]1,Inf[ %years years ago":  "{1} Il y a 1 an |]1,Inf[ Il y a %years ans"
+
+# Backend General
+'%entity% has been saved.': '%entity% a été sauvegardé(es).'
