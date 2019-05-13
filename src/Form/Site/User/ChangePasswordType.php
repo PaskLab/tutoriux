@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Form\Site\User;
+
+use Symfony\Component\Form\AbstractType,
+    Symfony\Component\Form\FormBuilderInterface,
+    Symfony\Component\OptionsResolver\OptionsResolver,
+    Symfony\Component\Form\Extension\Core\Type\PasswordType,
+    Symfony\Component\Form\Extension\Core\Type\RepeatedType,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+/**
+ * Class ChangePasswordType
+ * @package App\Form\Site\User
+ */
+class ChangePasswordType extends AbstractType
+{
+    /**
+     * Build Form
+     *
+     * @param FormBuilderInterface $builder The builder
+     * @param array                $options Form options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('currentPassword', PasswordType::class, [
+                'mapped' => false,
+                'required' => true,
+                'label' => 'Current password'
+            ])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'first_options' => ['label' => 'New password'],
+                'second_options' => ['label' => 'Confirm password']
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Save'])
+        ;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'change_password';
+    }
+
+    /**
+     * Returns the default options for this type.
+     *
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'App\Entity\User',
+            'validation_groups' => 'change_password',
+            'translation_domain' => 'site'
+        ]);
+    }
+}

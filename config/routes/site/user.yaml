@@ -1,3 +1,6 @@
+# Users
+# !!! The path must be preceded by '/u/' to be caught by the firewall
+
 # Register
 
 site_user_register:
@@ -17,3 +20,17 @@ site_user_register_confirm:
     _tutoriuxEnabled: true
     _tutoriuxRequest:
       sectionId: 1
+
+# Notification
+
+site_notification_viewed:
+  path:  /u/notification/viewed
+  controller: App\Controller\Site\NotificationController::viewed
+  options:
+    expose: true
+
+site_notification_toastr:
+  path:  /u/notification/toastr
+  controller: App\Controller\Site\NotificationController::toastr
+  options:
+    expose: true

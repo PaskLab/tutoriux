@@ -13,6 +13,7 @@
         "ext-iconv": "*",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
         "liip/imagine-bundle": "2.1.0",
+        "salavert/time-ago-in-words": "1.*",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "*",
         "symfony/console": "*",
@@ -33,7 +34,8 @@
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "*",
         "tutoriux/doctrine-behaviors-bundle": "dev-master",
-        "twig/extensions": "^1.5"
+        "twig/extensions": "^1.5",
+        "wa72/htmlpagedom": "1.3.1"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

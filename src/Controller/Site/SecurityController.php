@@ -2,11 +2,14 @@
 
 namespace App\Controller\Site;
 
+use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use App\Entity\Login;
 use App\Form\Site\Security\ChangePasswordType;
@@ -14,6 +17,8 @@ use App\Form\Site\Security\ForgotPasswordType;
 use App\Form\Site\Security\RegisterType;
 use App\Library\BaseController;
 use App\Entity\User;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class SecurityController
@@ -73,9 +78,7 @@ class SecurityController extends BaseController
     }
 
     /**
-     * Log a failed login attempt
-     *
-     * @param string $username
+     * @param $username
      */
     protected function logLoginAttempt($username)
     {
@@ -90,12 +93,15 @@ class SecurityController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param TranslatorInterface $t
+     * @param \Swift_Mailer $mailer
+     * @param ValidatorInterface $validator
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function passwordLost(Request $request)
+    public function passwordLost(Request $request, TranslatorInterface $t, \Swift_Mailer $mailer,
+                                 ValidatorInterface $validator)
     {
-        $t = $this->get('translator');
-
         $form = $this->createForm(ForgotPasswordType::class, null, [
             'translation_domain' => 'site'
         ]);
@@ -109,7 +115,7 @@ class SecurityController extends BaseController
                 $email = $form->get('email')->getData();
 
                 $emailConstraint = new Email();
-                $errorList = $this->get('validator')->validateValue(
+                $errorList = $validator->validate(
                     $email,
                     $emailConstraint
                 );
@@ -121,11 +127,12 @@ class SecurityController extends BaseController
                     $user = $m->getRepository(User::class)->findOneBy(array('email' => $email));
 
                     if ($user) {
-                        $this->sendPasswordLostEmail($user);
+                        $this->sendPasswordLostEmail($user, $t, $mailer);
                     }
 
                     // Same message in both cases to not give away users informations
-                    $this->get('session')->getFlashBag()->add('info', $t->trans("If the email you specified exists in our system, we've sent a password reset link to it.", [], 'site'));
+                    $this->get('session')->getFlashBag()
+                        ->add('info', $t->trans("If the email you specified exists in our system, we've sent a password reset link to it.", [], 'site'));
 
                 } else {
                     foreach ($errorList as $error) {
@@ -143,12 +150,13 @@ class SecurityController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @param TranslatorInterface $t
+     * @param EncoderFactoryInterface $encoderFactory
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
-    public function passwordLostChange(Request $request)
+    public function passwordLostChange(Request $request, TranslatorInterface $t, EncoderFactoryInterface $encoderFactory)
     {
-        $t = $this->get('translator');
-
         $form = $this->createForm(ChangePasswordType::class, null, [
             'validation_groups' => 'reset_password',
             'translation_domain' => 'site'
@@ -160,25 +168,29 @@ class SecurityController extends BaseController
 
             if ($form->isValid()) {
 
-                $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('username' => $form->get('username')->getData()));
+                $user = $this->getDoctrine()->getRepository(User::class)
+                    ->findOneBy(array('username' => $form->get('username')->getData()));
 
                 if ($user && $user->getId() == $request->query->get('id')) {
 
-                    if ($user->getHash() == $request->query->get('key') && $user->getHashCreatedAt() > new \DateTime()) {
+                    if ($user->getHash() == $request->query->get('key')
+                        && $user->getHashCreatedAt() > new \DateTime()) {
 
-                        $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+                        $encoder = $encoderFactory->getEncoder($user);
                         $user->setPassword($encoder->encodePassword($form->get('password')->getData(), $user->getSalt()));
 
                         $user->setHash(null);
 
                         $this->getDoctrine()->getManager()->flush();
 
-                        $this->get('session')->getFlashBag()->set('success', $t->trans('Your password have been changed!', [], 'site'));
+                        $this->get('session')->getFlashBag()
+                            ->set('success', $t->trans('Your password have been changed!', [], 'site'));
 
                         return $this->redirect($this->generateUrl('site_login'));
                     }
                 } else {
-                    $this->get('session')->getFlashBag()->add('error', $t->trans('Wrong username ...', [], 'site'));
+                    $this->get('session')->getFlashBag()
+                        ->add('error', $t->trans('Wrong username ...', [], 'site'));
                 }
             }
 
@@ -198,7 +210,8 @@ class SecurityController extends BaseController
                     if ($user->getHash() == $request->query->get('key')) {
 
                         if ($user->getHashCreatedAt() < new \DateTime()) {
-                            $this->get('session')->getFlashBag()->set('error', $t->trans('Time limit expired, please make a new request.', [], 'site'));
+                            $this->get('session')->getFlashBag()
+                                ->set('error', $t->trans('Time limit expired, please make a new request.', [], 'site'));
                             return $this->redirect($this->generateUrl('site_login'));
                         }
 
@@ -212,20 +225,20 @@ class SecurityController extends BaseController
             }
         }
 
-        $this->get('session')->getFlashBag()->add('error', $t->trans('An error has occurred, please contact an administrator.', [], 'site'));
+        $this->get('session')->getFlashBag()
+            ->add('error', $t->trans('An error has occurred, please contact an administrator.', [], 'site'));
 
         return $this->redirect($this->generateUrl('site_login'));
     }
 
     /**
-     * sendPasswordLostEmail
-     *
-     * @param $user User
+     * @param User $user
+     * @param TranslatorInterface $t
+     * @param \Swift_Mailer $mailer
+     * @throws Exception
      */
-    public function sendPasswordLostEmail(User $user)
+    public function sendPasswordLostEmail(User $user, TranslatorInterface $t, \Swift_Mailer $mailer)
     {
-        $t = $this->get('translator');
-
         $hash = md5(uniqid());
 
         $expiration = new \DateTime();
@@ -236,9 +249,9 @@ class SecurityController extends BaseController
 
         $this->getDoctrine()->getManager()->flush();
 
-        $message = \Swift_Message::newInstance()
+        $message = (new \Swift_Message())
             ->setSubject($t->trans('Tutoriux - Password Recovery', [], 'site'))
-            ->setFrom($this->container->getParameter('app.system_email'))
+            ->setFrom($this->getParameter('app.system_email'))
             ->setTo($user->getEmail())
             ->setBody($this->renderView('site/security/password_lost_email.html.twig', array(
                     'id' => $user->getId(),
@@ -249,6 +262,6 @@ class SecurityController extends BaseController
             )
         ;
 
-        $this->get('mailer')->send($message);
+        $mailer->send($message);
     }
 }

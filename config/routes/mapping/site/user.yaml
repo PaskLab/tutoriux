@@ -1,0 +1,60 @@
+# Users
+# !!! The path must be preceded by '/u/' to be caught by the firewall
+
+# User profile and list
+
+site_users:
+  path: /{sectionsPath}/{username}
+  controller: App\Controller\Site\User\UserController::users
+  defaults:
+    username: NULL
+  options:
+    expose: true
+
+# Follow
+
+site_users_follow:
+  path: /{sectionsPath}/{username}/follow
+  controller: App\Controller\Site\User\UserController::follow
+  defaults:
+    _format: json
+  options:
+    expose: true
+    mapping_alias: follow
+
+# Activity feed
+
+site_users_activities:
+  path: /{sectionsPath}/activities
+  controller: App\Controller\Site\User\UserController::activities
+  defaults:
+    _format: json
+  options:
+    expose: true
+    mapping_alias: activities
+
+# Account settings
+
+site_users_settings:
+  path: /{sectionsPath}/settings
+  controller: App\Controller\Site\User\SettingController::setting
+  options:
+    mapping_alias: settings
+
+# messages
+
+site_users_messages:
+  path: /{sectionsPath}/messages.{_format}
+  controller: App\Controller\Site\User\MessageController::mailbox
+  defaults:
+    _format: html
+  options:
+    expose: true
+    mapping_alias: messages
+
+site_users_compose:
+  path: /{sectionsPath}/{username}/compose
+  controller: App\Controller\Site\User\MessageController::compose
+  options:
+    expose: true
+    mapping_alias: compose

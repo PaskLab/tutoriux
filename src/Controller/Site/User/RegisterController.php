@@ -44,10 +44,10 @@ class RegisterController extends BaseController
 
         // Register section
 
-        $form = $this->createForm(RegisterType::class, $user, array(
+        $form = $this->createForm(RegisterType::class, $user, [
             'validation_groups' => 'new',
             'translation_domain' => 'site'
-        ));
+        ]);
 
         if ($request->getMethod() == 'POST') {
 
