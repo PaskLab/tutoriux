@@ -3,7 +3,7 @@
 {# Form start #}
 
 {% block form_start %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% set method = method|upper %}
 		{% if method in ["GET", "POST"] %}
 			{% set form_method = method %}
@@ -14,13 +14,13 @@
 		{% if form_method != method %}
 			<input type="hidden" name="_method" value="{{ method }}" />
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock form_start %}
 
 {# Widgets #}
 
 {% block form_widget_simple %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% set type = type|default('text') %}
 		{% if icon is defined %}
 			<div class="input-icon">
@@ -40,22 +40,22 @@
 		{% if attr.alt is defined %}
 			<span class="help-block">{{ attr.alt|trans({}, translation_domain)|raw }}</span>
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock form_widget_simple %}
 
 {%- block textarea_widget -%}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		<textarea {{ block('widget_attributes') }}{% if errors|length > 0 %} aria-describedby="{{ form.vars.id }}-error"{% endif %}>{{ value }}</textarea>
 		{% if attr.alt is defined %}
 			<span class="help-block">{{ attr.alt|trans({}, translation_domain)|raw }}</span>
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {%- endblock textarea_widget -%}
 
 {# form_row #}
 
 {% block form_row %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		<div class="form-group{% if errors|length > 0 %} has-error{% endif %}">
 
 			{% if not (isChoice is defined and isChoice) %}
@@ -84,7 +84,7 @@
 			{% endif %}
 
 		</div>
-	{% endfilter %}
+	{% endapply %}
 {% endblock form_row %}
 
 {# form_errors #}
@@ -100,7 +100,7 @@
 {# Choice widget #}
 
 {% block choice_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if expanded %}
 			<div class="{% if multiple %}checkbox-list{% else %}radio-list{% endif %}">
 				{% for key, child in form %}
@@ -145,11 +145,11 @@
 		{% if attr.alt is defined %}
 			<span class="help-block">{{ attr.alt|trans({}, translation_domain)|raw }}</span>
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock choice_widget %}
 
 {% block choice_widget_options %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% for group_label, choice in options %}
 			{% if choice is iterable %}
 				<optgroup label="{{ group_label|trans({}, translation_domain) }}">
@@ -166,11 +166,11 @@
 				</option>
 			{% endif %}
 		{% endfor %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock choice_widget_options %}
 
 {% block tree_choice_widget_options %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% for group_label, choice in options %}
 			{% if choice is iterable %}
 				<optgroup label="{{ group_label|trans({}, translation_domain) }}">
@@ -181,11 +181,11 @@
 				<option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{% if levels is defined and levels['level_id_' ~ choice.value] is defined %}{{ tree_indentation(levels['level_id_' ~ choice.value])|raw }}{% endif %}{{ choice.data|transTitle }}</option>
 			{% endif %}
 		{% endfor %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock tree_choice_widget_options %}
 
 {% block tree_choice_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if expanded %}
 			<ul {{ block('widget_container_attributes') }}>
 				{% if add_select_all is defined %}
@@ -219,23 +219,23 @@
 				{{ block('tree_choice_widget_options') }}
 			</select>
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock tree_choice_widget %}
 
 {% block checkbox_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if level is defined %}{{ tree_indentation(level)|raw }}{% endif %}<input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}{% if level is defined %} data-level="{{ level }}"{% endif %} {% if errors|length > 0 %} aria-describedby="{{ form.vars.id }}-error"{% endif %}  />
-	{% endfilter %}
+	{% endapply %}
 {% endblock checkbox_widget %}
 
 {% block radio_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if level is defined %}{{ tree_indentation(level)|raw }}{% endif %}<input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}" />
-	{% endfilter %}
+	{% endapply %}
 {% endblock radio_widget %}
 
 {% block form_label %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if label is not same as(false) %}
 			{% if not compound %}
 				{% set label_attr = label_attr|merge({'for': id}) %}
@@ -255,11 +255,11 @@
 			{% endif %}
 			</label>
 		{% endif %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock form_label %}
 
 {% block advanced_file_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if file_path is not null %}
 			<div class="uploaded_file">
 				{# TODO: supply an absolute path for the href #}
@@ -277,22 +277,22 @@
 		{% endif %}
 
 		<input type="file" {{ block('widget_attributes') }} />
-	{% endfilter %}
+	{% endapply %}
 {% endblock %}
 
 {% block creatable_entity_widget %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{{ block('choice_widget') }}
 		<a href="{{ path(quick_create_route) }}" class="quick_create_link{% if not form.vars.expanded %} aside{% endif %}">{% trans with { '%entity%': entity_name|trans({}, translation_domain) } %}Create a new %entity%{% endtrans %}</a>
 		<div class="quick_create_container" data-input-id="{{ form.vars.id }}" data-input-name="{{ form.vars.full_name }}" data-input-type="{% if not form.vars.expanded %}select{% elseif form.vars.multiple %}checkbox{% else %}radio{% endif %}"></div>
-	{% endfilter %}
+	{% endapply %}
 {% endblock %}
 
 {% block widget_container_attributes %}
-	{% filter spaceless %}
+	{% apply spaceless %}
 		{% if id is not empty %}id="{{ id }}" {% endif %}
 		{% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
-	{% endfilter %}
+	{% endapply %}
 {% endblock widget_container_attributes %}
 
 {%- block button_widget -%}

@@ -2,8 +2,9 @@
 
 namespace App\Controller\Site;
 
-use App\Library\BaseController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
+use App\Library\BaseController;
 use Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter;
 
 /**
@@ -14,12 +15,14 @@ class MetadataController extends BaseController
 {
     /**
      * @param MetadatableGetter $metadatableGetter
+     * @param ParameterBagInterface $parameterBag
      * @param $metaName
      * @param bool $ogMeta
      * @param bool $forceEmpty
      * @return Response
      */
-    public function metadata(MetadatableGetter $metadatableGetter, $metaName, $ogMeta = false, $forceEmpty = false)
+    public function metadata(MetadatableGetter $metadatableGetter, ParameterBagInterface $parameterBag,
+                             $metaName, $ogMeta = false, $forceEmpty = false)
     {
         $response = new Response();
         $response->setPublic();
@@ -32,8 +35,8 @@ class MetadataController extends BaseController
         if (!$value && !$forceEmpty) {
             $parameter = sprintf('tutoriux.metadata.%s', $metaName);
 
-            if ($this->container->hasParameter($parameter)) {
-                $value = $this->container->getParameter($parameter);
+            if ($parameterBag->has($parameter)) {
+                $value = $parameterBag->get($parameter);
             }
         }
 

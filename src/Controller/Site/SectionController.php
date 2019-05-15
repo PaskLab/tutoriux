@@ -2,12 +2,13 @@
 
 namespace App\Controller\Site;
 
-use Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\Repository\TextRepository;
 use App\Library\BaseController;
 use App\Services\DoctrineInit;
+use App\Entity\Text;
 
 /**
  * Class SectionController
@@ -27,10 +28,9 @@ class SectionController extends BaseController
     }
 
     /**
-     * @param Request $request
      * @return Response
      */
-    public function quickTour(Request $request)
+    public function quickTour()
     {
         $response = new Response();
         $response->setPublic();
@@ -46,15 +46,13 @@ class SectionController extends BaseController
     /**
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
      */
     public function portlet(Request $request)
     {
         $sectionId = $this->getSection()->getId();
 
         /** @var TextRepository $textRepository */
-        $textRepository = $this->get(DoctrineInit::class)
-            ->initRepository($this->getEm()->getRepository('SystemBundle:Text'));
+        $textRepository = $this->getRepository(Text::class);
         $textLastUpdate = $textRepository->findLastUpdate(null, $sectionId);
 
         $response = new Response();
@@ -65,13 +63,13 @@ class SectionController extends BaseController
             return $response;
         }
 
-        $texts = $this->getEm()->getRepository('SystemBundle:Text')->findBy(
+        $texts = $textRepository->findBy(
             ['section' => $sectionId, 'static' => false, 'active' => true],
             ['ordering' => 'ASC']
         );
 
         return $this->render(
-            'SystemBundle:Frontend/Section:portlet.html.twig',
+            'site/section/portlet.html.twig',
             ['texts' => $texts],
             $response
         );
