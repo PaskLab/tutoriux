@@ -36,34 +36,34 @@
 			<!-- BEGIN CONTAINER -->
 			<div class="page-container">
 
-				{#{% block page_head %}#}
-					{#<!-- BEGIN PAGE HEAD -->#}
-					{#<div class="page-head">#}
-						{#<div class="container">#}
-							{#<!-- BEGIN PAGE TITLE -->#}
-							{#<div class="page-title">#}
-								{#{% block content_title '' %}#}
-							{#</div>#}
-							{#<!-- END PAGE TITLE -->#}
-						{#</div>#}
-					{#</div>#}
-					{#<!-- END PAGE HEAD -->#}
-				{#{% endblock page_head %}#}
+				{% block page_head %}
+					<!-- BEGIN PAGE HEAD -->
+					<div class="page-head">
+						<div class="container">
+							<!-- BEGIN PAGE TITLE -->
+							<div class="page-title">
+								{% block content_title '' %}
+							</div>
+							<!-- END PAGE TITLE -->
+						</div>
+					</div>
+					<!-- END PAGE HEAD -->
+				{% endblock page_head %}
 
 				<!-- BEGIN PAGE CONTENT -->
 				<div class="page-content">
 					<div class="container">
 						<main role="main">
 
-							{#<!-- BEGIN PAGE BREADCRUMB -->#}
-							{#{% block breadcrumbs %}#}
-								{#{{ render(controller('SystemBundle:Frontend/Navigation:breadcrumbs')) }}#}
-							{#{% endblock %}#}
-							{#<!-- END PAGE BREADCRUMB -->#}
+							<!-- BEGIN PAGE BREADCRUMB -->
+							{% block breadcrumbs %}
+								{{ render(controller('App\\Controller\\Site\\NavigationController::breadcrumbs')) }}
+							{% endblock %}
+							<!-- END PAGE BREADCRUMB -->
 
-							{#{% block flash_message %}#}
-								{#{% include 'SystemBundle:System:flash_message.html.twig' %}#}
-							{#{% endblock %}#}
+							{% block flash_message %}
+								{% include 'global/flash_message.html.twig' %}
+							{% endblock %}
 
 							<!-- BEGIN PAGE CONTENT INNER -->
 							<div class="row">
@@ -95,9 +95,9 @@
 		{% include 'site/search/search_engine.html.twig' %}
 	{% endblock %}
 
-	{#{% block analytics %}#}
-		{#{% include 'SystemBundle:Frontend/Core:analytics.html.twig' %}#}
-	{#{% endblock %}#}
+	{% block analytics %}
+		{% include 'site/core/analytics.html.twig' %}
+	{% endblock %}
 
 	</body>
 </html>

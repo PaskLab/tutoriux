@@ -22,8 +22,10 @@ Encore
 	.addEntry('global_docready', './assets/entry/global/docready.js')
 
 	// Site
+	.addEntry('site_app', './assets/entry/site/app.js')
 	.addEntry('site_homepage', './assets/entry/site/homepage.js')
 	.addEntry('site_login', './assets/entry/site/login.js')
+	.addEntry('site_feedback', './assets/entry/site/feedback.js')
 
 	// CMS
 	// ...

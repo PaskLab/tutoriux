@@ -20,7 +20,7 @@ use Symfony\Component\Form\AbstractType,
 
 /**
  * Class FeedbackType
- * @package AdminBundle\Form\Frontend
+ * @package App\Form\Site\Admin
  */
 class FeedbackType extends AbstractType
 {
@@ -153,7 +153,7 @@ class FeedbackType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'translation_domain' => 'admin',
+            'translation_domain' => 'site',
             'translator' => null
         ]);
     }

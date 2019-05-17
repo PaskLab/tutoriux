@@ -1,7 +1,11 @@
 # Tutoriux Parameters
 app:
+
   metadata:
     title: 'Tutoriux'
     description: 'Tutoriux, share your knowledge'
     keywords: 'Tutoriux, Tutorials, keywords'
-  system_email: 'no-reply@tutoriux.com'
+
+  emails:
+    system_email: 'no-reply@tutoriux.com'
+    feedback: 'feedback@tutoriux.com'

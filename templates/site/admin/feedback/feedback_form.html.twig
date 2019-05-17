@@ -1,4 +1,4 @@
-{% trans_default_domain "site_admin" %}
+{% trans_default_domain "site" %}
 {% extends 'site/layout.html.twig' %}
 {% form_theme form 'site/core/form/form_fields_vertical_md.html.twig' %}
 
@@ -11,18 +11,13 @@
 
 {% block content %}
 	<!-- BEGIN PAGE CONTENT INNER -->
-	{#<div class="row">#}
-		{#<div class="col-md-12">#}
-			{#{{ render(controller('SystemBundle:Frontend/Text:displayTexts')) }}#}
-		{#</div>#}
-	{#</div>#}
 
 	<div class="row">
 		<div class="col-md-offset-2 col-md-8">
 			<!-- BEGIN PORTLET -->
 			<div class="portlet light">
 				<div class="portlet-body">
-					{{ render(controller('SystemBundle:Frontend/Text:displayTexts')) }}
+					{{ render(controller('App\\Controller\\Site\\TextController::displayTexts')) }}
 				</div>
 				<div class="portlet-title">
 					<div class="caption font-blue-madison">
@@ -52,15 +47,15 @@
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
 
 	<script>
-		jQuery(document).ready(function() {
-			Tutoriux.initForm();
-			$('form').submit(function(){
-				$('#{{ form.width.vars.id }}').val(window.screen.width);
-			});
-		});
+		var feedback_with_id = '#{{ form.width.vars.id }}';
 	</script>
+
+	{% embed 'site/core/javascripts.html.twig' %}
+		{% block page_scripts %}
+			{{ encore_entry_script_tags('site_feedback') }}
+		{% endblock %}
+	{% endembed %}
 
 {% endblock %}

@@ -1,7 +1,6 @@
 /**
  * Module name: Tutoriux
  */
-
 import TutoriuxTranslations from '../global/translations';
 
 export default (function () {

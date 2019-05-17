@@ -72,6 +72,36 @@ services:
             - ['setCacheAdapter', ['@cache.app']]
 
 
+    # Twig Extension
+
+    Twig\Extensions\TextExtension:
+        tags: [{ name: twig.extension }]
+
+    Twig\Extensions\IntlExtension:
+        tags: [{ name: twig.extension }]
+
+    Salavert\Twig\Extension\TimeAgoExtension:
+        arguments: ['@translator']
+        tags: [{ name: twig.extension }]
+
+    # Deletable Listener
+
+    system.deletable:
+        class: App\Services\Deletable
+
+    App\Listeners\UserDeletableListener:
+        arguments: [ "@security.token_storage" ]
+        tags:
+            - { name: system.deletable, entity: App\Entity\User }
+
+    App\Listeners\RoleDeletableListener:
+        tags:
+            - { name: system.deletable, entity: App\Entity\Role }
+
+    App\Listeners\SectionDeletableListener:
+        tags:
+            - { name: system.deletable, entity: App\Entity\Section }
+
     # Defined multiple time so we can change the namespace. Might be a bug with doctrine
     # Workaround to force doctrine namespace on redis cache while using symfony TraceableAdapter (cache pool)
     doctrine.metadata_cache_driver:
@@ -97,3 +127,6 @@ services:
 
     # Autowire alias
     Tutoriux\DoctrineBehaviorsBundle\ORM\Metadatable\MetadatableGetter: '@doctrine_behaviors.metadatable_getter'
+    Liip\ImagineBundle\Service\FilterService: '@liip_imagine.service.filter'
+    Liip\ImagineBundle\Imagine\Data\DataManager: '@liip_imagine.data.manager'
+    Liip\ImagineBundle\Imagine\Cache\SignerInterface: '@liip_imagine.cache.signer'

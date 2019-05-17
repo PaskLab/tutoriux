@@ -3,16 +3,26 @@
 namespace App\Controller\Site\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Form\Site\Admin\FeedbackType;
+use App\Library\BaseController;
 
-use App\Form\Site\Admin\FeedbackType,
-    App\Library\BaseController;
-
+/**
+ * Class FeedbackController
+ * @package App\Controller\Site\Admin
+ */
 class FeedbackController extends BaseController
 {
-    public function feedback(Request $request)
+    /**
+     * @param Request $request
+     * @param TranslatorInterface $t
+     * @param \Swift_Mailer $mailer
+     * @return RedirectResponse|Response
+     */
+    public function feedback(Request $request, TranslatorInterface $t, \Swift_Mailer $mailer)
     {
-        $t = $this->get('translator');
-
         $form = $this->createForm(FeedbackType::class, null, [
             'translator' => $t
         ]);
@@ -24,8 +34,8 @@ class FeedbackController extends BaseController
 
                 $message = (new \Swift_Message())
                     ->setSubject('Feedback - Tutoriux')
-                    ->setFrom($this->getParameter('system.system_email'))
-                    ->setTo($this->getParameter('admin.emails.feedback'))
+                    ->setFrom($this->getParameter('app.emails.system_email'))
+                    ->setTo($this->getParameter('app.emails.feedback'))
                     ->setBody($this->renderView('site/admin/feedback/feedback_form_email.txt.twig', [
                         'fullname' => $form->get('fullname')->getData(),
                         'email' => $form->get('email')->getData(),
@@ -41,9 +51,9 @@ class FeedbackController extends BaseController
                     )
                 ;
 
-                $this->get('mailer')->send($message);
+                $mailer->send($message);
 
-                $this->addFlashSuccess($t->trans('Your feedback has been sent !', [], 'admin'));
+                $this->addFlashSuccess($t->trans('Your feedback has been sent !', [], 'site'));
 
                 return $this->redirect($this->generateUrl('section_id_1'));
             } else {

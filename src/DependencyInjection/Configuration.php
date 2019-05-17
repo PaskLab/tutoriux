@@ -31,7 +31,6 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
 
-
                 ->arrayNode('metadata')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -39,10 +38,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('description')->defaultNull()->end()
                         ->scalarNode('keywords')->defaultNull()->end()
                     ->end()
-                ->end()
-
-                ->scalarNode('system_email')
-                    ->defaultValue('system@tutoriux.com')
                 ->end()
 
                 ->arrayNode('notification')
@@ -62,6 +57,23 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('P3M')
                             ->info('\\DateInterval string')
                         ->end()
+                    ->end()
+                ->end()
+
+                ->arrayNode('emails')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+
+                        ->scalarNode('system_email')
+                            ->defaultValue('system@tutoriux.com')
+                            ->info('Email address used to send system email. Ex: LostPassword')
+                        ->end()
+
+                        ->scalarNode('feedback')
+                            ->defaultValue('feedback@tutoriux.com')
+                            ->info('Email address to which feedback emails are sent')
+                        ->end()
+
                     ->end()
                 ->end()
 

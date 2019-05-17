@@ -1,5 +1,5 @@
-{% trans_default_domain "system" %}
-{% filter spaceless %}
+{% trans_default_domain "site" %}
+{% apply spaceless %}
     {% if entity == '' %}<em>{% endif %}
     {%- set entityTitle = entity|transTitle|striptags|truncate(truncateLength|default(100))|raw -%}
     {% if (entity.id is defined and entity.id is null) or entity.id is not defined %}
@@ -9,4 +9,4 @@
     {% endif -%}
     {{ entityTitle }}
     {%- if entity == '' %}</em>{% endif %}
-{% endfilter %}
+{% endapply %}

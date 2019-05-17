@@ -24,9 +24,12 @@ class AppExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('app.metadata.title', $config['metadata']['title']);
         $container->setParameter('app.metadata.description', $config['metadata']['description']);
         $container->setParameter('app.metadata.keywords', $config['metadata']['keywords']);
-        $container->setParameter('app.system_email', $config['system_email']);
+
         $container->setParameter('app.notification.default_expiration', $config['notification']['default_expiration']);
         $container->setParameter('app.log.default_expiration', $config['log']['default_expiration']);
+
+        $container->setParameter('app.emails.feedback', $config['emails']['feedback']);
+        $container->setParameter('app.emails.system_email', $config['emails']['system_email']);
     }
 
     /**

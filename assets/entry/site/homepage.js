@@ -1,22 +1,12 @@
-// Global CSS and Scripts
-require('../global/_app_global');
+require('./app');
 
 // Page CSS
-require('../../styles/site/layout/layout.scss');
-require('../../styles/site/layout/themes/tutoriux.scss');
-require('../../styles/site/search.scss');
+require('../../styles/site/home.scss');
 
-// Page Script
-var Metronic = require('../../scripts/global/metronic');
-var Layout = require('../../scripts/site/layout');
-import Tutoriux from '../../scripts/global/tutoriux';
-import TutoriuxSearch from '../../scripts/site/search_engine';
+// Page scripts
+require('../../plugins/jquery-match-height/dist/jquery.matchHeight');
+import TutoriuxHome from '../../scripts/site/home';
 
-// Page Script
 jQuery(document).ready(function() {
-	Metronic.init();
-	Layout.init();
-	Tutoriux.init();
-	Tutoriux.initFrontend();
-	TutoriuxSearch.init(algolia_config);
+	TutoriuxHome.init();
 });

@@ -251,7 +251,7 @@ class SecurityController extends BaseController
 
         $message = (new \Swift_Message())
             ->setSubject($t->trans('Tutoriux - Password Recovery', [], 'site'))
-            ->setFrom($this->getParameter('app.system_email'))
+            ->setFrom($this->getParameter('app.emails.system_email'))
             ->setTo($user->getEmail())
             ->setBody($this->renderView('site/security/password_lost_email.html.twig', array(
                     'id' => $user->getId(),

@@ -48,7 +48,7 @@ class TextController extends BaseController
         }
 
         /** @var TextRepository $textRepository */
-        $textRepository = $this->getEm()->getRepository(Text::class);
+        $textRepository = $this->getRepository(Text::class);
         $textLastUpdate = $textRepository->findLastUpdate(null, $sectionId);
 
         $response = new Response();
