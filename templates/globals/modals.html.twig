@@ -1,0 +1,59 @@
+{% trans_default_domain "globals" %}
+<div id="delete_modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-trash-o modal-icon"></i> {% trans %}Delete confirmation{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" id="delete_confirm" data-dismiss="modal" class="btn red"><i class="fa fa-trash-o"></i> {% trans %}Delete{% endtrans %}</button>
+                <button type="button" id="delete_cancel" data-dismiss="modal" class="btn">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirm_modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-check-square-o modal-icon"></i> {% trans %}Confirmation required{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" id="confirm_confirm" data-dismiss="modal" class="btn blue">{% trans %}Continue{% endtrans %}</button>
+                <button type="button" id="confirm_cancel" data-dismiss="modal" class="btn">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="info_modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-exclamation-circle modal-icon"></i> {% trans %}Info{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn blue">{% trans %}Ok{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="error_modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title font-red-thunderbird"><i class="fa fa-bug modal-icon"></i> {% trans %}Error{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn red-thunderbird">{% trans %}Ok{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<li{% if selected %} class="active"{% endif %}>
+    <a href="{{ path('cms_text', {sectionId: section.id}) }}">
+		<i class="fa fa-files-o"></i>
+        {% trans %}Texts{% endtrans %}
+    </a>
+</li>

@@ -1,0 +1,149 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+
+    <div class="col-md-3 media-manager-information">
+
+        <button type="button" class="btn btn-default media-library-back" data-hide="media-manager-related-content"><i class="fa fa-arrow-left"></i> {% trans %}Back{% endtrans %}</button>
+
+        <h3>{{ media }}</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <td class="col-md-4">
+                    {% trans %}Last update{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.updatedAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Uploaded on{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.createdAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}File extension{% endtrans %} :
+                </td>
+                <td>
+                    {{ fileExtension }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Real file name{% endtrans %} :
+                </td>
+                <td>
+                    {{ realName }}
+                </td>
+            </tr>
+            {% if 'image' == media.type %}
+                <tr>
+                    <td>
+                        {% trans %}Format{% endtrans %} :
+                    </td>
+                    <td>
+                        {% if media.cropWidth is not empty and media.cropHeight is not empty %}
+                            {{ media.cropWidth ~ ' X ' ~ media.cropHeight }} (px)
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td>
+                    {% trans %}Size{% endtrans %} :
+                </td>
+                <td>
+                    {{ (media.size / 1024)|number_format(2, '.', ' ') }} {% trans %}kb{% endtrans %}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="media-manager-related-content-zone" class="col-md-9">
+
+        <div class="form">
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="note note-info">
+                            <p class="block">
+                                {% if is_granted('ROLE_CONTENT_MANAGER') %}
+                                    <span class="label label-warning">{% trans %}Replace{% endtrans %}</span>&nbsp; {% trans %}Allows you to replace the current media by another in the selected content{% endtrans %}.<br><br>
+                                    <span class="label label-danger">{% trans %}Remove{% endtrans %}</span>&nbsp; {% trans %}Allows you to remove the current media from the selected content{% endtrans %}.<br><br>
+                                {% endif %}
+                                <span class="label label-info">{% trans %}Important{% endtrans %} !</span>&nbsp; {% trans %}A page reload can be necessary to view changes{% endtrans %}.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>{% trans %}Content type{% endtrans %}</th>
+                        <th>{% trans %}Field{% endtrans %}</th>
+                        <th>{% trans %}Section{% endtrans %}</th>
+                        <th>{% trans %}Content{% endtrans %}</th>
+                        {% if is_granted('ROLE_CONTENT_MANAGER') %}
+                            <th style="width:41px"><input type="checkbox" id="media-manager-related-content-checkall"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in relatedContents %}
+                            {% if not loop.first %}<tr>{% endif %}
+                            {% set rowspan = entity.children|length %}
+                            {% for field in entity.children %}{% set rowspan = rowspan + field.children|length - 1 %}{% endfor %}
+                            <td rowspan="{{ rowspan }}">{{ entity.name }}</td>
+                            {% for field in entity.children %}
+                                {% if not loop.first %}<tr>{% endif %}
+                                <td rowspan="{{ field.children|length }}">{{ field.name }}</td>
+                                {% for content in field.children %}
+                                    {% if not loop.first %}<tr>{% endif %}
+                                    <td>
+                                        {% if content.section %}
+                                            {{ content.section }}
+                                        {% else %}
+                                            {% trans %}None{% endtrans %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if content.href %}
+                                            <a href="{{ content.href }}" target="_blank">{{ content.name }}</a>
+                                        {% else %}
+                                            {{ content.name }}
+                                        {% endif %}
+                                    </td>
+                                    {% if is_granted('ROLE_CONTENT_MANAGER') %}
+                                        <td>
+                                            <input type="checkbox" class="related-content" data-hash="{{ content.hash }}">
+                                        </td>
+                                    {% endif %}
+                                    {% if not loop.last %}</tr>{% endif %}
+                                {% endfor %}
+                                {% if not loop.last %}</tr>{% endif %}
+                            {% endfor %}
+                            {% if not loop.last %}</tr>{% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            {% if is_granted('ROLE_CONTENT_MANAGER') %}
+                <div class="form-actions">
+                    <button id="media-manager-replace" class="btn yellow disabled"><i class="fa fa-copy"></i> {% trans %}Replace{% endtrans %}</button>&nbsp;
+                    <button id="media-manager-remove" class="btn red disabled"><i class="fa fa-trash-o"></i> {% trans %}Remove{% endtrans %}</button>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endapply %}

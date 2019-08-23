@@ -1,0 +1,51 @@
+# Sections (roots handling)
+cms_section_root:
+    path:  /sections/root
+    controller: App\Controller\Cms\Section\RootController::list
+
+cms_section_root_order:
+    path:  /sections/root/order
+    controller: App\Controller\Cms\Section\RootController::order
+
+cms_section_navigation_order:
+    path:  /sections/section-navigation/order
+    controller: App\Controller\Cms\Section\RootController::orderSectionNavigation
+
+cms_section_root_edit:
+    path:  /sections/root/{id}/edit
+    controller: App\Controller\Cms\Section\RootController::edit
+    defaults: { id: 0 }
+
+cms_section_root_delete:
+    path:  /sections/root/{id}/delete
+    controller: App\Controller\Cms\Section\RootController::delete
+
+cms_section_root_delete_check:
+    path:  /sections/root/{id}/delete-check
+    controller: App\Controller\Cms\Section\RootController::checkDelete
+
+# Sections
+cms_section:
+    path:  /sections/{sectionId}
+    controller: App\Controller\Cms\Section\SectionController::index
+
+cms_section_order:
+    path:  /sections/{sectionId}/order
+    controller: App\Controller\Cms\Section\SectionController::order
+
+cms_section_order_alpha:
+    path:  /sections/{sectionId}/order-alpha
+    controller: App\Controller\Cms\Section\SectionController::orderAlpha
+
+cms_section_edit:
+    path:  /sections/{sectionId}/{id}/edit
+    controller: App\Controller\Cms\Section\SectionController::edit
+    defaults: { id: 0 }
+
+cms_section_delete:
+    path:  /sections/{sectionId}/{id}/delete
+    controller: App\Controller\Cms\Section\SectionController::delete
+
+cms_section_delete_check:
+    path:  /sections/{sectionId}/{id}/delete-check
+    controller: App\Controller\Cms\Section\SectionController::checkDelete

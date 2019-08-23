@@ -1,0 +1,21 @@
+# Texts
+cms_text:
+    path:  /texts/{sectionId}
+    controller: App\Controller\Cms\Text\TextController::index
+
+cms_text_order:
+    path:  /texts/{sectionId}/order
+    controller: App\Controller\Cms\Text\TextController::order
+
+cms_text_edit:
+    path:  /texts/{sectionId}/{id}/edit
+    controller: App\Controller\Cms\Text\TextController::edit
+    defaults: { id: 0 }
+
+cms_text_delete:
+    path:  /texts/{sectionId}/{id}/delete
+    controller: App\Controller\Cms\Text\TextController::delete
+
+cms_text_delete_check:
+    path:  /texts/{sectionId}/{id}/delete-check
+    controller: App\Controller\Cms\Text\TextController::checkDelete

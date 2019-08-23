@@ -1,0 +1,7 @@
+{% block global_stylesheets %}
+	{% include 'globals/_stylesheets.html.twig' %}
+{% endblock %}
+
+{% block page_stylesheets %}
+	{{ encore_entry_link_tags('cms_app') }}
+{% endblock %}

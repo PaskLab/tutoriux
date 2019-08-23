@@ -2,17 +2,16 @@
 
 namespace App\Services;
 
-
-use Symfony\Bridge\Doctrine\RegistryInterface,
-    Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpFoundation\Session\SessionInterface,
-    Symfony\Component\HttpFoundation\RequestStack,
-    Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-use App\Entity\Section,
-    App\Repository\SectionRepository,
-    App\Library\NavigationElementInterface,
-    App\Library\ApplicationCoreInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Section;
+use App\Repository\SectionRepository;
+use App\Library\NavigationElementInterface;
+use App\Library\ApplicationCoreInterface;
 
 /**
  * Class ApplicationCore
@@ -74,9 +73,23 @@ class ApplicationCore implements ApplicationCoreInterface
     protected $doctrineInit;
 
     /**
+     * LazyLoaded
+     *
+     * @var callable
+     */
+    protected $deletable;
+
+    /**
+     * LazyLoaded
+     *
+     * @var callable
+     */
+    protected $translator;
+
+    /**
      * @var bool
      */
-    protected $initialized;
+    protected $sectionNavInitialized;
 
     /**
      * @var bool
@@ -103,7 +116,7 @@ class ApplicationCore implements ApplicationCoreInterface
         $this->currentElement = null;
         $this->elements = [];
 
-        $this->initialized = false;
+        $this->sectionNavInitialized = false;
     }
 
     /**
@@ -123,17 +136,17 @@ class ApplicationCore implements ApplicationCoreInterface
     /**
      * @return bool
      */
-    public function isInitialized() : bool
+    public function isSectionNavInitialized() : bool
     {
-        return $this->initialized;
+        return $this->sectionNavInitialized;
     }
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function init(): void
+    public function initSectionNav(): void
     {
-        if (!$this->initialized) {
+        if (!$this->sectionNavInitialized) {
             $em = $this->doctrine->getManager();
 
             if ($sectionId = $this->getSectionId()) {
@@ -165,7 +178,7 @@ class ApplicationCore implements ApplicationCoreInterface
                 );
             }
 
-            $this->initialized = true;
+            $this->sectionNavInitialized = true;
         }
     }
 
@@ -267,11 +280,9 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * Get the current (last pushed) navigation element.
-     *
-     * @return NavigationElementInterface
+     * @return NavigationElementInterface|null
      */
-    public function getCurrentElement(): NavigationElementInterface
+    public function getCurrentElement(): ?NavigationElementInterface
     {
         return $this->currentElement;
     }
@@ -439,6 +450,48 @@ class ApplicationCore implements ApplicationCoreInterface
     public function setDoctrineInit(callable $doctrineInit): ApplicationCoreInterface
     {
         $this->doctrineInit = $doctrineInit;
+
+        return $this;
+    }
+
+    /**
+     * @return Deletable
+     */
+    public function getDeletable(): Deletable
+    {
+        $callable = $this->deletable;
+
+        return $callable();
+    }
+
+    /**
+     * @param callable $deletable
+     * @return ApplicationCoreInterface
+     */
+    public function setDeletable(callable $deletable): ApplicationCoreInterface
+    {
+        $this->deletable = $deletable;
+
+        return $this;
+    }
+
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator(): TranslatorInterface
+    {
+        $callable = $this->translator;
+
+        return $callable();
+    }
+
+    /**
+     * @param callable $translator
+     * @return ApplicationCoreInterface
+     */
+    public function setTranslator(callable $translator): ApplicationCoreInterface
+    {
+        $this->translator = $translator;
 
         return $this;
     }

@@ -4,8 +4,7 @@ namespace App\Services;
 
 /**
  * Class DoctrineInitCallable
- *
- * @package \App\Services
+ * @package App\Services
  */
 class DoctrineInitCallable
 {

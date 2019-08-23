@@ -1,0 +1,88 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+    <div class="col-md-3 media-manager-information">
+
+        <button type="button" class="btn btn-default media-library-back" data-hide="media-manager-crop-media"><i class="fa fa-arrow-left"></i> {% trans %}Back{% endtrans %}</button>
+
+        <h3>{{ media }}</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <td class="col-md-4">
+                    {% trans %}Last update{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.updatedAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Uploaded on{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.createdAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}File extension{% endtrans %} :
+                </td>
+                <td>
+                    {{ fileExtension }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Real file name{% endtrans %} :
+                </td>
+                <td>
+                    {{ realName }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Format{% endtrans %} :
+                </td>
+                <td>
+                    {% if media.cropWidth is not empty and media.cropHeight is not empty %}
+                        {{ media.cropWidth ~ ' X ' ~ media.cropHeight }} (px)
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Size{% endtrans %} :
+                </td>
+                <td>
+                    {{ (media.size / 1024)|number_format(2, '.', ' ') }} {% trans %}kb{% endtrans %}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="media-manager-crop-zone" class="col-md-9">
+
+        <div class="form">
+            <div class="form-body">
+
+                <h4>{% trans %}Keep proportions{% endtrans %}</h4>
+
+                <div>
+                    <input id="media-crop-proportional" class="make-switch" type="checkbox" checked data-on-text="<i class='fa fa-link'></i>" data-off-text="<i class='fa fa-unlink'></i>">
+                </div>
+
+                <br>
+
+                <img src="{{ media.mediaPath|imagine_filter('base')|slice(app.request.getSchemeAndHttpHost()|length) ~ '?' ~ random(9999) }}" id="media-image-crop" class="img-responsive" alt="{{ media }}"/>
+
+            </div>
+
+            <div class="form-actions">
+                <button id="media-manager-crop" class="btn blue">{% trans %}Crop{% endtrans %}</button>
+            </div>
+        </div>
+
+    </div>
+    
+{% endapply %}

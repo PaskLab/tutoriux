@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="portlet box grey-silver">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-sitemap"></i>
+					{{ name }}
+				</div>
+				<div class="tools">
+					{% if entities|length > 1 %}
+						<a class="list-order-mode" data-table-id="table-{{ id }}" data-sort-url="{{ path('cms_mapping_order') }}"  href="javascript:;"><i class="fa fa-align-justify"></i> <i class="fa fa-sort"></i></a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="portlet-body">
+				<table id="table-{{ id }}" class="table table-striped table-hover">
+					<thead>
+					<tr>
+						<th>{% trans %}Type{% endtrans %}</th>
+						<th>{% trans %}Target{% endtrans %}</th>
+						<th class="ordering">{% trans %}Ordering{% endtrans %}</th> {# Class .ordering is a hook for datatable #}
+						<th class="col-md-1">{% trans %}Actions{% endtrans %}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for entity in entities %}
+						<tr id="table-item-{{ entity.id }}" class="gradeX {{ (loop.index is even) ? 'even' : 'odd' }}">
+							<td>{{ entity.type }}</td>
+							<td>{{ entity.target }}</td>
+							<td>{{ entity.ordering }}</td>
+							<td class="text-center">
+								{% if entity.target != 'App\\Controller\\Cms\\Mapping\\NavigationController::sectionModuleBar' %}
+									<a href="{{ path('cms_mapping_edit', { 'id': entity.id }) }}" style="padding-right: 15%;"><i class="fa fa-pencil tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Edit{% endtrans %}"></i></a>
+									<a href="{{ path('cms_mapping_delete', { 'id': entity.id }) }}" data-delete-check="{{ path('cms_mapping_delete_check', { 'id': entity.id }) }}"><i class="fa fa-trash-o tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Delete{% endtrans %}"></i></a>
+								{% else %}
+									<span class="label label-default">N/A</span>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

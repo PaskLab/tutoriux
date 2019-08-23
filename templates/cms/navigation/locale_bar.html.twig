@@ -1,0 +1,27 @@
+{% if (locales and locales|length > 1) %}
+    <!-- BEGIN APPLICATION BAR -->
+    <li class="dropdown dropdown-language">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+            <i class="fa fa-pencil"></i>
+                <span class="langname">
+                    {{ editLocale }}
+                </span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul id="edit-locales" class="dropdown-menu">
+            {% for locale in locales %}
+                <li>
+                    <a class="locale" data-locale="{{ locale.code }}" href="#">
+                        {% if editLocale == locale.code %}<strong>{% endif %}
+                            <span>{{ locale }} - {{ locale.code|capitalize }}</span>
+                        {% if editLocale == locale.code %}
+                            <i class="fa fa-check"></i>
+                            </strong>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <!-- END APPLICATION BAR -->
+{% endif %}

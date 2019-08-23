@@ -1,0 +1,4 @@
+# Home
+cms_dashboard:
+    path:  /
+    controller: App\Controller\Cms\DashboardController::index

@@ -1,0 +1,46 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+
+<h4>{% trans %}You are about to delete{% endtrans %} <strong>{{ medias|length }}</strong> {% trans %}media{% endtrans %}{% if medias|length > 1 %}s{% endif %}</h4>
+{% trans %}If you continue, the following files and contents will be affected{% endtrans %}:<br>
+
+<br>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>{% trans %}File{% endtrans %}</th>
+            <th>{% trans %}Content{% endtrans %}</th>
+            <th>{% trans %}Field{% endtrans %}</th>
+            <th>{% trans %}Quantity{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for media in medias %}
+            <tr>
+                {% set rowspan = media.relatedContents|length %}
+                {% for entity in media.relatedContents %}{% set rowspan = rowspan + entity.children|length - 1 %}{% endfor %}
+                <td{% if rowspan %} rowspan="{{ rowspan }}"{% endif %}>{{ media.name }}</td>
+                {% if not rowspan %}
+                    <td colspan="3" class="text-center">{% trans %}None{% endtrans %}</td>
+                {% endif %}
+            {% for entity in media.relatedContents %}
+                {% if not loop.first %}<tr>{% endif %}
+                <td rowspan="{{ entity.children|length }}">{{ entity.name }}</td>
+                {% for field in entity.children %}
+                    {% if not loop.first %}<tr>{% endif %}
+                    <td>{{ field.name }}</td>
+                    <td>{{ field.children|length }}</td>
+                    {% if not loop.last %}</tr>{% endif %}
+                {% endfor %}
+                {% if not loop.last %}</tr>{% endif %}
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+{% trans %}Are you sure you want to continue{% endtrans %}?
+{% endapply %}

@@ -1,4 +1,4 @@
-{% extends 'global/form/_form_fields_vertical.html.twig' %}
+{% extends 'globals/form/_form_fields_vertical.html.twig' %}
 
 {# form_row #}
 
@@ -105,7 +105,7 @@
 						<span class="check"></span>
 						<span class="box"></span>
 						{%- if child.vars.data.id is defined -%}
-							{% include 'global/entity_title.html.twig' with { 'entity': child.vars.data } %}
+							{% include 'globals/entity_title.html.twig' with { 'entity': child.vars.data } %}
 						{%- else -%}
 							{{ child.vars.label|trans({}, translation_domain)|raw }}
 						{%- endif -%}

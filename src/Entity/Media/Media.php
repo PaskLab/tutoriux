@@ -260,17 +260,10 @@ class Media extends BaseEntity
     }
 
     /**
-     * Get mediaPath
-     *
-     * @param bool $absolute
-     * @return string
+     * @return string|null
      */
-    public function getMediaPath(bool $absolute = false)
+    public function getMediaPath()
     {
-        if ($absolute) {
-            return $this->container->get('kernel')->getRootDir().'/../web' . $this->getWebPath('media');
-        }
-
         switch ($this->type) {
             case 'embedvideo':
                 return $this->mediaPath;
@@ -777,8 +770,8 @@ class Media extends BaseEntity
         $stamp = '?' . rand(1, 9999);
 
         switch ($this->type) {
-            case 'image':
-                $url = $this->container->get('liip_imagine.cache.manager')->getBrowserPath($this->getMediaPath(), 'media');
+            case 'image': // TODO: HtmlTag ne devrait pas être une méthode de l'entité....
+                $url = null; //$this->container->get('liip_imagine.cache.manager')->getBrowserPath($this->getMediaPath(), 'media');
                 return '<img data-mediaid="' . $this->id . '" src="' . $url . $stamp . '" class="img-responsive">';
             case 'video':
                 return '<iframe data-mediaid="' . $this->id . '" width="560" height="315" frameborder="0"  allowfullscreen src="' . $this->getMediaPath() . '"></iframe>';
@@ -797,7 +790,7 @@ class Media extends BaseEntity
     public function getUploadableFields()
     {
         return [
-            'media' => 'medias/' . $this->container->get('security.token_storage')->getToken()->getUsername()
+            'media' => 'medias/' . $this->getCreatedBy()->getId()
         ];
     }
 }

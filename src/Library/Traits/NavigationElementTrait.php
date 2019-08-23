@@ -54,6 +54,14 @@ trait NavigationElementTrait
     protected $elementIcon = '';
 
     /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getElementName();
+    }
+
+    /**
      * @param string $name
      * @return NavigationElementInterface
      */

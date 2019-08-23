@@ -1,0 +1,40 @@
+{% trans_default_domain "cms" %}
+{% extends 'cms/layout.html.twig' %}
+
+{% block content_title %}
+	<h3 class="page-title">{% trans with { '%entity%': 'Mappings'|trans } %}%entity% list{% endtrans %}</h3>
+{% endblock %}
+
+{% block content_main %}
+
+	<div class="row margin-bottom-20">
+		<div class="col-md-12">
+			<a class="btn btn-sm green" href="{{ path('cms_mapping_edit') }}"><i class="fa fa-plus-square"></i> {% trans %}Add new mapping{% endtrans %}</a>
+		</div>
+	</div>
+
+	{% for key, collection in collections %}
+		{% include 'cms/mapping/_list.html.twig' with {'id': key, 'name': collection.name, 'entities': collection.entities} %}
+	{% endfor %}
+
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% include 'globals/datatables/stylesheets.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% include 'globals/datatables/javascripts.html.twig' %}
+
+	<script>
+		$(function(){
+			Tutoriux.initDataTable({
+				"sortIgnore": [3],
+				"searchIgnore": [2,3]
+			});
+		});
+	</script>
+
+{% endblock %}

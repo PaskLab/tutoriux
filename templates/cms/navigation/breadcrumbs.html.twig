@@ -1,0 +1,16 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ path('cms_dashboard') }}">Dashboard</a>
+            {% if elements|length %}<i class="fa fa-angle-right"></i>{% endif %}
+        </li>
+        {% for element in elements %}
+            <li>
+                {% if element.icon is defined and element.icon %}<i class="fa {{ element.icon }}"></i>{% endif %}
+                <a href="{{ path(element.route, element.routeParams) }}">{% include 'globals/entity_title.html.twig' with { 'entity': element } %}</a>
+                {% if not loop.last %}<i class="fa fa-angle-right"></i>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

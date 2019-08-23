@@ -1,0 +1,35 @@
+# Users
+cms_user:
+    path:  /users
+    controller: App\Controller\Cms\User\UserController::index
+
+cms_user_edit:
+    path:  /users/{id}/edit
+    controller: App\Controller\Cms\User\UserController::edit
+    defaults: { id: 0 }
+
+cms_user_delete_check:
+    path:  /users/{id}/delete-check
+    controller: App\Controller\Cms\User\UserController::checkDelete
+
+cms_user_delete:
+    path:  /users/{id}/delete
+    controller: App\Controller\Cms\User\UserController::delete
+
+# Roles
+cms_role:
+    path:  /roles
+    controller: App\Controller\Cms\User\UserController::index
+
+cms_role_edit:
+    path:  /roles/{id}/edit
+    controller: App\Controller\Cms\Role\RoleController::edit
+    defaults: { id: 0 }
+
+cms_role_delete:
+    path:  /roles/{id}/delete
+    controller: App\Controller\Cms\Role\RoleController::delete
+
+cms_role_delete_check:
+    path:  /roles/{id}/delete-check
+    controller: App\Controller\Cms\Role\RoleController::checkDelete

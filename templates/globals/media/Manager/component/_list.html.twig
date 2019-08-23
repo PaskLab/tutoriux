@@ -1,0 +1,81 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+    {% if medias|length > 0 %}
+        <table class="table table-striped table-hover">
+            {% for media in medias %}
+                <tr id="media-item-{{ media.id }}" class="media media-{{ media.type }}{% if media.type in ['image', 'embedvideo'] %} gallery{% endif %}"
+                    data-media-id="{{ media.id }}"
+                    data-media-name="{{ media.name }}"
+                    data-media-type="{{ media.type }}"
+                    data-mime-type="{{ (media.type == 'embedvideo') ? 'text/html' : media.mimeType }}"
+                    data-media-url="{% if media.type == 'image' %}{{ media.mediaPath|imagine_filter('media')|slice(app.request.getSchemeAndHttpHost()|length) ~ '?' ~ random(9999) }}{% elseif media.type == 'embedvideo' %}{{ media.url }}{% else %}{{ media.mediaPath }}{% endif %}"
+                    data-media-thumbnail="{{ media.thumbnail.mediaPath|imagine_filter('media_thumb_large')|slice(app.request.getSchemeAndHttpHost()|length) ~ '?' ~ random(9999) }}"
+                    data-media-locked="{{ (media.isLocked) ? 'true':'false' }}"
+                    {% if 'embedvideo' == media.type %}
+                    data-media-embed-url="{{ media.mediaPath }}"
+                    data-{{ media.source }}="{{ media.embedId }}"
+                    {% endif %}>
+
+                    <td{% if media.locked %} class="locked"{% endif %}>
+                        {% if 'document' == media.type %}
+                            {% if media.mimeType == 'application/pdf' %}
+                                <i class="fa fa-file-pdf-o document"></i>
+                            {% else %}
+                                <i class="fa fa-file-o document"></i>
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ media.thumbnail.mediaPath|imagine_filter('media_thumb')|slice(app.request.getSchemeAndHttpHost()|length) ~ '?' ~ random(9999)}}" title="{{ media.name }}">
+                        {% endif %}
+                        {% if media.locked %}
+                            <i class="icon-lock"></i>
+                        {% endif %}
+                        <button class="options-menu btn btn-default">
+                            <i class="fa fa-cogs"></i>
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <h4>{{ media.name }}</h4>
+                        <p>
+                            <span class="file-type">
+                                {% if media.type == 'embedvideo' %}{% trans %}Embed Video{% endtrans %}{% else %}{{ media.type }}{% endif %}&nbsp;&nbsp;
+                            </span>
+                            {% if media.type == 'image' %}
+                                {{ media.cropWidth }} X {{ media.cropHeight }}&nbsp;&nbsp;
+                            {% endif %}
+                            {% if media.type != 'embedvideo' %}
+                                <span class="file-size">( {{ (media.size / 1024)|number_format(2, '.', ' ') }} {% trans %}kb{% endtrans %} )</span>
+                            {% endif %}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="text-right">
+                            {{ media.createdAt|date('Y-m-d') }}
+                            <br>
+                            {{ media.createdAt|date('H:i') }}
+                            <br>
+                            {% if media.type in ['image', 'embedvideo'] %}
+                                <button class="btn btn-link media-view font-yellow-gold"><i class="fa fa-eye"></i> {% trans %}View{% endtrans %}</button>
+                            {% else %}
+                                <a href="{{ media.mediaPath }}" target="_blank" class="media-view font-yellow-gold"><i class="fa fa-eye"></i> {% trans %}View{% endtrans %}</a>
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2 class="no-result text-center">
+        {% if 'image' == type %}
+            {% trans %}No image in this folder{% endtrans %}
+        {% elseif 'document' == type %}
+            {% trans %}No document in this folder{% endtrans %}
+        {% elseif 'embedvideo' == type %}
+            {% trans %}No video in this folder{% endtrans %}
+        {% else %}
+            {% trans %}Empty folder{% endtrans %}
+        {% endif %}
+        </h2>
+    {% endif %}
+{% endapply %}
+

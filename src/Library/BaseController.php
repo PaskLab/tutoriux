@@ -2,10 +2,15 @@
 
 namespace App\Library;
 
+use App\Services\Deletable;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Services\ApplicationCore;
 use App\Entity\Section;
 use App\Services\DoctrineInit;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class BaseController
@@ -27,14 +32,22 @@ abstract class BaseController extends AbstractController
     private $doctrineInit;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var Deletable
+     */
+    private $deletable;
+
+    /**
      * BaseController constructor.
      * @param ApplicationCore $applicationCore
-     * @param DoctrineInit $doctrineInit
      */
-    public function __construct(ApplicationCore $applicationCore, DoctrineInit $doctrineInit)
+    public function __construct(ApplicationCore $applicationCore)
     {
         $this->applicationCore = $applicationCore;
-        $this->doctrineInit = $doctrineInit;
     }
 
     /**
@@ -181,10 +194,116 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * @return DoctrineInit|null
+     * @return DoctrineInit
      */
-    protected function getDoctrineInit(): ?DoctrineInit
+    protected function getDoctrineInit(): DoctrineInit
     {
+        if (!$this->doctrineInit) {
+            $this->doctrineInit = $this->applicationCore->getDoctrineInit();
+        }
+
         return $this->doctrineInit;
+    }
+
+    /**
+     * @return TranslatorInterface
+     */
+    protected function getTranslator(): TranslatorInterface
+    {
+        if (!$this->translator) {
+            $this->translator = $this->applicationCore->getTranslator();
+        }
+
+        return $this->translator;
+    }
+
+    /**
+     * @return Deletable
+     */
+    protected function getDeletable(): Deletable
+    {
+        if (!$this->deletable) {
+            $this->deletable = $this->applicationCore->getDeletable();
+        }
+
+        return $this->deletable;
+    }
+
+    /**
+     * @param $entity
+     * @return array
+     */
+    protected function checkDeleteEntity($entity)
+    {
+        if (null === $entity) {
+            throw new NotFoundHttpException();
+        }
+
+        $result = $this->deletable->checkDeletable($entity);
+        $output = $result->toArray();
+        $output['template'] = $this->renderView('globals/delete_message.html.twig',
+            array(
+                'entity' => $entity,
+                'result' => $result
+            )
+        );
+
+        return $output;
+    }
+
+    /**
+     * Performs the delete action on an entity.
+     *
+     * The "Deletable Service" will be called to check if the entity can be deleted or not.
+     * If you want to add more check for an entity, you can add listeners to the service.
+     *
+     * @param mixed $entity
+     *
+     * @throws NotFoundHttpException
+     */
+    protected function deleteEntity(object $entity)
+    {
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find this ' . get_class($this) . ' entity.');
+        }
+
+        $result = $this->deletable->checkDeletable($entity);
+        if ($result->isSuccess()) {
+            $this->addFlashSuccess($this->getTranslator()->trans(
+                '%entity% has been deleted.',
+                array('%entity%' => $entity), 'globals'
+            ));
+
+            $this->getEm()->remove($entity);
+            $this->getEm()->flush();
+        } else {
+            $this->addFlashError($result->getErrors());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param ObjectRepository $repository
+     */
+    protected function orderEntities(Request $request, ObjectRepository $repository)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $i = 0;
+            $elements = explode(';', trim($request->get('elements'), ';'));
+
+            foreach ($elements as $element) {
+
+                $element = explode('-', $element);
+                $entity = $repository->find($element[2]);
+
+                if ($entity) {
+                    $entity->setOrdering(++$i);
+                    $this->getEm()->persist($entity);
+                }
+
+                $this->getEm()->flush();
+            }
+        }
     }
 }

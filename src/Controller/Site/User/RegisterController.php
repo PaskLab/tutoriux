@@ -122,7 +122,7 @@ class RegisterController extends BaseController
 
         $message = (new \Swift_Message())
             ->setSubject('Tutoriux - ' . $translator->trans('Account Creation Confirmation', [], 'site'))
-            ->setFrom($this->getParameter('app.system_email'))
+            ->setFrom($this->getParameter('app.emails.system_email'))
             ->setTo($user->getEmail())
             ->setBody($this->renderView('site/security/register_confirm_email.html.twig', [
                 'id' => $user->getId(),

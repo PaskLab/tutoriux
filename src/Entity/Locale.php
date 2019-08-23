@@ -8,7 +8,7 @@ use App\Library\BaseEntity;
  * Class Locale
  * @package App\Entity
  */
-class Locale extends BaseEntity
+class   Locale extends BaseEntity
 {
     /**
      * @var integer

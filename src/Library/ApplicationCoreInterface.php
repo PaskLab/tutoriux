@@ -5,10 +5,12 @@ namespace App\Library;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Section;
 use App\Services\DoctrineInit;
 use App\Services\PageTitle;
 use App\Services\Breadcrumbs;
+use App\Services\Deletable;
 
 /**
  * Interface ApplicationCoreInterface
@@ -24,12 +26,12 @@ interface ApplicationCoreInterface
     /**
      * @return bool
      */
-    public function isInitialized() : bool;
+    public function isSectionNavInitialized() : bool;
 
     /**
      * @return void
      */
-    public function init(): void;
+    public function initSectionNav(): void;
 
     /**
      * @return Request
@@ -83,7 +85,7 @@ interface ApplicationCoreInterface
     /**
      * @return NavigationElementInterface
      */
-    public function getCurrentElement(): NavigationElementInterface;
+    public function getCurrentElement(): ?NavigationElementInterface;
 
     /**
      * @param Breadcrumbs $breadcrumbs
@@ -161,4 +163,26 @@ interface ApplicationCoreInterface
      * @return ApplicationCoreInterface
      */
     public function setDoctrineInit(callable $doctrineInit): ApplicationCoreInterface;
+
+    /**
+     * @return Deletable
+     */
+    public function getDeletable(): Deletable;
+
+    /**
+     * @param callable $deletable
+     * @return ApplicationCoreInterface
+     */
+    public function setDeletable(callable $deletable): ApplicationCoreInterface;
+
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator(): TranslatorInterface;
+
+    /**
+     * @param callable $translator
+     * @return ApplicationCoreInterface
+     */
+    public function setTranslator(callable $translator): ApplicationCoreInterface;
 }

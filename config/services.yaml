@@ -44,8 +44,7 @@ services:
 
     # Public
 
-#    App\Services\DoctrineInit:
-#        public: true
+    # ...
 
     # Private
 
@@ -53,6 +52,8 @@ services:
         autowire: true
         calls:
             - ['setDoctrineInit', ['@App\Services\DoctrineInitCallable']]
+            - ['setDeletable', ['@App\Services\DeletableCallable']]
+            - ['setTranslator', ['@App\Services\TranslatorCallable']]
 
     App\Routing\MappingDirectoryLoader:
         arguments: ['@file_locator']
@@ -71,7 +72,6 @@ services:
         calls:
             - ['setCacheAdapter', ['@cache.app']]
 
-
     # Twig Extension
 
     Twig\Extensions\TextExtension:
@@ -86,21 +86,18 @@ services:
 
     # Deletable Listener
 
-    system.deletable:
-        class: App\Services\Deletable
-
     App\Listeners\UserDeletableListener:
         arguments: [ "@security.token_storage" ]
         tags:
-            - { name: system.deletable, entity: App\Entity\User }
+            - { name: entity.deletable, entity: App\Entity\User }
 
     App\Listeners\RoleDeletableListener:
         tags:
-            - { name: system.deletable, entity: App\Entity\Role }
+            - { name: entity.deletable, entity: App\Entity\Role }
 
     App\Listeners\SectionDeletableListener:
         tags:
-            - { name: system.deletable, entity: App\Entity\Section }
+            - { name: entity.deletable, entity: App\Entity\Section }
 
     # Defined multiple time so we can change the namespace. Might be a bug with doctrine
     # Workaround to force doctrine namespace on redis cache while using symfony TraceableAdapter (cache pool)

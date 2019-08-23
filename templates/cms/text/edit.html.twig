@@ -1,0 +1,86 @@
+{% extends 'cms/layout.html.twig' %}
+{% form_theme form 'cms/core/form/form_fields_vertical.html.twig' %}
+
+{% block content_title %}
+    <h3 class="page-title">{% include 'globals/entity_title.html.twig' with { entity: text } %}</h3>
+{% endblock %}
+
+{% block content_main %}
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+
+            <div class="portlet box grey-silver">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-file-text-o"></i>
+                        {% trans %}Text{% endtrans %}
+                    </div>
+                    {% if text.id %}
+                        <div class="tools">
+                            {% trans %}Last update {% endtrans %} : {{ text.updatedAt|localizeddate('medium') }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="portlet-body form">
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            {{ form_widget(form.translation.active) }}
+                            {{ form_label(form.translation.active) }}
+                        </div>
+
+                        {% if not text.static %}
+
+                            <div class="form-group">
+                                {{ form_widget(form.collapsable) }}
+                                {{ form_label(form.collapsable) }}
+                            </div>
+
+                            {{ form_row(form.translation.name) }}
+
+                        {% endif %}
+
+                        {{ form_row(form.translation.text) }}
+
+                        {{ form_rest(form) }}
+
+                    </div>
+                    {% block edit_actions %}
+                        {% include 'cms/core/edit_actions.html.twig' with {
+                        'entity': text,
+                        'delete_route': path('cms_text_delete', { id: text.id ?: 0 }),
+                        'delete_check_route': path('cms_text_delete_check', { 'id': text.id ?: 0 }),
+                        'cancel_route': path('cms_text')
+                        } %}
+                    {% endblock %}
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    {% include 'globals/media/Core/modals.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'globals/media/Core/stylesheets.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'globals/media/Core/javascripts.html.twig' %}
+
+{% endblock %}

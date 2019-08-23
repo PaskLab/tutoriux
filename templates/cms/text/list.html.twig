@@ -1,0 +1,37 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% block content_title %}
+    <h3 class="page-title">{% trans %}Texts list{% endtrans %}</h3>
+{% endblock %}
+
+{% block content_main %}
+
+    <div class="row margin-bottom-20">
+        <div class="col-md-12">
+            <a class="btn btn-sm green" href="{{ path('cms_text_edit') }}"><i class="fa fa-plus-square"></i> {% trans %}Add a text{% endtrans %}</a>
+        </div>
+    </div>
+
+    {% include 'cms/text/list_table.html.twig' with { 'entities': mainEntities, 'title': 'Main'|trans, 'tableId': 'texts' } %}
+
+    {% if staticEntities %}
+        {% include 'cms/text/list_table.html.twig' with { 'entities': staticEntities, 'title': 'Static block'|trans, 'tableId': 'static-texts' } %}
+    {% endif %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {% embed 'cms/core/stylesheets.html.twig' %}
+        {% block page_stylesheets %}
+            {{ encore_entry_link_tags('cms_app_datatable') }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {% embed 'cms/core/javascripts.html.twig' %}
+        {% block page_scripts %}
+            {{ encore_entry_script_tags('cms_app_datatable') }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

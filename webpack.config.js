@@ -28,7 +28,8 @@ Encore
 	.addEntry('site_feedback', './assets/entry/site/feedback.js')
 
 	// CMS
-	// ...
+	.addEntry('cms_app', './assets/entry/cms/app.js')
+	.addEntry('cms_app_datatable', './assets/entry/cms/app_datatable.js')
 
 	.splitEntryChunks()
 

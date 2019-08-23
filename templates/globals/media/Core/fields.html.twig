@@ -1,0 +1,7 @@
+{% trans_default_domain "media_manager" %}
+<div class="media-select" data-media-type="{{ type }}">
+    <input type="hidden" {{ widget_attributes|raw }} {% if media %}value="{{ media.id }}"{% endif %} />
+    <span>{% trans %}Choose a file{% endtrans %}</span>
+    <i class="fa fa-trash-o"{% if not media %} style="display: none;"{% endif %}></i>
+    <img{% if not media %} style="display: none;"{% endif %} data-place-holder="{{ asset('bundles/media/images/empty.png') }}" src="{% if media %}{{ media.thumbnail.mediaPath|imagine_filter('media_thumb_large')|slice(app.request.getSchemeAndHttpHost()|length) ~ '?' ~ random(9999) }}{% else %}{{ asset('bundles/media/images/empty.png') }}{% endif %}">
+</div>

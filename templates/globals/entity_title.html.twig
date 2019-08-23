@@ -1,0 +1,12 @@
+{% trans_default_domain "globals" %}
+{% apply spaceless %}
+    {% if entity == '' %}<em>{% endif %}
+    {%- set entityTitle = entity|transTitle|striptags|truncate(truncateLength|default(100))|raw -%}
+    {% if (entity.id is defined and entity.id is null) or entity.id is not defined %}
+        {%- set entityTitle = entityTitle|trans -%}
+    {%- elseif element.metaTitle is defined and element.metaTitle is not empty -%}
+        {%- set entityTitle = element.metaTitle|trans -%}
+    {% endif -%}
+    {{ entityTitle }}
+    {%- if entity == '' %}</em>{% endif %}
+{% endapply %}

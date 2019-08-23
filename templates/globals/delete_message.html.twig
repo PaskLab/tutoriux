@@ -1,0 +1,11 @@
+{% trans_default_domain "globals" %}
+{% if result.isSuccess() %}
+    <h4 class="text-center">{% trans %}Are you sure you want to delete{% endtrans %} "{% include 'globals/entity_title.html.twig' with { 'entity': entity } %}"?</h4>
+{% else %}
+    <h4>"{% include 'globals/entity_title.html.twig' with { 'entity': entity } %}" {% trans %}cannot be deleted because of these restrictions{% endtrans %}:</h4>
+    <ul>
+        {% for restriction in result.errors %}
+            <li>{{ restriction|trans }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

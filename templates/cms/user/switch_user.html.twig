@@ -1,0 +1,7 @@
+{% if user.active and is_granted('ROLE_DEVELOPER') and role.role != 'ROLE_DEVELOPER' %}
+    {% filter spaceless %}
+        <a href='{{ path('cms_dashboard', { _want_to_be_this_user: user.username }) }}' style="padding-right: 15%;">
+            <i class="fa fa-user tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Impersonate{% endtrans %} {{ user.username }}"></i>
+        </a>
+    {% endfilter %}
+{% endif %}

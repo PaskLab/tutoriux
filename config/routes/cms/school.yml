@@ -1,0 +1,25 @@
+# Note:
+# Use option 'mapping_alias' when multiple route are tied to the same section
+# Avoid specify _method into requirements if the _format parameter is used
+
+cms_school_criteria:
+    path:  /criteria
+    controller: App\Controller\Cms\School\RequestController::list
+
+cms_school_criteria_order:
+    path:  /criteria/order
+    controller: App\Controller\Cms\School\RequestController::order
+
+cms_school_criteria_edit:
+    path:  /criteria/{id}/edit
+    controller: App\Controller\Cms\School\RequestController::edit
+    defaults:
+        id: 0
+
+cms_school_criteria_delete:
+    path:  /criteria/{id}/delete
+    controller: App\Controller\Cms\School\RequestController::delete
+
+cms_school_criteria_delete_check:
+    path:  /criteria/{id}/delete-check
+    controller: App\Controller\Cms\School\RequestController::checkDelete

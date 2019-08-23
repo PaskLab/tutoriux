@@ -1,0 +1,35 @@
+# Tutoriux General
+Tutoriux, share your knowledge: Tutoriux, partagez vos connaissances
+Username: Utilisateur
+Password: Mot de passe
+Email: Courriel
+Back: Retour
+Submit: Envoyer
+Save: Sauvegarder
+Reset: Réinitialiser
+Home: Accueil
+Previous: Précédent
+Next: Suivant
+
+# Mapping
+Link: Lien
+
+# Flash messages
+'%entity% has been saved.': '%entity% a été sauvegardé(es).'
+'%entity% has been deleted.': '%entity% a été supprimé.'
+Some fields are invalid.: Certains champs ne sont pas valides.
+
+# Delete message
+Are you sure you want to delete: Êtes-vous certain(e) de vouloir supprimer
+cannot be deleted because of these restrictions: ne peut-être supprimé en raison des restrictions suivantes
+
+# Modals
+Delete confirmation: Confirmez la suppression
+Delete: Supprimer
+Confirmation required: Confirmation requise
+Continue: Continuer
+Cancel: Annuler
+Info: Info
+Ok: Ok
+Error: Erreur
+no object: auncun objet

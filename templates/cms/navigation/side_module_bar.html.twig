@@ -1,0 +1,7 @@
+{% import 'globals/mapping_macro.html.twig' as renderer %}
+
+{% for mapping in mappings %}
+    {{ renderer.generate(mapping) }}
+{% endfor %}
+
+

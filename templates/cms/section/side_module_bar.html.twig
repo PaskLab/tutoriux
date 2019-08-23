@@ -1,0 +1,7 @@
+<li{% if selected %} class="active"{% endif %}>
+    <a href="{{ path('cms_section_root') }}">
+        <i class="fa fa-wrench"></i>
+        <span class="title">{% trans %}Manage Root Sections{% endtrans %}</span>
+        {% if selected %}<span class="selected"></span>{% endif %}
+    </a>
+</li>

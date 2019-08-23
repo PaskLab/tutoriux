@@ -1,6 +1,6 @@
 /**
-Core script to handle the entire theme and core functions
-**/
+ * Module name: Layout
+ */
 module.exports = function () {
 
 	var Metronic = require('../global/metronic');

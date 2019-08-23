@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="{{ app.request.locale }}" class="no-js">
+<!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8"/>
+        <title>{% block title %}{{ render(controller('App\\Controller\\Cms\\NavigationController::pageTitle')) }}{% endblock %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta name="robots" content="noindex, nofollow">
+
+        {% block stylesheets %}
+            {% include 'cms/core/stylesheets.html.twig' %}
+        {% endblock %}
+
+        {% include 'globals/favicon.html.twig' %}
+    </head>
+
+    <body{% block body_attr %} id="{{ get_bundle_name() }}_bundle" class="{{ get_controller_name() }}_controller {{ get_action_name() }}_action page-header-fixed page-sidebar-fixed page-sidebar-closed-hide-logo"{% endblock %}>
+    {% block body %}
+
+        {% include 'cms/core/header.html.twig' %}
+
+        {% block wrapper %}
+            <!-- BEGIN CONTAINER -->
+            <div class="page-container">
+
+                {% include 'cms/core/sidebar.html.twig' %}
+
+                <!-- BEGIN CONTENT -->
+                <div class="page-content-wrapper">
+                    <div id="main" class="page-content">
+
+                        {% block content_title '' %}
+
+                        {% block breadcrumbs %}
+                            {{ render(controller('App\\Controller\\Cms\\NavigationController::breadcrumbs')) }}
+                        {% endblock %}
+
+                        {% block section_module_bar %}
+                            {{ render(controller('App\\Controller\\Cms\\NavigationController::sectionModuleBar')) }}
+                        {% endblock %}
+
+                        {% block content %}
+
+                            {% block flash_message %}
+                                {% include 'globals/flash_message.html.twig' %}
+                            {% endblock %}
+
+                            {% block content_main '' %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+                <!-- END CONTENT -->
+
+            </div>
+            <!-- END CONTAINER -->
+        {% endblock %}
+
+        {% include 'cms/core/footer.html.twig' %}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {% include 'cms/core/javascripts.html.twig' %}
+    {% endblock %}
+
+    {% block modals %}
+        {% include 'globals/modals.html.twig' %}
+    {% endblock %}
+
+    </body>
+</html>

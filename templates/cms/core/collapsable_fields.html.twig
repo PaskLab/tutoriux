@@ -1,0 +1,19 @@
+<div class="panel-group accordion" id="accordion-{{ id }}">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#collapse-{{ id }}">
+                    <i class="fa {{ (icon is defined) ? icon : 'fa-cogs' }}" style="padding-right: 10px"></i>
+                    {{ link_name|trans }}
+                </a>
+            </h4>
+        </div>
+        <div id="collapse-{{ id }}" class="panel-collapse collapse">
+            <div class="panel-body">
+                {% for field in fields %}
+                    {{ field|raw }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

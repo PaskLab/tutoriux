@@ -1,0 +1,87 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+    {% form_theme form 'SystemBundle:Backend/Core/form:form_fields_vertical.html.twig' %}
+
+    <div class="col-md-3 media-manager-information">
+
+        <button type="button" class="btn btn-default media-library-back" data-hide="media-manager-edit-media"><i class="fa fa-arrow-left"></i> {% trans %}Back{% endtrans %}</button>
+
+        <h3>{{ media }}</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    {% trans %}Last update{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.updatedAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Uploaded on{% endtrans %} :
+                </td>
+                <td>
+                    {{ media.createdAt|date }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}File extension{% endtrans %} :
+                </td>
+                <td>
+                    {{ fileExtension }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Real file name{% endtrans %} :
+                </td>
+                <td>
+                    {{ realName }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% trans %}Size{% endtrans %} :
+                </td>
+                <td>
+                    {{ (media.size / 1024)|number_format(2, '.', ' ') }} {% trans %}kb{% endtrans %}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="media-manager-edit-zone" class="col-md-9">
+
+        {{ form_start(form, {'attr':{'id':'media-manager-edit-form', 'class':'form'}}) }}
+
+        <div class="form-body">
+
+            {{ form_errors(form) }}
+
+            {{ form_row(form.name) }}
+
+            {{ form_row(form.credit) }}
+
+            {{ form_row(form.sourceUrl) }}
+
+            {{ form_row(form.sourceDetails) }}
+
+            {{ form_row(form.caption) }}
+
+            {{ form_row(form.description) }}
+
+            {{ form_rest(form) }}
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn blue">{% trans %}Save{% endtrans %}</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    
+{% endapply %}

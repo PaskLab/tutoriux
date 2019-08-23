@@ -1,0 +1,7 @@
+<li{% if selected %} class="active"{% endif %}>
+	<a href="{{ path('cms_school_criteria') }}">
+		<i class="fa fa-list-alt"></i>
+		<span class="title">{% trans %}Request Criteria{% endtrans %}</span>
+		{% if selected %}<span class="selected"></span>{% endif %}
+	</a>
+</li>

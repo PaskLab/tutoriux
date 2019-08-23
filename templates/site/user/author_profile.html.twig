@@ -3,7 +3,7 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	{% include 'global/datatables/stylesheets.html.twig' %}
+	{% include 'globals/datatables/stylesheets.html.twig' %}
 	{% stylesheets
 		'bundles/system/assets/admin/pages/css/profile.css'
 	%}
@@ -41,7 +41,7 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	{% include 'global/datatables/javascripts.html.twig' %}
+	{% include 'globals/datatables/javascripts.html.twig' %}
 	{% javascripts
 		'bundles/system/frontend/js/user/users.js'
 	%}

@@ -1,0 +1,29 @@
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar-wrapper">
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <ul class="page-sidebar-menu page-sidebar-menu-closed" data-auto-scroll="false" data-auto-speed="200">
+
+            <li class="start{% if get_controller_name() == 'dashboard' %} active{% endif %}">
+                <a href="{{ path('cms_dashboard') }}">
+                    <i class="fa fa-home"></i>
+                    <span class="title">Dashboard</span>
+                    {% if get_controller_name() == 'dashboard' %}<span class="selected"></span>{% endif %}
+                </a>
+            </li>
+
+            {% block section_bar %}
+                {{ render(controller('App\\Controller\\Cms\\NavigationController::sectionBar')) }}
+            {% endblock %}
+
+            {% block side_module_bar %}
+                {{ render(controller('App\\Controller\\Cms\\NavigationController::sideModuleBar')) }}
+            {% endblock %}
+
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
+</div>
+<!-- END SIDEBAR -->

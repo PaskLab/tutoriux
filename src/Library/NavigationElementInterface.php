@@ -9,6 +9,11 @@ namespace App\Library;
 interface NavigationElementInterface
 {
     /**
+     * @return string
+     */
+    public function __toString();
+
+    /**
      * @return mixed
      */
     public function getId();

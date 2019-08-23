@@ -1,0 +1,11 @@
+{# BEGIN GLOBAL VARS #}
+<script>
+    var session_locale = '{{ app.request.locale }}';
+</script>
+{# END GLOBAL VARS #}
+
+{# BEGIN CORE SCRIPTS #}
+{% block page_scripts %}
+    {{ encore_entry_script_tags('cms_app') }}
+{% endblock %}
+{# END CORE SCRIPTS #}

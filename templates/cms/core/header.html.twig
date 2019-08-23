@@ -1,0 +1,62 @@
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner">
+
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <div class="menu-toggler sidebar-toggler">
+                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+            </div>
+            <a href="{{ path('cms_dashboard') }}">
+                <img src="{{ asset('logo_white.png', 'global_logo') }}" width="150" height="50" alt="{{ project_title }}" class="tutoriux-logo"/>
+            </a>
+        </div>
+        <!-- END LOGO -->
+
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <div class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        </div>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+
+                {{ render(controller('App\\Controller\\Cms\\NavigationController::localeBar')) }}
+
+                {% if is_granted('ROLE_BACKEND_ADMIN') %}
+                    {{ render(controller('App\\Controller\\Cms\\NavigationController::topModuleBar')) }}
+                {% endif %}
+
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown dropdown-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        {% if app.user.avatar %}<img alt="" class="img-circle" src="{{ app.user.avatar.mediaPath|imagine_filter('media_user_avatar_small_round') }}"/>{% endif %}
+                        <span class="username">{{ app.user }}</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        {{ render(controller('App\\Controller\\Cms\\Role\\NavigationController::impersonatingBar')) }}
+
+                        <li>
+                            <a href="{{ path('cms_user_edit', {'id': app.user.id}) }}"><i class="fa fa-user"></i> {% trans %}My Profile{% endtrans %}</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{ path('site_logout') }}"><i class="fa fa-key"></i> {% trans %}Log Out{% endtrans %}</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+        </div>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+
+<div class="clearfix"></div>

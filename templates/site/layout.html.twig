@@ -20,7 +20,7 @@
 			{% include 'site/core/stylesheets.html.twig' %}
 		{% endblock %}
 
-		{% include 'global/favicon.html.twig' %}
+		{% include 'globals/favicon.html.twig' %}
 
 		{{ encore_entry_script_tags('global_docready') }}
 	</head>
@@ -62,7 +62,7 @@
 							<!-- END PAGE BREADCRUMB -->
 
 							{% block flash_message %}
-								{% include 'global/flash_message.html.twig' %}
+								{% include 'globals/flash_message.html.twig' %}
 							{% endblock %}
 
 							<!-- BEGIN PAGE CONTENT INNER -->
@@ -91,7 +91,7 @@
 	{% endblock %}
 
 	{% block modals %}
-		{% include 'global/modals.html.twig' %}
+		{% include 'globals/modals.html.twig' %}
 		{% include 'site/search/search_engine.html.twig' %}
 	{% endblock %}
 

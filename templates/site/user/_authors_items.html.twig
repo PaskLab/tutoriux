@@ -1,5 +1,5 @@
 {% trans_default_domain "site" %}
-{% filter spaceless %}
+{% apply spaceless %}
 	{% if column == 0 %}
 		<a style="margin-right: 10px;" href="{{ path('section_id_45', { 'username': entity.username }) }}">
 			{% if entity.avatar %}
@@ -10,4 +10,4 @@
 		</a>
 		<a class="primary-link{% if not entity.active %} font-grey-silver{% endif %}" href="{{ path('section_id_45', { 'username': entity.username }) }}">{{ entity }}</a>
 	{% endif %}
-{% endfilter %}
+{% endapply %}

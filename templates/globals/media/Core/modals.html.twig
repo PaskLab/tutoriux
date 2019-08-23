@@ -1,0 +1,118 @@
+{% trans_default_domain "media_manager" %}
+{# Main Modal #}
+<div id="media-manager-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-play-circle modal-icon"></i> {% trans %}Medias{% endtrans %}</h3>
+            </div>
+            <div id="media-manager-body" class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="media-manager-insert" type="button" class="btn blue disabled"><i class="fa fa-arrow-down"></i> {% trans %}Insert{% endtrans %}</button>
+                <button type="button" data-dismiss="modal" class="btn default">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# Info Modal #}
+<div id="media-manager-info-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-exclamation-circle modal-icon"></i> {% trans %}Info{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn blue">{% trans %}Ok{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# Rename folder Modal #}
+<div id="media-manager-folder-rename-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-pencil modal-icon"></i> {% trans %}Rename Folder{% endtrans %}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>{% trans %}Enter the new folder name{% endtrans %}</label>
+                    <input id="media-manager-folder-name" type="text" class="form-control" placeholder="{% trans %}New Folder Name{% endtrans %}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="media-manager-rename-confirm" data-dismiss="modal" class="btn yellow"><i class="fa fa-pencil"></i> {% trans %}Rename{% endtrans %}</button>
+                <button type="button" data-dismiss="modal" class="btn default">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# Search Modal #}
+<div id="media-manager-search-modal" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa  fa-copy modal-icon"></i> {% trans %}Replace a media{% endtrans %}</h3>
+            </div>
+            <div class="modal-body">
+                <select id="media-search-value" class="form-control"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="media-manager-replace-confirm" data-dismiss="modal" class="btn yellow disabled"><i class="fa fa-pencil"></i> {% trans %}Replace{% endtrans %}</button>
+                <button type="button" data-dismiss="modal" class="btn default">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# Delete Modal #}
+<div id="media-manager-delete-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-trash-o modal-icon"></i> {% trans %}Delete confirmation{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" id="media-manager-delete-confirm" data-dismiss="modal" class="btn red"><i class="fa fa-trash-o"></i> {% trans %}Delete{% endtrans %}</button>
+                <button type="button" data-dismiss="modal" class="btn default">{% trans %}Cancel{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# Info Modal : KEEP IT AT THE END #}
+<div id="media-manager-info-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 class="modal-title"><i class="fa fa-exclamation-circle modal-icon"></i> {% trans %}Info{% endtrans %}</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn blue">{% trans %}Ok{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{# The blueimp Gallery widget #}
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
+    <div class="slides">
+    </div>
+    <h3 class="title"></h3>
+    <a class="prev">
+        ‹ </a>
+    <a class="next">
+        › </a>
+    <a class="close white">
+    </a>
+    <a class="play-pause">
+    </a>
+    <ol class="indicator">
+    </ol>
+</div>

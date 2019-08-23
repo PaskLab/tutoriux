@@ -1,0 +1,20 @@
+{% import 'globals/mapping_macro.html.twig' as renderer %}
+
+{% if mappings|length > 1 %}
+    <!-- BEGIN GLOBAL BAR -->
+    <li class="dropdown dropdown-language">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+            <i class="fa fa-cogs"></i>
+                <span class="langname">
+                    {% trans %}Global{% endtrans %}
+                </span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            {% for mapping in mappings %}
+                {{ renderer.generate(mapping) }}
+            {% endfor %}
+        </ul>
+    </li>
+    <!-- END GLOBAL BAR -->
+{% endif %}

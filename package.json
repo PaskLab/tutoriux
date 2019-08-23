@@ -16,6 +16,10 @@
     },
     "dependencies": {
         "bootstrap": "3.3.5",
+        "datatables.net-bs": "^1.10.19",
+        "datatables.net-responsive-bs": "^2.2.3",
+        "datatables.net-rowgroup-bs": "^1.1.0",
+        "datatables.net-rowreorder-bs": "^1.2.5",
         "jquery": "1.11.1",
         "react": "^16.8.6"
     }

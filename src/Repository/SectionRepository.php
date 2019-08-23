@@ -136,6 +136,7 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
             ->leftJoin('c.translations', 'ct')
             ->leftJoin('c.mappings', 'cm')
             ->orderBy('s.ordering')
+            ->addOrderBy('cm.ordering', 'ASC')
             ->addOrderBy('st.name');
 
         return $this->processQuery($queryBuilder);

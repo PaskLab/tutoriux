@@ -85,7 +85,7 @@ class ControllerSubscriber implements EventSubscriberInterface
 
         // Initialization of cores stack in order of: system, application and controller
         if (HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
-            $this->applicationCore->init();
+            $this->applicationCore->initSectionNav();
         }
     }
 }

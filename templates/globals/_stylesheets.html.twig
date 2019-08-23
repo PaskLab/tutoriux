@@ -1,0 +1,6 @@
+{# BEGIN GLOBAL MANDATORY STYLES #}
+{% if app.environment == 'prod' %}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+{% else %}
+    {% include 'globals/_dev_fonts.html.twig' %}
+{% endif %}

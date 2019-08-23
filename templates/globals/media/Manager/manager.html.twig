@@ -1,0 +1,108 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+
+	<div id="media-manager-library" class="row row-eq-height">
+
+		<div id="media-manager-navigation" class="col-md-3">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></button>
+						<ul id="media-filter-menu" class="dropdown-menu hold-on-click dropdown-radiobuttons" role="menu">
+							<li>
+								<div>{% trans %}Sort{% endtrans %}</div>
+								<label><input type="radio" name="media-sort" class="media-refresh"{% if sort == "alpha" %} checked{% endif %} data-sort="alpha">A-Z</label>
+								<label><input type="radio" name="media-sort" class="media-refresh"{% if sort == "newer" %} checked{% endif %} data-sort="newer">{% trans %}Newer{% endtrans %}</label>
+								<label><input type="radio" name="media-sort" class="media-refresh"{% if sort == "older" %} checked{% endif %} data-sort="older">{% trans %}Older{% endtrans %}</label>
+							</li>
+							{% if view in ['ckeditor', 'ck_inline'] %}
+								<li class="divider"></li>
+								<li>
+									<div>{% trans %}Filter by type{% endtrans %}</div>
+									<label><input type="radio" name="media-filter" class="media-refresh"{% if type == "any" %} checked{% endif %} data-type="any">{% trans %}All{% endtrans %}</label>
+									<label><input type="radio" name="media-filter" class="media-refresh"{% if type == "image" %} checked{% endif %} data-type="image">{% trans %}Image{% endtrans %}</label>
+									<label><input type="radio" name="media-filter" class="media-refresh"{% if type == "document" %} checked{% endif %} data-type="document">{% trans %}Document{% endtrans %}</label>
+									{% if view == 'ckeditor' %}
+										<label><input type="radio" name="media-filter" class="media-refresh"{% if type == "embedvideo" %} checked{% endif %} data-type="embedvideo">{% trans %}Embed Video{% endtrans %}</label>
+									{% endif %}
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+					<div class="btn-group">
+						<button id="media-create-root-folder" type="button" class="btn btn-default">*<i class="fa fa-folder-o"></i></button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus font-blue"></i></button>
+						<ul class="dropdown-menu hold-on-click" role="menu">
+							{% if type != 'embedvideo' %}
+								<li>
+									<a id="media-upload" href=javascript:;><i class="fa fa-download"></i> {% trans %}Upload{% endtrans %}</a>
+								</li>
+							{% endif %}
+							{#{% if type in ['any', 'embedvideo'] %}#}
+								{#<li>#}
+									{#<a id="media-add-embed" href=javascript:;><i class="fa fa-youtube-play"></i> {% trans %}Embed media{% endtrans %}</a>#}
+								{#</li>#}
+							{#{% endif %}#}
+						</ul>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div id="folder-wrapper">
+						<button id="media-manager-root-folder" class="btn btn-xs btn-link active"><i class="fa fa-home drop"></i></button>
+						<div id="folder-tree"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="media-manager-list" class="col-md-9">
+			{% include 'MediaBundle:Media/Manager/component:_list.html.twig' %}
+		</div>
+
+	</div>
+
+	<div id="media-manager-uploader" class="row hide">
+		<div class="row">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-default media-library-back" data-hide="media-manager-uploader"><i class="fa fa-arrow-left"></i> {% trans %}Back{% endtrans %}</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				{% include 'MediaBundle:Media/Manager/component:_uploader.html.twig' %}
+			</div>
+		</div>
+	</div>
+
+	<div id="media-manager-add-embed" class="row hide">
+		<div class="row">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-default media-library-back" data-hide="media-manager-add-embed"><i class="fa fa-arrow-left"></i> {% trans %}Back{% endtrans %}</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				{% include 'MediaBundle:Media/Manager/component:_embed.html.twig' %}
+			</div>
+		</div>
+	</div>
+
+	<div id="media-manager-edit-media" class="row row-eq-height hide"></div>
+
+	<div id="media-manager-resize-media" class="row row-eq-height hide"></div>
+
+	<div id="media-manager-crop-media" class="row row-eq-height hide"></div>
+
+	<div id="media-manager-tag" class="row row-eq-height hide"></div>
+
+	<div id="media-manager-related-content" class="row row-eq-height hide"></div>
+
+{% endapply %}

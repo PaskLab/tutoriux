@@ -1,0 +1,16 @@
+{% import 'globals/mapping_macro.html.twig' as renderer %}
+
+{% if mappings %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-custom boxless">
+                <ul class="nav nav-tabs">
+                    {% for mapping in mappings %}
+                        {{ renderer.generate(mapping) }}
+                    {% endfor %}
+                </ul>
+                <div class="tab-content" style="padding: 0"></div>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,17 @@
+# Locales
+cms_locale:
+    path:  /locales
+    controller: App\Controller\Cms\Locale\LocaleController::list
+
+cms_locale_edit:
+    path:  /locales/{id}/edit
+    controller: App\Controller\Cms\Locale\LocaleController::edit
+    defaults: { id: 0 }
+
+cms_locale_delete:
+    path:  /locales/{id}/delete
+    controller: App\Controller\Cms\Locale\LocaleController::delete
+
+cms_locale_delete_check:
+    path:  /locales/{id}/delete-check
+    controller: App\Controller\Cms\Locale\LocaleController::checkDelete

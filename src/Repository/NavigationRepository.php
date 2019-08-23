@@ -15,16 +15,15 @@ class NavigationRepository extends BaseEntityRepository
 {
     const SECTION_BAR_ID = 1;
     const SECTION_MODULE_BAR_ID = 2;
-    const GLOBAL_MODULE_BAR_ID = 3;
-    const APP_MODULE_BAR_ID = 4;
+    const TOP_MODULE_BAR_ID = 3;
+    const SIDE_MODULE_BAR_ID = 4;
     const NAVIGATION_LIFETIME = 86400;
 
     /**
-     * @param null $appId
      * @return QueryBuilder|mixed
      * @throws NonUniqueResultException
      */
-    public function findHaveSections($appId = null)
+    public function findHaveSections()
     {
         $query = $this->createQueryBuilder('n')
             ->select('n', 'sn', 's', 'st')
@@ -33,11 +32,6 @@ class NavigationRepository extends BaseEntityRepository
             ->leftJoin('s.translations', 'st')
             ->orderBy('n.id', 'ASC')
             ->addOrderBy('sn.ordering', 'ASC');
-
-        if ($appId) {
-            $query->where('n.app = :appId');
-            $query->setParameter('appId', $appId);
-        }
 
         return $this->processQuery($query);
     }

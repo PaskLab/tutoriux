@@ -111,14 +111,6 @@ Your Comment: Votre commentaire
 Suggestions, bugs, ideas, etc.: Suggestions, bogues, idées, etc.
 Feedback form: Formulaire de commentaire
 
-# Mapping
-Mapping: Correspondance
-Mappings: correspondances
-Add new mapping: Ajouter une nouvelle correspondance
-Target: Cible
-Without navigation: Sans navigation
-New mapping: Nouvelle correspondance
-
 # Users
 Users: Utilisateurs
 Members: Membres
@@ -198,18 +190,3 @@ is to create the ideal tool to make accessible knowledge on various topics in th
 Stay tuned: Soyez à l'écoute
 my@email.com: mon@courriel.com
 Follow Us On: Suivez-nous sur
-
-# Modals
-
-Delete confirmation: Confirmez la suppression
-Delete: Supprimer
-Confirmation required: Confirmation requise
-Continue: Continuer
-Cancel: Annuler
-Info: Info
-Ok: Ok
-Error: Erreur
-no object: auncun objet
-
-# Flash Messages
-Some fields are invalid.: Certains champs ne sont pas valides.

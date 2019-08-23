@@ -1,0 +1,16 @@
+{% if sections %}
+    {% for section in sections %}
+        <li{% if section.isSelectedElement %} class="active"{% endif %}>
+            <a href="{{ path('cms_section', {'sectionId': section.id}) }}">
+                {% if section.icon %}<i class="fa {{ section.elementIcon }}"></i>{% endif %}
+                {% include 'globals/entity_title.html.twig' with { 'entity': section } %}
+                {% if section.hasChildrenElements %}<span class="arrow{% if section.isSelectedElement %} open{% endif %}"></span>{% endif %}
+            </a>
+            {% if section.isSelectedElement and section.hasChildrenElements %}
+                <ul class="sub-menu">
+                    {% include 'cms/navigation/section_bar_level.html.twig' with { 'sections': section.childrenElements } %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endif %}

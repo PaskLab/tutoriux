@@ -1,0 +1,15 @@
+<div class="form-actions">
+    <div class="pull-right">
+        <button name="save" type="submit" class="btn green">{% trans %}Save{% endtrans %}</button>
+        <button name="save_continue" type="submit" class="btn blue">{% trans %}Save and continue{% endtrans %}</button>
+    </div>
+    <div>
+        <a href="{{ cancel_route }}" class="btn default">{% trans %}Cancel{% endtrans %}</a>
+        {% if entity.id and entity.isDeletable %}
+            <a class="btn red delete-action" href="{% if delete_route is defined %}{{ delete_route }}{% else %}{{ path( entity.getRouteBackend('delete'), entity.getRouteBackendParams() ) }}{% endif %}"{% if delete_check_route is defined %} data-delete-check="{{ delete_check_route }}"{% endif %}>
+                {% trans %}Delete{% endtrans %}
+                <i class="fa fa-trash-o"></i>
+            </a>
+        {% endif %}
+    </div>
+</div>

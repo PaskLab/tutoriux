@@ -1,20 +1,20 @@
 App\Entity\User:
     properties:
         username:
-            - NotBlank: { groups: [new, backend_new, edit] }
-            - Length: { groups: [new, backend_new, edit], min: 3, minMessage: Your username must be between 3 and 38 characters, max: 38, maxMessage: Your username must be between 3 and 38 characters }
+            - NotBlank: { groups: [new, cms_new, edit] }
+            - Length: { groups: [new, cms_new, edit], min: 3, minMessage: Your username must be between 3 and 38 characters, max: 38, maxMessage: Your username must be between 3 and 38 characters }
             - Regex:
                 pattern: '/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i'
                 match:   false
                 message: Your name cannot contain a number
         email:
-            - Email: { groups: [new, backend_new, edit, forgot_password, change_information] }
-            - NotBlank: { groups: [new, backend_new, edit, forgot_password, change_information] }
+            - Email: { groups: [new, cms_new, edit, forgot_password, change_information] }
+            - NotBlank: { groups: [new, cms_new, edit, forgot_password, change_information] }
         password:
-            - NotBlank: { groups: [new, backend_new, reset_password, change_password] }
-            - Length: { groups: [new, backend_new, edit, reset_password, change_password], min: 8, minMessage: Password must be at least 8 characters long }
+            - NotBlank: { groups: [new, cms_new, reset_password, change_password] }
+            - Length: { groups: [new, cms_new, edit, reset_password, change_password], min: 8, minMessage: Password must be at least 8 characters long }
         roles:
-            - Count: { groups: [backend_new, edit], min: 1, minMessage: You must select at least 1 role }
+            - Count: { groups: [cms_new, edit], min: 1, minMessage: You must select at least 1 role }
     constraints:
       - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: username, groups: [new, edit] }
       - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: email, groups: [new, edit]  }

@@ -1,0 +1,42 @@
+{% trans_default_domain "globals" %}
+{% if app.session.flashbag|length %}
+    <div class="row flash-messages">
+        <div class="col-md-12">
+            {% if app.session.flashbag.has('success') %}
+                <div class="alert alert-success">
+                    <button class="close" data-dismiss="alert"></button>
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <p>{{ flashMessage|trans }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if app.session.flashbag.has('alert') %}
+                <div class="alert">
+                    <button class="close" data-dismiss="alert"></button>
+                    {% for flashMessage in app.session.flashbag.get('alert') %}
+                        <p>{{ flashMessage|trans }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if app.session.flashbag.has('info') %}
+                <div class="alert alert-info">
+                    <button class="close" data-dismiss="alert"></button>
+                    {% for flashMessage in app.session.flashbag.get('info') %}
+                        <p>{{ flashMessage|trans }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if app.session.flashbag.has('error') %}
+                <div class="alert alert-danger">
+                    <button class="close" data-dismiss="alert"></button>
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        <p>{{ flashMessage|trans }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,21 @@
+# Mapping
+cms_mapping:
+    path:  /mapping/{sectionId}
+    controller: App\Controller\Cms\Mapping\MappingController::index
+
+cms_mapping_order:
+    path:  /mapping/{sectionId}/order
+    controller: App\Controller\Cms\Mapping\MappingController::order
+
+cms_mapping_edit:
+    path:  /mapping/{sectionId}/{id}/edit
+    controller: App\Controller\Cms\Mapping\MappingController::edit
+    defaults: { id: 0 }
+
+cms_mapping_delete:
+    path:  /mapping/{sectionId}/{id}/delete
+    controller: App\Controller\Cms\Mapping\MappingController::delete
+
+cms_mapping_delete_check:
+    path:  /mapping/{sectionId}/{id}/delete-check
+    controller: App\Controller\Cms\Mapping\MappingController::checkDelete

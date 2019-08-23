@@ -1,0 +1,13 @@
+{% if sections %}
+    <li{% if section.id is defined %} class="active open"{% endif %}>
+        <a href="javascript:;">
+            <i class="fa fa-sitemap"></i>
+            <span class="title">{% trans %}Sections{% endtrans %}</span>
+            <span class="arrow{% if section.id is defined %} open{% endif %}"></span>
+            {% if section.id is defined %}<span class="selected"></span>{% endif %}
+        </a>
+        <ul class="sections sub-menu">
+            {% include 'cms/navigation/section_bar_level.html.twig' %}
+        </ul>
+    </li>
+{% endif %}

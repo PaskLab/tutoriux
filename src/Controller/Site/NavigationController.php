@@ -182,7 +182,7 @@ class NavigationController extends BaseController
             }
         }
 
-        return $this->render('global/page_title.html.twig',
+        return $this->render('globals/page_title.html.twig',
             [
                 'element_page_title' => $elementPageTitle,
                 'element_override_page_title' => $elementOverridePageTitle,

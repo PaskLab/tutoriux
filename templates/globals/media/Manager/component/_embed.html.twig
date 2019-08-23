@@ -1,0 +1,38 @@
+{% trans_default_domain "media_manager" %}
+{% apply spaceless %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="note note-info">
+                <h4 class="block">{% trans %}You can add the following embed media{% endtrans %} :</h4>
+                <ul>
+                    <li>Youtube</li>
+                    <li>Vimeo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin:0;">
+        <div class="col-md-12 form-horizontal">
+            <div class="form-group">
+                <div class="input-group input-xlarge">
+                    <div class="input-icon">
+                        <i class="fa fa-link"></i>
+                        <input id="media-embed-url" type="text" class="form-control" placeholder="{% trans %}Embed media url{% endtrans %}">
+                    </div>
+                    <span class="input-group-btn">
+                        <button id="media-embed-add" type="button" class="btn blue">{% trans %}Add{% endtrans %}</button>
+                    </span>
+                </div>
+                 <span id="media-embed-success" class="help-block text-success" style="display:none;">
+                    {% trans %}Embed media added{% endtrans %} !
+                </span>
+                <span id="media-embed-error" class="help-block text-danger" style="display:none;">
+                    {% trans %}Invalid embed media url{% endtrans %} !
+                </span>
+            </div>
+        </div>
+    </div>
+
+{% endapply %}

@@ -1,0 +1,87 @@
+{% trans_default_domain "cms" %}
+{% extends 'cms/layout.html.twig' %}
+
+{% block content_title %}
+	<h3 class="page-title">{% trans %}Request Criteria list{% endtrans %}</h3>
+{% endblock %}
+
+{% block content_main %}
+
+	<div class="row margin-bottom-20">
+		<div class="col-md-12">
+			<a class="btn btn-sm green" href="{{ path('cms_school_criteria_edit') }}"><i class="fa fa-plus-square"></i> {% trans %}Add a criteria{% endtrans %}</a>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet box grey-silver">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-align-left"></i>
+						Criteria
+					</div>
+					<div class="tools">
+						{% if entities|length > 1 %}
+							<a class="list-order-mode" data-table-id="table-criteria" data-sort-url="{{ path('cms_school_criteria_order') }}"  href="javascript:;"><i class="fa fa-align-justify"></i> <i class="fa fa-sort"></i></a>
+						{% endif %}
+					</div>
+				</div>
+				<div class="portlet-body">
+					<table id="table-criteria" class="table table-striped table-hover">
+						<thead>
+						<tr>
+							<th>{% trans %}Criteria{% endtrans %}</th>
+							<th>{% trans %}Is Optional{% endtrans %}</th>
+							<th class="ordering">{% trans %}Ordering{% endtrans %}</th> {# Class .ordering is a hook for datatable #}
+							<th>{% trans %}Last update{% endtrans %}</th>
+							<th class="col-md-1">{% trans %}Actions{% endtrans %}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for entity in entities %}
+							<tr id="table-item-{{ entity.id }}" class="gradeX {{ (loop.index is even) ? 'even' : 'odd' }}">
+								<td>
+									<a{% if not entity.active %} class="font-grey-silver"{% endif %} href="{{ path('cms_school_criteria_edit', { 'id': entity.id }) }}">
+										{% include 'globals/entity_title.html.twig' with { 'entity': entity, 'truncateLength': 50 } %}
+									</a>
+								</td>
+								<td>{% if entity.optional %}<i class="fa fa-check"></i>{% endif %}</td>
+								<td>{{ entity.ordering }}</td>
+								<td>{{ entity.updatedAt|date('Y-m-d') }}</td>
+								<td class="text-center">
+									<a href="{{ path('cms_school_criteria_edit', { 'id': entity.id }) }}" style="padding-right: 15%;"><i class="fa fa-pencil tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Edit{% endtrans %}"></i></a>
+									<a href="{{ path('cms_school_criteria_delete', { 'id': entity.id }) }}" data-delete-check="{{ path('cms_school_criteria_delete_check', { 'id': entity.id }) }}"><i class="fa fa-trash-o tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Delete{% endtrans %}"></i></a>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{% include 'globals/datatables/stylesheets.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% include 'globals/datatables/javascripts.html.twig' %}
+
+	<script>
+		$(function(){
+			Tutoriux.initDataTable({
+				"sortIgnore": [0,1,4],
+				"searchable": false,
+				"searchIgnore": [],
+				"stripHtmlTags": []
+			});
+		});
+	</script>
+
+{% endblock %}
