@@ -56,7 +56,7 @@ class RequestCriteriaTranslation
      *
      * @return string
      */
-    public function getCriteria()
+    public function addCriteria()
     {
         return $this->criteria;
     }

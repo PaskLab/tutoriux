@@ -55,7 +55,7 @@ class RequestCriteria extends BaseEntity
             return 'New Criteria';
         }
 
-        if ($criteria = $this->getCriteria()) {
+        if ($criteria = $this->addCriteria()) {
             return $criteria;
         }
 
