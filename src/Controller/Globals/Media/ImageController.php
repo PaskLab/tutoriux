@@ -11,7 +11,7 @@ use App\Library\BaseController,
 
 /**
  * Class ImageController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class ImageController extends BaseController
 {

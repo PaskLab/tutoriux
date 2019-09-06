@@ -8,15 +8,15 @@ use Symfony\Component\Config\Definition\Exception\Exception,
     Symfony\Component\HttpFoundation\Request;
 
 use App\Library\BaseController;
-use App\Library\Globals\Media\MediaParserInterface;
-use App\Library\Globals\Media\MediaFile;
+use App\Library\Component\Media\MediaParserInterface;
+use App\Library\Component\Media\MediaFile;
 use App\Entity\Media\Media;
 use App\Form\Globals\Media\EmbedVideoType;
 use App\Services\DoctrineInit;
 
 /**
  * Class EmbedVideoController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class EmbedVideoController extends BaseController
 {

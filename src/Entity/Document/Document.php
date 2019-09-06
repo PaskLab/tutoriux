@@ -3,17 +3,19 @@
 namespace App\Entity\Document;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Library\BaseEntity,
-    Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class Document
  * @package App\Entity\Document
  */
-class Document extends BaseEntity
+class Document implements EntityInterface, TranslatableInterface
 {
-    use TutoriuxORMBehaviors\Translatable\Translatable,
+    use EntityUtils,
+        TutoriuxORMBehaviors\Translatable\Translatable,
         TutoriuxORMBehaviors\Localizable\Localizable,
         TutoriuxORMBehaviors\Blameable\Blameable;
 
@@ -69,7 +71,7 @@ class Document extends BaseEntity
      *
      * @return array
      */
-    public function getRouteParams(array $params = []): array
+    public function getRouteParams(iterable $params = []): iterable
     {
         return array_merge([
             'documentId' => $this->id,

@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Library\BaseEntity;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
 
 /**
  * Class Mapping
  * @package App\Entity
  */
-class Mapping extends BaseEntity
+class Mapping implements EntityInterface
 {
+    use EntityUtils;
+
     /**
      * @var integer
      */

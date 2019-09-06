@@ -3,17 +3,19 @@
 namespace App\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors,
-    App\Library\BaseEntity;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class Content
  * @package App\Entity\Content
  */
-class Content extends BaseEntity
+class Content implements EntityInterface, TranslatableInterface
 {
-    use TutoriuxORMBehaviors\Translatable\Translatable,
+    use EntityUtils,
+        TutoriuxORMBehaviors\Translatable\Translatable,
         TutoriuxORMBehaviors\Blameable\Blameable;
 
     /**

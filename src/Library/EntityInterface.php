@@ -9,30 +9,27 @@ namespace App\Library;
 interface EntityInterface
 {
     /**
-     * __toString
-     *
-     * @abstract
+     * @return mixed
      */
     public function __toString();
 
     /**
-     * Is Active
-     *
-     * @abstract
+     * @return string
      */
-    public function isActive();
+    public function getEntityName(): string;
 
     /**
-     * Is Editable
-     *
-     * @abstract
+     * @return mixed
      */
-    public function isEditable();
+    public function isActive(): bool;
 
     /**
-     * Is Deletable
-     *
-     * @abstract
+     * @return mixed
      */
-    public function isDeletable();
+    public function isEditable(): bool;
+
+    /**
+     * @return bool
+     */
+    public function isDeletable(): bool;
 }

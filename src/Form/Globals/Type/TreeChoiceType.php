@@ -12,12 +12,12 @@ use Symfony\Component\Form\AbstractType,
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Form\Globals\Type\ChoiceList\ORMSortedQueryBuilderLoader,
-    App\Library\Globals\TreeEntitySorter,
+    App\Library\Component\TreeEntitySorter,
     App\Library\NavigationElementInterface;
 
 /**
  * Class TreeChoiceType
- * @package App\Form\Globals\Type
+ * @package App\Form\Component\Type
  */
 class TreeChoiceType extends AbstractType
 {

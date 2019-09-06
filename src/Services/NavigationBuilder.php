@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Entity\Section;
 use App\Library\NavigationElementInterface;
-use Doctrine\Common\Persistence\Proxy;
 
 /**
  * Class NavigationBuilder
@@ -49,7 +47,7 @@ class NavigationBuilder
      * @param int $level
      * @return array
      */
-    protected function buildLevel(array $elements, NavigationElementInterface $parent = null, int $level = 1)
+    protected function buildLevel(iterable $elements, NavigationElementInterface $parent = null, int $level = 1)
     {
         /** @var NavigationElementInterface $element */
         foreach ($elements as $key => $element) {

@@ -2,23 +2,25 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection,
-    Symfony\Component\Security\Core\User\UserInterface,
-    Doctrine\Common\Collections\Collection,
-    Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-use App\Library\BaseEntity,
-    App\Entity\School\Request,
-    App\Entity\School\RequestAssessor,
-    Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use App\Entity\School\Request;
+use App\Entity\School\RequestAssessor;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 
 /**
  * Class User
  * @package App\Entity
  */
-class User extends BaseEntity implements UserInterface, \Serializable
+class User implements EntityInterface, UserInterface, \Serializable
 {
-    use TutoriuxORMBehaviors\Timestampable\Timestampable;
+    use EntityUtils,
+        TutoriuxORMBehaviors\Timestampable\Timestampable;
 
     /**
      * @var int
@@ -508,7 +510,7 @@ class User extends BaseEntity implements UserInterface, \Serializable
     /**
      * @return bool
      */
-    public function isDeletable()
+    public function isDeletable(): bool
     {
         $currentUser = $this->container->get('security.token_storage')->getToken()->getUser();
 

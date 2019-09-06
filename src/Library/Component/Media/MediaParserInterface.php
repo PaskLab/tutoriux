@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Library\Globals\Media;
+namespace App\Library\Component\Media;
 
 /**
  * Interface MediaParserInterface
- * @package App\Library\Globals\Media
+ * @package App\Library\Component\Media
  */
 interface MediaParserInterface
 {

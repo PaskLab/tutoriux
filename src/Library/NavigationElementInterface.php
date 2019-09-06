@@ -57,15 +57,15 @@ interface NavigationElementInterface
     public function hasChildrenElements(): bool;
 
     /**
-     * @param array $children
+     * @param iterable $children
      * @return NavigationElementInterface
      */
-    public function setChildrenElements(array $children = []): NavigationElementInterface;
+    public function setChildrenElements(iterable $children = []): NavigationElementInterface;
 
     /**
-     * @return array
+     * @return iterable
      */
-    public function getChildrenElements(): array;
+    public function getChildrenElements(): iterable;
 
     /**
      * @param NavigationElementInterface $child
@@ -102,16 +102,16 @@ interface NavigationElementInterface
     public function getRoute(): ?string;
 
     /**
-     * @param array $routeParams
+     * @param iterable $routeParams
      * @return NavigationElementInterface
      */
-    public function setRouteParams(array $routeParams): NavigationElementInterface;
+    public function setRouteParams(iterable $routeParams): NavigationElementInterface;
 
     /**
-     * @param array $params
-     * @return array
+     * @param iterable $params
+     * @return iterable
      */
-    public function getRouteParams(array $params = []): array;
+    public function getRouteParams(iterable $params = []): iterable;
 
     /**
      * @param string|null $icon

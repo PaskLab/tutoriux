@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\Validator\ConstraintViolation;
 
 use App\Library\BaseController,
-    App\Library\Globals\Media\MediaFile,
+    App\Library\Component\Media\MediaFile,
     App\Entity\Media\Media;
 use App\Services\DoctrineInit;
 
 /**
  * Class UploadController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class UploadController extends BaseController
 {

@@ -1,12 +1,22 @@
 doctrine:
     orm:
-        metadata_cache_driver: array
-
-        query_cache_driver: array
-
-        result_cache_driver: array
-
+        metadata_cache_driver:
+            type: array
+            id: ~
+        query_cache_driver:
+            type: array
+            id: ~
+        result_cache_driver:
+            type: array
+            id: ~
         second_level_cache:
-            region_cache_driver: array
-            enabled: true
-            region_lifetime: 1800
+            region_cache_driver:
+                type: array
+                id: ~
+            enabled: false
+            regions:
+                entity_locale:
+                    cache_driver:
+                        type: array
+                        id: ~
+                    lifetime: 3600

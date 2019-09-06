@@ -2,7 +2,7 @@
 
 namespace App\Library;
 
-use App\Library\Traits\NavigationElementTrait;
+use App\Library\Traits\NavigationElement as NavigationElementTrait;
 
 /**
  * Class NavigationElement

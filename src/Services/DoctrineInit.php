@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use App\Entity\Section,
-    App\Library\EntityInterface,
-    App\Library\TranslatableRepositoryInterface;
+use App\Entity\Section;
 use Doctrine\ORM\Proxy\Proxy;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
 
 /**
  * Class DoctrineInit
@@ -78,9 +78,8 @@ class DoctrineInit
             $classUses = class_uses($entity);
         }
 
-        if (is_subclass_of(get_class($entity), EntityInterface::class)) {
+        if (is_subclass_of(get_class($entity), TranslatableInterface::class)) {
             // Set the Edit Locale on translatable entities
-
             if ($this->getApplicationCore()->isReady()
                 && in_array('Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\Translatable', $classUses)) {
 

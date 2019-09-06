@@ -11,7 +11,7 @@ use Symfony\Component\Form\AbstractType,
 
 /**
  * Class MediaSelectType
- * @package App\Form\Globals\Media
+ * @package App\Form\Component\Media
  */
 class MediaSelectType extends AbstractType
 {

@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\{TextType, UrlType, TextareaType}
 
 /**
  * Class MediaType
- * @package App\Form\Globals\Media
+ * @package App\Form\Component\Media
  */
 class MediaType extends AbstractType
 {

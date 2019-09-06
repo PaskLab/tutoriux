@@ -6,9 +6,8 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
-use App\Library\BaseEntity;
 use App\Services\DoctrineInit;
-use Doctrine\ORM\Proxy\Proxy;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class PostLoadListener
@@ -48,10 +47,9 @@ class DoctrineSubscriber implements EventSubscriber
      */
     public function postLoad(LifecycleEventArgs $args)
     {
-        /** @var BaseEntity $entity */
         $entity = $args->getEntity();
 
-        if (is_subclass_of(get_class($entity), BaseEntity::class)) {
+        if ($entity instanceof TranslatableInterface) {
             $this->doctrineInit->initEntity($entity);
         }
     }

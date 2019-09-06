@@ -5,7 +5,7 @@ namespace App\Repository;
 use Exception;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 use App\Library\BaseEntityRepository;
-use App\Library\TranslatableRepositoryInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
 
 /**
  * TextRepository

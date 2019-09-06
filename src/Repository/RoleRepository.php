@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
-use App\Library\TranslatableRepositoryInterface;
 use App\Library\BaseEntityRepository;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
 
 /**
  * Class RoleRepository

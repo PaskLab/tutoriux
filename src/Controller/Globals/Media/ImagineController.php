@@ -12,7 +12,7 @@ use Liip\ImagineBundle\Controller\ImagineController as BaseImagineController,
 
 /**
  * Class ImagineController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class ImagineController extends BaseImagineController
 {

@@ -2,16 +2,18 @@
 
 namespace App\Controller\Cms\Section;
 
-use App\Entity\Navigation;
-use App\Entity\SectionNavigation;
-use App\Services\ApplicationCore;
-use App\Services\RouterInvalidator;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use App\Entity\Navigation;
+use App\Entity\SectionNavigation;
+use App\Services\ApplicationCore;
+use App\Services\RouterInvalidator;
 use App\Entity\Mapping;
 use App\Repository\NavigationRepository;
 use App\Repository\SectionRepository;
@@ -30,20 +32,16 @@ class RootController extends BaseController
      * @param ApplicationCore $applicationCore
      * @throws \Exception
      */
-    public function __construct(ApplicationCore $applicationCore)
+    public function __construct(ApplicationCore $applicationCore, AuthorizationCheckerInterface $authorizationChecker)
     {
         parent::__construct($applicationCore);
 
         // Access restricted to ROLE_BACKEND_ADMIN
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (false === $authorizationChecker->isGranted('ROLE_BACKEND_ADMIN')) {
             throw new AccessDeniedHttpException('You don\'t have the privileges to view this page.');
         }
 
-        $this->createAndPushNavigationElement(
-            'Root Sections',
-            'cms_section_root',
-            'fa-sitemap'
-        );
+        $this->createAndPushNavigationElement('Root Sections', 'cms_section_root', [], 'fa-sitemap');
     }
 
     /**

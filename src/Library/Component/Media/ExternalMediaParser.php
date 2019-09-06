@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Library\Globals\Media;
+namespace App\Library\Component\Media;
 
 /**
  * Class ExternalMediaParser
- * @package App\Library\Globals\Media
+ * @package App\Library\Component\Media
  */
 class ExternalMediaParser
 {

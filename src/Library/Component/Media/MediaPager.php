@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Globals\Media;
+namespace App\Library\Component\Media;
 
 use Doctrine\ORM\QueryBuilder;
 

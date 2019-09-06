@@ -37,13 +37,6 @@ class NavigationController extends BaseController
         $sectionRepository = $this->getRepository(Section::class);
         $sections = $sectionRepository->allWithJoinChildren();
 
-        // Cleanup of level 1 sections
-        foreach ($sections as $key => $section) {
-            if ($section->getParent()) {
-                unset($sections[$key]);
-            }
-        }
-
         $navigationBuilder->setElements($sections);
         $navigationBuilder->setSelectedElement($sectionCurrent);
         $navigationBuilder->build();

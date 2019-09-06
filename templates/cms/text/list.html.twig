@@ -32,6 +32,17 @@
     {% embed 'cms/core/javascripts.html.twig' %}
         {% block page_scripts %}
             {{ encore_entry_script_tags('cms_app_datatable') }}
+            <script>
+                jQuery(document).ready(function() {
+                    $(function(){
+                        Tutoriux.initDataTable({
+                            "sortIgnore": [4],
+                            "searchIgnore": [2,4],
+                            "stripHtmlTags": [0]
+                        });
+                    });
+                });
+            </script>
         {% endblock %}
     {% endembed %}
 {% endblock %}

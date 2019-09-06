@@ -11,7 +11,7 @@ use App\Library\NavigationElementInterface;
  *
  * @package App\Library\Traits
  */
-trait NavigationElementTrait
+trait NavigationElement
 {
     /**
      * @var string
@@ -29,7 +29,7 @@ trait NavigationElementTrait
     protected $parentElement = null;
 
     /**
-     * @var array
+     * @var iterable
      */
     protected $childrenElements = [];
 
@@ -44,7 +44,7 @@ trait NavigationElementTrait
     protected $route = '';
 
     /**
-     * @var array
+     * @var iterable
      */
     protected $routeParams = [];
 
@@ -67,7 +67,7 @@ trait NavigationElementTrait
      */
     public function setElementName(string $name): NavigationElementInterface
     {
-        $this->navElementName = $name;
+        $this->elementName = $name;
 
         return $this;
     }
@@ -122,14 +122,14 @@ trait NavigationElementTrait
      */
     public function hasChildrenElements(): bool
     {
-        return !empty($this->getChildren());
+        return !empty($this->getChildrenElements());
     }
 
     /**
-     * @param array $children
+     * @param iterable $children
      * @return NavigationElementInterface
      */
-    public function setChildrenElements(array $children = []): NavigationElementInterface
+    public function setChildrenElements(iterable $children = []): NavigationElementInterface
     {
         $this->childrenElements = $children;
 
@@ -137,9 +137,9 @@ trait NavigationElementTrait
     }
 
     /**
-     * @return array
+     * @return iterable
      */
-    public function getChildrenElements(): array
+    public function getChildrenElements(): iterable
     {
         return $this->childrenElements;
     }
@@ -209,10 +209,10 @@ trait NavigationElementTrait
     }
 
     /**
-     * @param array $routeParams
+     * @param iterable $routeParams
      * @return NavigationElementInterface
      */
-    public function setRouteParams(array $routeParams): NavigationElementInterface
+    public function setRouteParams(iterable $routeParams): NavigationElementInterface
     {
         $this->routeParams = $routeParams;
 
@@ -220,10 +220,10 @@ trait NavigationElementTrait
     }
 
     /**
-     * @param array $params
-     * @return array
+     * @param iterable $params
+     * @return iterable
      */
-    public function getRouteParams(array $params = []): array
+    public function getRouteParams(iterable $params = []): iterable
     {
         return array_merge($this->routeParams, $params);
     }

@@ -10,7 +10,7 @@ use App\Form\Globals\Media\VideoType,
 
 /**
  * Class VideoController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class VideoController extends BaseController
 {

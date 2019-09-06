@@ -5,12 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Role\Role as SymfonyRole;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class Role
  * @package App\Entity
  */
-class Role extends SymfonyRole implements \Serializable
+class Role extends SymfonyRole implements \Serializable, TranslatableInterface
 {
     use TutoriuxORMBehaviors\Translatable\Translatable;
     use TutoriuxORMBehaviors\Timestampable\Timestampable;
@@ -193,9 +194,9 @@ class Role extends SymfonyRole implements \Serializable
      *
      * @param array $params Additional parameters
      *
-     * @return array
+     * @return iterable
      */
-    public function getRouteParams($params = array()): array
+    public function getRouteParams(iterable $params = []): iterable
     {
         $defaults = array(
             'id' => $this->id ? $this->id : 0

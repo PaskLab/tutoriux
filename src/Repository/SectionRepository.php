@@ -2,13 +2,14 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\Query\Expr;
 use Exception;
-use App\Library\TranslatableRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NonUniqueResultException;
-use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors,
-    Tutoriux\DoctrineBehaviorsBundle\Model\Repository\NodeRepositoryInterface,
-    App\Library\BaseEntityRepository;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\NodeRepositoryInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
+use App\Library\BaseEntityRepository;
 
 /**
  * Class SectionRepository
@@ -23,11 +24,14 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     const LAST_UPDATE_LIFETIME = 86400;
 
     /**
+     * Method used in conjunction with MaterializedPath Trait getTreeFrom***() methods.
+     * Override MaterializedPath Trait addCriteria method.
+     *
      * @param QueryBuilder $queryBuilder
      * @return QueryBuilder
      * @throws Exception
      */
-    public function getCriteria(QueryBuilder $queryBuilder)
+    public function addCriteria(QueryBuilder $queryBuilder): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->select('s', 'st')
@@ -123,23 +127,41 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
     }
 
     /**
-     * @return QueryBuilder|mixed
-     * @throws NonUniqueResultException
+     * CMS ONLY
+     *
+     * @return mixed
      */
     public function allWithJoinChildren()
     {
-        $queryBuilder = $this->createQueryBuilder('s')
-            ->select('s', 'st', 'sm', 'c', 'ct', 'cm')
-            ->leftJoin('s.translations', 'st')
-            ->leftJoin('s.mappings', 'sm')
-            ->leftJoin('s.children', 'c')
-            ->leftJoin('c.translations', 'ct')
-            ->leftJoin('c.mappings', 'cm')
-            ->orderBy('s.ordering')
-            ->addOrderBy('cm.ordering', 'ASC')
-            ->addOrderBy('st.name');
+        $result = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.parent IS NULL')
+            ->getQuery()
+            ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
+            ->useResultCache((!$this->isEditMode()))
+            ->getResult();
 
-        return $this->processQuery($queryBuilder);
+        $queryBuilder = $this->getTreeFromQB($this->getNodeIds($result), 's', false);
+        $result = $queryBuilder
+            ->select('s', 'st', 'sm')
+            ->leftJoin('s.translations', 'st')
+            ->leftJoin('s.mappings', 'sm', Expr\Join::WITH,
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('sm.type', ':type'),
+                    $queryBuilder->expr()->eq('sm.context', ':context')
+                )
+            )
+
+            ->orderBy('s.ordering','ASC')
+            ->addOrderBy('st.name')
+            ->setParameter('type', 'route')
+            ->setParameter('context', 'cms')
+            ->getQuery()
+            ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
+            ->useResultCache((!$this->isEditMode()))
+            ->getResult();
+
+        return $this->buildTree($result);
     }
 
     /**

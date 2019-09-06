@@ -2,22 +2,23 @@
 
 namespace App\Entity\Media;
 
-use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection;
-
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use App\Library\BaseEntity,
-    Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 
 /**
  * Class Media
  * @package App\Entity\Media
  */
-class Media extends BaseEntity
+class Media implements EntityInterface
 {
 
-    use TutoriuxORMBehaviors\Uploadable\Uploadable,
+    use EntityUtils,
+        TutoriuxORMBehaviors\Uploadable\Uploadable,
         TutoriuxORMBehaviors\Timestampable\Timestampable,
         TutoriuxORMBehaviors\Blameable\Blameable;
 

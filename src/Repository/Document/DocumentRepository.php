@@ -5,7 +5,7 @@ namespace App\Repository\Document;
 use Doctrine\ORM\NonUniqueResultException;
 use App\Library\BaseEntityRepository;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
-use App\Library\TranslatableRepositoryInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
 
 /**
  * Class DocumentRepository

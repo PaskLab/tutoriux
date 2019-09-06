@@ -8,7 +8,7 @@
 				</div>
 				<div class="tools">
 					{% if entities|length > 1 %}
-						<a class="list-order-mode" data-table-id="table-{{ tableId }}" data-sort-url="{{ path((entityType == 'section') ? 'cms_section_root_order' : 'cms_section_navigation_order', { appSlug: managedApp.slug }) }}"  href="javascript:;"><i class="fa fa-align-justify"></i> <i class="fa fa-sort"></i></a>
+						<a class="list-order-mode" data-table-id="table-{{ tableId }}" data-sort-url="{{ path((entityType == 'section') ? 'cms_section_root_order' : 'cms_section_navigation_order') }}"  href="javascript:;"><i class="fa fa-align-justify"></i> <i class="fa fa-sort"></i></a>
 					{% endif %}
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 					{% for entity in entities %}
 						<tr id="table-item-{{ entity.id }}" class="gradeX {{ (loop.index is even) ? 'even' : 'odd' }}">
 							<td>
-								<a{% if not ((entityType == 'section') ? entity.active : entity.section.active) %} class="font-grey-silver"{% endif %} href="{{ path('cms_section_root_edit', { id: ((entityType == 'section') ? entity.id : entity.section.id), appSlug: managedApp.slug }) }}">
+								<a{% if not ((entityType == 'section') ? entity.active : entity.section.active) %} class="font-grey-silver"{% endif %} href="{{ path('cms_section_root_edit', { id: ((entityType == 'section') ? entity.id : entity.section.id) }) }}">
 									{% include 'globals/entity_title.html.twig' with { 'entity': (entityType == 'section') ? entity : entity.section } %}
 								</a>
 							</td>
@@ -36,8 +36,8 @@
 							<td>{{ (entityType == 'section') ? entity.updatedAt|date('Y-m-d') : entity.section.updatedAt|date('Y-m-d') }}</td>
 							<td class="text-center">
 								<a href="{{ path('cms_mapping', { sectionId: (entityType == 'section') ? entity.id : entity.section.id }) }}" style="padding-right: 15%;"><i class="fa fa-link tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Mappings{% endtrans %}"></i></a>
-								<a href="{{ path('cms_section_root_edit', { id: (entityType == 'section') ? entity.id : entity.section.id, appSlug: managedApp.slug }) }}" style="padding-right: 15%;"><i class="fa fa-pencil tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Edit{% endtrans %}"></i></a>
-								<a href="{{ path('cms_section_root_delete', { id: (entityType == 'section') ? entity.id : entity.section.id, appSlug: managedApp.slug }) }}" data-delete-check="{{ path('cms_section_root_delete_check', { 'id': (entityType == 'section') ? entity.id : entity.section.id, 'appSlug': managedApp.slug }) }}"><i class="fa fa-trash-o tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Delete{% endtrans %}"></i></a>
+								<a href="{{ path('cms_section_root_edit', { id: (entityType == 'section') ? entity.id : entity.section.id }) }}" style="padding-right: 15%;"><i class="fa fa-pencil tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Edit{% endtrans %}"></i></a>
+								<a href="{{ path('cms_section_root_delete', { id: (entityType == 'section') ? entity.id : entity.section.id }) }}" data-delete-check="{{ path('cms_section_root_delete_check', { 'id': (entityType == 'section') ? entity.id : entity.section.id }) }}"><i class="fa fa-trash-o tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Delete{% endtrans %}"></i></a>
 							</td>
 						</tr>
 					{% endfor %}

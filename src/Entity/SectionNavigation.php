@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
-use App\Library\BaseEntity;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
 
 /**
  * Class SectionNavigation
  * @package App\Entity
  */
-class SectionNavigation extends BaseEntity
+class SectionNavigation implements EntityInterface
 {
-    use TutoriuxORMBehaviors\Timestampable\Timestampable;
+    use EntityUtils,
+        TutoriuxORMBehaviors\Timestampable\Timestampable;
 
     /**
      * @var integer

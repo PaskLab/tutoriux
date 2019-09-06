@@ -25,6 +25,7 @@ class RouterAutoParametersHandler
      */
     public function getAutoParameters()
     {
+        $parameters = [];
         $request = $this->requestStack->getMasterRequest();
 
         if ($request->get('_tutoriuxEnabled', false)) {

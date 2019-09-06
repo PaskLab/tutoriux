@@ -11,12 +11,20 @@ require('../../plugins/datatables/datatables');
 require('../../plugins/jquery.tablednd_0_5');
 import Tutoriux from '../../scripts/global/tutoriux';
 
-jQuery(document).ready(function() {
-	$(function(){
-		Tutoriux.initDataTable({
-			"sortIgnore": [4],
-			"searchIgnore": [2,4],
-			"stripHtmlTags": [0]
-		});
-	});
-});
+// Set Tutoriux as global so it can be accessed on a by-page basis for configuration purpose.
+window.Tutoriux = Tutoriux;
+
+/**
+ *  Datatable can be ignited with the following helper:
+ *
+ *  jQuery(document).ready(function() {
+ *		$(function(){
+ *			Tutoriux.initDataTable({
+ *				"sortIgnore": [4],
+ *				"searchIgnore": [2,4],
+ *				"stripHtmlTags": [0]
+ *			});
+ *		});
+ *	});
+ */
+

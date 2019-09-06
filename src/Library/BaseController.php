@@ -164,11 +164,11 @@ abstract class BaseController extends AbstractController
      *
      * @param string $name
      * @param string $route
-     * @param array  $routeParams
-     *
-     * @return NavigationElementInterface
+     * @param iterable $routeParams
+     * @param string|null $icon
+     * @return NavigationElement
      */
-    protected function createNavigationElement($name, $route, $routeParams = array(), $icon = null)
+    protected function createNavigationElement(string $name, string $route, iterable $routeParams = [], string $icon = null)
     {
         $navigationElement = new NavigationElement();
         $navigationElement

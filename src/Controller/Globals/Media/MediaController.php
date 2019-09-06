@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 use App\Entity\Media\Media;
 use App\Entity\Media\Folder;
-use App\Library\Globals\Media\MediaPager;
+use App\Library\Component\Media\MediaPager;
 use App\Library\BaseController;
 use App\Services\Deletable;
 
@@ -19,7 +19,7 @@ use Wa72\HtmlPageDom\HtmlPageCrawler;
 
 /**
  * Class MediaController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class MediaController extends BaseController
 {

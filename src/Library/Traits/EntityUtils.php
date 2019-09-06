@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Library;
-
-use App\Library\Traits\NavigationElementTrait;
+namespace App\Library\Traits;
 
 /**
- * Class BaseEntity
- * @package App\Library
+ * Trait EntityUtils
+ * @package App\Library\Traits
  */
-abstract class BaseEntity implements EntityInterface, NavigationElementInterface
+trait EntityUtils
 {
-    use NavigationElementTrait;
-
     /**
      * Returns the entity name without its path
      *
      * @return string
      */
-    public function getEntityName()
+    public function getEntityName(): string
     {
         $className = get_class($this);
         $classNameTokens = explode('\\', $className);
@@ -28,7 +24,7 @@ abstract class BaseEntity implements EntityInterface, NavigationElementInterface
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return false;
     }
@@ -38,7 +34,7 @@ abstract class BaseEntity implements EntityInterface, NavigationElementInterface
      *
      * @return bool
      */
-    public function isEditable()
+    public function isEditable(): bool
     {
         return true;
     }
@@ -48,7 +44,7 @@ abstract class BaseEntity implements EntityInterface, NavigationElementInterface
      *
      * @return bool
      */
-    public function isDeletable()
+    public function isDeletable(): bool
     {
         if (!$this->getId()) {
             return false;

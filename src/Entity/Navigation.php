@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
 use Doctrine\Common\Collections\ArrayCollection;
-
-use App\Library\BaseEntity;
 
 /**
  * Class Navigation
  * @package App\Entity
  */
-class Navigation extends BaseEntity
+class Navigation implements EntityInterface
 {
+    use EntityUtils;
+
     /**
      * __toString()
      *

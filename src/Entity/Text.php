@@ -2,18 +2,21 @@
 
 namespace App\Entity;
 
-use App\Library\BaseEntity;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class Text
  * @package App\Entity
  */
-class Text extends BaseEntity
+class Text implements EntityInterface, TranslatableInterface
 {
-    use TutoriuxORMBehaviors\Translatable\Translatable;
-    use TutoriuxORMBehaviors\Timestampable\Timestampable;
-    use TutoriuxORMBehaviors\Localizable\Localizable;
+    use EntityUtils,
+        TutoriuxORMBehaviors\Translatable\Translatable,
+        TutoriuxORMBehaviors\Timestampable\Timestampable,
+        TutoriuxORMBehaviors\Localizable\Localizable;
 
     /**
      * @var integer $id

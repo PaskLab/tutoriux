@@ -2,17 +2,24 @@
 
 namespace App\Entity;
 
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use App\Library\NavigationElementInterface;
+use App\Library\Traits\NavigationNodeBridge;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Library\BaseEntity;
-use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors,
-    Tutoriux\DoctrineBehaviorsBundle\Model\Tree\NodeInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Tree\NodeInterface;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
- * Section
+ * Class Section
+ * @package App\Entity
  */
-class Section extends BaseEntity implements NodeInterface
+class Section implements EntityInterface, NodeInterface, NavigationElementInterface, TranslatableInterface
 {
-    use TutoriuxORMBehaviors\Translatable\Translatable,
+    use EntityUtils,
+        NavigationNodeBridge,
+        TutoriuxORMBehaviors\Translatable\Translatable,
         TutoriuxORMBehaviors\Timestampable\Timestampable,
         TutoriuxORMBehaviors\Tree\MaterializedPath;
 
@@ -145,9 +152,9 @@ class Section extends BaseEntity implements NodeInterface
      *
      * @param array $params Array of params to get
      *
-     * @return array
+     * @return iterable
      */
-    public function getRouteParams(array $params = array()): array
+    public function getRouteParams(iterable $params = array()): iterable
     {
         return array_merge($this->routeParams, $params);
     }

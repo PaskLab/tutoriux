@@ -43,7 +43,7 @@ class SectionAuthFilter
     public function __construct(RegistryInterface $doctrine, AuthorizationCheckerInterface $authorizationChecker,
                                 TokenStorageInterface $tokenStorage)
     {
-        $this->entityManager = $doctrine->getEntityManager();
+        $this->entityManager = $doctrine->getManager();
         $this->authorizationChecker = $authorizationChecker;
         $this->tokenStorage = $tokenStorage;
     }

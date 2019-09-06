@@ -7,8 +7,8 @@ use Doctrine\ORM\NonUniqueResultException;
 use App\Entity\Section;
 use App\Library\BaseEntityRepository;
 use App\Entity\User;
-use App\Library\TranslatableRepositoryInterface;
 use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Repository\TranslatableRepositoryInterface;
 
 /**
  * Class DocumentTranslationRepository

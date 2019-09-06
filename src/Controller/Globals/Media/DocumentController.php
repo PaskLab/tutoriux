@@ -12,7 +12,7 @@ use App\Library\BaseController,
 
 /**
  * Class DocumentController
- * @package App\Controller\Globals\Media
+ * @package App\Controller\Component\Media
  */
 class DocumentController extends BaseController
 {

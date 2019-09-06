@@ -2,16 +2,19 @@
 
 namespace App\Entity\School;
 
-use App\Library\BaseEntity,
-    Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
+use Tutoriux\DoctrineBehaviorsBundle\Model as TutoriuxORMBehaviors;
+use Tutoriux\DoctrineBehaviorsBundle\Model\Translatable\TranslatableInterface;
 
 /**
  * Class RequestCriteria
- * @package AdminBundle\Entity
+ * @package App\Entity\School
  */
-class RequestCriteria extends BaseEntity
+class RequestCriteria implements EntityInterface, TranslatableInterface
 {
-    use TutoriuxORMBehaviors\Translatable\Translatable;
+    use EntityUtils,
+        TutoriuxORMBehaviors\Translatable\Translatable;
 
     /**
      * @var integer

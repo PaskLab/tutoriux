@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaBundle\Lib;
+namespace App\Library\Component\Media;
 
 /**
  * Class MediaParser

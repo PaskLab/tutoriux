@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ImageType
- * @package App\Form\Globals\Media
+ * @package App\Form\Component\Media
  */
 class ImageType extends MediaType
 {

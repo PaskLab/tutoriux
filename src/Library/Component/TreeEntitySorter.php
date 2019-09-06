@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Library\Globals;
+namespace App\Library\Component;
 
 /**
  * Class TreeEntitySorter
- * @package App\Library\Globals
+ * @package App\Library\Component
  */
 class TreeEntitySorter
 {

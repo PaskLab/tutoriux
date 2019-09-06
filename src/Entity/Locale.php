@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Library\BaseEntity;
+use App\Library\EntityInterface;
+use App\Library\Traits\EntityUtils;
 
 /**
  * Class Locale
  * @package App\Entity
  */
-class   Locale extends BaseEntity
+class   Locale implements EntityInterface
 {
+    use EntityUtils;
+
     /**
      * @var integer
      */
@@ -89,9 +92,9 @@ class   Locale extends BaseEntity
      *
      * @param array $params Additional parameters
      *
-     * @return array
+     * @return iterable
      */
-    public function getRouteParams(array $params = []): array
+    public function getRouteParams(iterable $params = []): iterable
     {
         $defaults = array(
             'id' => $this->id ? $this->id : 0,

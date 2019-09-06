@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class VideoType
- * @package App\Form\Globals\Media
+ * @package App\Form\Component\Media
  */
 class VideoType extends MediaType
 {

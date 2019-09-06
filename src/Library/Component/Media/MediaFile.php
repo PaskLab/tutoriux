@@ -1,12 +1,12 @@
 <?php
-namespace App\Library\Globals\Media;
+namespace App\Library\Component\Media;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class MediaFile
- * @package App\Library\Globals\Media
+ * @package App\Library\Component\Media
  */
 class MediaFile
 {

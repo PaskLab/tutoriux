@@ -11,7 +11,7 @@ use Symfony\Component\Form\AbstractType,
 
 /**
  * Class CreatableEntityType
- * @package App\Form\Globals\Type
+ * @package App\Form\Component\Type
  */
 class CreatableEntityType extends AbstractType
 {

@@ -6,11 +6,11 @@ use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
-use App\Library\Globals\TreeEntitySorter;
+use App\Library\Component\TreeEntitySorter;
 
 /**
  * Class ORMSortedQueryBuilderLoader
- * @package App\Form\Globals\Type\ChoiceList
+ * @package App\Form\Component\Type\ChoiceList
  */
 class ORMSortedQueryBuilderLoader extends ORMQueryBuilderLoader
 {
