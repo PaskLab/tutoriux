@@ -59,6 +59,10 @@ ul.form-control {
 .dataTable>thead>tr>th.sorting_asc,
 .dataTable>thead>tr>th.sorting_desc {
 	padding-left: 20px;
+
+	&:after {
+		left: 0;
+	}
 }
 
 /* EDITOR */

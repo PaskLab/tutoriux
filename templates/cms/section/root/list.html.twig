@@ -13,48 +13,57 @@
 		</div>
 	</div>
 
-	{% for navigation in navigations %}
-		{% if navigation.sectionNavigations|length %}
-			{% include 'cms/section/root/list_table.html.twig' with {
-				'entities': navigation.sectionNavigations,
-				'title': navigation|capitalize|trans,
-				'tableId': navigation.id,
-				'entityType': 'sectionNavigation'
-			} %}
-		{% endif %}
-	{% endfor %}
-
-	{% if withoutNavigation %}
-		{% include 'cms/section/root/list_table.html.twig' with {
-			'entities': withoutNavigation,
-			'title': 'Without navigation'|trans,
-			'tableId': 'without-navigation',
-			'entityType': 'section'
-		} %}
-	{% endif %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet box grey-silver">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-sitemap"></i>
+						{{ 'Root Sections'|trans }}
+					</div>
+					<div class="tools">
+						{% if sections|length > 1 %}
+							<a class="list-order-mode" data-table-id="table-root-section" data-sort-url="{{ path('cms_section_root_order') }}"  href="javascript:;"><i class="fa fa-align-justify"></i> <i class="fa fa-sort"></i></a>
+						{% endif %}
+					</div>
+				</div>
+				<div class="portlet-body">
+					<table id="table-root-section" class="table table-striped table-hover">
+						<thead>
+						<tr>
+							<th>{% trans %}Name{% endtrans %}</th>
+							<th>{% trans %}Nb. of subsections{% endtrans %}</th>
+							<th class="ordering">{% trans %}Ordering{% endtrans %}</th> {# Class .ordering is a hook for datatable #}
+							<th>{% trans %}Last update{% endtrans %}</th>
+							<th class="col-md-1">{% trans %}Actions{% endtrans %}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for section in sections %}
+							<tr id="table-item-{{ section.id }}" class="gradeX {{ (loop.index is even) ? 'even' : 'odd' }}">
+								<td>
+									<a{% if not section.active %} class="font-grey-silver"{% endif %} href="{{ path('cms_section_root_edit', { id: section.id }) }}">
+										{% include 'globals/entity_title.html.twig' with { 'entity': section } %}
+									</a>
+								</td>
+								<td>{{ section.children|length }}</td>
+								<td>{{ section.ordering }}</td>
+								<td>{{ section.updatedAt|date('Y-m-d') }}</td>
+								<td class="text-center">
+									<a href="{{ path('cms_mapping', { sectionId: section.id }) }}" style="padding-right: 15%;"><i class="fa fa-link tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Mappings{% endtrans %}"></i></a>
+									<a href="{{ path('cms_section_root_edit', { id: section.id }) }}" style="padding-right: 15%;"><i class="fa fa-pencil tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Edit{% endtrans %}"></i></a>
+									<a href="{{ path('cms_section_root_delete', { id: section.id }) }}" data-delete-check="{{ path('cms_section_root_delete_check', { 'id': section.id }) }}"><i class="fa fa-trash-o tooltips" data-container="body" data-placement="left" data-original-title="{% trans %}Delete{% endtrans %}"></i></a>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock content_main %}
-
-{#{% block stylesheets %}#}
-{#	{{ parent() }}#}
-{#	{% include 'globals/datatables/stylesheets.html.twig' %}#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#	{{ parent() }}#}
-{#	{% include 'globals/datatables/javascripts.html.twig' %}#}
-
-{#	<script>#}
-{#		$(function(){#}
-{#			Tutoriux.initDataTable({#}
-{#				"sortIgnore": [4],#}
-{#				"searchIgnore": [2,4],#}
-{#				"stripHtmlTags": [0]#}
-{#			});#}
-{#		});#}
-{#	</script>#}
-
-{#{% endblock %}#}
 
 {% block stylesheets %}
 	{% embed 'cms/core/stylesheets.html.twig' %}
@@ -73,7 +82,7 @@
 					$(function(){
 						Tutoriux.initDataTable({
 							"sortIgnore": [4],
-							"searchIgnore": [2,4],
+							"searchIgnore": [1,2,3,4],
 							"stripHtmlTags": [0]
 						});
 					});

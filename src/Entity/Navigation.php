@@ -15,6 +15,18 @@ class Navigation implements EntityInterface
     use EntityUtils;
 
     /**
+     * Basic Navigation codes
+     * Shall reflect the codes stored in the database
+     */
+    public const SECTION_BAR = 'section_bar';
+    public const SECTION_MODULE_BAR = 'section_module_bar';
+    public const TOP_MODULE_BAR = 'top_module_bar';
+    public const SIDE_MODULE_BAR = 'side_module_bar';
+    public const HEADER = 'header';
+    public const SECONDARY = 'secondary';
+    public const FOOTER = 'footer';
+
+    /**
      * __toString()
      *
      * @return string

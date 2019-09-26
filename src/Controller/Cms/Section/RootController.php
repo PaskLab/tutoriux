@@ -50,17 +50,12 @@ class RootController extends BaseController
      */
     public function list()
     {
-        /** @var NavigationRepository $navigationRepository */
-        $navigationRepository = $this->getRepository(Navigation::class);
-        $navigations = $navigationRepository->findHaveSections();
-
         /** @var SectionRepository $sectionRepository */
         $sectionRepository = $this->getRepository(Section::class);
-        $withoutNavigation = $sectionRepository->findRootsWithoutNavigation();
+        $sections = $sectionRepository->findAllRootSections();
 
         return $this->render('cms/section/root/list.html.twig', [
-            'navigations' => $navigations,
-            'withoutNavigation' => $withoutNavigation
+            'sections' => $sections
         ]);
     }
 

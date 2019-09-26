@@ -20,21 +20,27 @@
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	{% include 'globals/datatables/stylesheets.html.twig' %}
+	{% embed 'cms/core/stylesheets.html.twig' %}
+		{% block page_stylesheets %}
+			{{ encore_entry_link_tags('cms_app_datatable') }}
+		{% endblock %}
+	{% endembed %}
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	{% include 'globals/datatables/javascripts.html.twig' %}
-
-	<script>
-		$(function(){
-			Tutoriux.initDataTable({
-				"sortIgnore": [3],
-				"searchIgnore": [2,3]
-			});
-		});
-	</script>
-
+	{% embed 'cms/core/javascripts.html.twig' %}
+		{% block page_scripts %}
+			{{ encore_entry_script_tags('cms_app_datatable') }}
+			<script>
+				jQuery(document).ready(function() {
+					$(function(){
+						Tutoriux.initDataTable({
+							"sortIgnore": [3],
+							"searchIgnore": [2,3]
+						});
+					});
+				});
+			</script>
+		{% endblock %}
+	{% endembed %}
 {% endblock %}

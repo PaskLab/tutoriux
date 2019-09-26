@@ -1,7 +1,8 @@
 {% if sections %}
     {% for section in sections %}
         <li{% if section.isSelectedElement %} class="active"{% endif %}>
-            <a href="{{ path('cms_section', {'sectionId': section.id}) }}">
+            {% set route = (section.mappings ? section.mappings[0].target : 'cms_section') %}
+            <a href="{{ path(route, {'sectionId': section.id}) }}">
                 {% if section.icon %}<i class="fa {{ section.elementIcon }}"></i>{% endif %}
                 {% include 'globals/entity_title.html.twig' with { 'entity': section } %}
                 {% if section.hasChildrenElements %}<span class="arrow{% if section.isSelectedElement %} open{% endif %}"></span>{% endif %}

@@ -7,10 +7,6 @@ cms_section_root_order:
     path:  /sections/root/order
     controller: App\Controller\Cms\Section\RootController::order
 
-cms_section_navigation_order:
-    path:  /sections/section-navigation/order
-    controller: App\Controller\Cms\Section\RootController::orderSectionNavigation
-
 cms_section_root_edit:
     path:  /sections/root/{id}/edit
     controller: App\Controller\Cms\Section\RootController::edit

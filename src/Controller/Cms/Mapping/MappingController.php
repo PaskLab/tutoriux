@@ -3,12 +3,14 @@
 namespace App\Controller\Cms\Mapping;
 
 
-use App\Services\ApplicationCore;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use App\Services\ApplicationCore;
 use App\Library\BaseController;
 use App\Entity\Mapping;
 use App\Form\Cms\Mapping\MappingType;
@@ -23,14 +25,15 @@ class MappingController extends BaseController
     /**
      * MappingController constructor.
      * @param ApplicationCore $applicationCore
+     * @param AuthorizationCheckerInterface $authorizationChecker
      * @throws \Exception
      */
-    public function __construct(ApplicationCore $applicationCore)
+    public function __construct(ApplicationCore $applicationCore, AuthorizationCheckerInterface $authorizationChecker)
     {
         parent::__construct($applicationCore);
 
         // Access restricted to ROLE_BACKEND_ADMIN
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (false === $authorizationChecker->isGranted('ROLE_BACKEND_ADMIN')) {
             throw new AccessDeniedHttpException('You don\'t have the privileges to view this page.');
         }
 

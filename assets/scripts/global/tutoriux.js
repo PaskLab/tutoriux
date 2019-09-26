@@ -6,6 +6,7 @@ import TutoriuxTranslations from '../global/translations';
 export default (function () {
 	'use strict';
 
+	var Metronic = require('../../scripts/global/metronic');
 	let toastr = require('../../plugins/bootstrap-toastr/toastr');
 
 	// PRIVATE

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Navigation;
 use Doctrine\ORM\Query\Expr;
 use Exception;
 use Doctrine\ORM\QueryBuilder;
@@ -49,6 +50,21 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
         }
 
         return $queryBuilder;
+    }
+
+    /**
+     * @return QueryBuilder|mixed
+     * @throws NonUniqueResultException
+     */
+    public function findAllRootSections()
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->select('s', 'st')
+            ->leftJoin('s.translations', 'st')
+            ->where('s.parent IS NULL')
+            ->orderBy('s.ordering');
+
+        return $this->processQuery($queryBuilder);
     }
 
     /**
@@ -145,17 +161,21 @@ class SectionRepository extends BaseEntityRepository implements NodeRepositoryIn
         $result = $queryBuilder
             ->select('s', 'st', 'sm')
             ->leftJoin('s.translations', 'st')
-            ->leftJoin('s.mappings', 'sm', Expr\Join::WITH,
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq('sm.type', ':type'),
-                    $queryBuilder->expr()->eq('sm.context', ':context')
-                )
-            )
+            ->innerJoin('s.mappings', 'sm')
+            ->innerJoin('sm.navigation', 'mn')
 
-            ->orderBy('s.ordering','ASC')
+            ->where('mn.code = :code')
+            ->andWhere('sm.type = :type AND sm.context = :context')
+            ->setParameters([
+                'code' => Navigation::SECTION_BAR,
+                'type' => 'route',
+                'context' => 'cms'
+            ])
+
+            ->orderBy('s.ordering')
             ->addOrderBy('st.name')
-            ->setParameter('type', 'route')
-            ->setParameter('context', 'cms')
+            ->addOrderBy('sm.ordering')
+
             ->getQuery()
             ->setResultCacheLifetime(self::NAVIGATION_LIFETIME)
             ->useResultCache((!$this->isEditMode()))
