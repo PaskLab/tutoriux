@@ -1,9 +1,19 @@
-Mapping
+Route Mapping
 =========================
+
+The following document describe how our custom router use the mapping 
+entity entries to generate what we call "**Dynamic Routes**". See 
+[modules documentation](../module/module_basic.md) for more information 
+on how to sections and mapping are related.
 
 ## The mapping process
 
-The distribution use a hierarchy of sections (this is a synonym for pages). In a typical web application, each of those section must land in a given action of a controller. Usually in Symfony2, we just use routes for this purposes, but the dynamic side of the sections hierarchy makes it complicated to handle. This is where the mapping process come into play.
+The distribution use a hierarchy of sections (this is a synonym for pages).
+In a typical web application, each of those section must land in a given 
+action of a controller. Usually in Symfony2, we use the standard routing 
+to achieve this, but the dynamic side of the sections hierarchy we use 
+in this CMS makes it complicated to handle. This is where the mapping 
+process comes into play.
 
 ### Mapping types
 
