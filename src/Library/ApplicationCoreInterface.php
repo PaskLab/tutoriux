@@ -3,7 +3,7 @@
 namespace App\Library;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Section;
@@ -34,15 +34,15 @@ interface ApplicationCoreInterface
     public function initSectionNav(): void;
 
     /**
-     * @return Request
+     * @return RequestStack
      */
-    public function getRequest(): Request;
+    public function getRequestStack(): RequestStack;
 
     /**
-     * @param Request $request
+     * @param RequestStack $requestStack
      * @return ApplicationCoreInterface
      */
-    public function setRequest(Request $request): ApplicationCoreInterface;
+    public function setRequestStack(RequestStack $requestStack): ApplicationCoreInterface;
 
     /**
      * @return RegistryInterface

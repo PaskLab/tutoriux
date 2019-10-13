@@ -19,10 +19,12 @@ use App\Library\ApplicationCoreInterface;
  */
 class ApplicationCore implements ApplicationCoreInterface
 {
+    private const HOMEPAGE_SECTION_ID = 1;
+
     /**
-     * @var Request
+     * @var RequestStack
      */
-    private $request;
+    private $requestStack;
 
     /**
      * @var RegistryInterface
@@ -87,6 +89,11 @@ class ApplicationCore implements ApplicationCoreInterface
     protected $translator;
 
     /**
+     * @var routeResolver
+     */
+    protected $routeResolver;
+
+    /**
      * @var bool
      */
     protected $sectionNavInitialized;
@@ -105,9 +112,9 @@ class ApplicationCore implements ApplicationCoreInterface
      * @param PageTitle $pageTitle
      */
     public function __construct(RequestStack $requestStack, RegistryInterface $doctrine, SessionInterface $session,
-                                Breadcrumbs $breadcrumbs, PageTitle $pageTitle)
+        Breadcrumbs $breadcrumbs, PageTitle $pageTitle, RouteResolver $routeResolver)
     {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->doctrine = $doctrine;
         $this->session = $session;
         $this->breadcrumbs = $breadcrumbs;
@@ -115,6 +122,7 @@ class ApplicationCore implements ApplicationCoreInterface
         $this->locale = null;
         $this->currentElement = null;
         $this->elements = [];
+        $this->routeResolver = $routeResolver;
 
         $this->sectionNavInitialized = false;
     }
@@ -125,7 +133,7 @@ class ApplicationCore implements ApplicationCoreInterface
     public function isReady(): bool
     {
         return isset(
-            $this->request,
+            $this->requestStack,
             $this->doctrine,
             $this->session,
             $this->breadcrumbs,
@@ -143,6 +151,7 @@ class ApplicationCore implements ApplicationCoreInterface
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Exception
      */
     public function initSectionNav(): void
     {
@@ -157,21 +166,28 @@ class ApplicationCore implements ApplicationCoreInterface
 
                 $criteria = ['id' => $sectionId];
 
-                if ('cms' !== $this->getRequest()->get('_tutoriuxContext', 'site')) {
+                if ('cms' !== $this->getRequestStack()->getCurrentRequest()->get('_tutoriuxContext', 'site')) {
                     // Avoid displaying an inactive section while browsing the public site
                     $criteria['active'] = true;
+                } else {
+                    $this->setEditLocaleEnabled(true);
                 }
 
                 $this->setSection($sectionRepository->findOneBy($criteria));
             }
 
-            // If a section has been found
+            // If a section has been found, bootstrap navigation elements
             if ($section = $this->getSection()) {
                 foreach ($section->getParents() as $parent) {
+                    if ($parent instanceof NavigationElementInterface) {
+                        $parent->setRoute($this->getRouteResolver()->resolveSectionRoute($parent->getId()));
+                    }
                     $this->addNavigationElement($parent);
                 }
 
+                $section->setRoute($this->getRouteResolver()->resolveSectionRoute($section->getId()));
                 $this->addNavigationElement($section);
+
             } else {
                 throw new NotFoundHttpException(
                     sprintf('The section [id: %s] does not exist or is not active in the database', $sectionId)
@@ -183,20 +199,20 @@ class ApplicationCore implements ApplicationCoreInterface
     }
 
     /**
-     * @return Request
+     * @return RequestStack
      */
-    public function getRequest(): Request
+    public function getRequestStack(): RequestStack
     {
-        return $this->request;
+        return $this->requestStack;
     }
 
     /**
-     * @param Request $request
+     * @param RequestStack $requestStack
      * @return ApplicationCoreInterface
      */
-    public function setRequest(Request $request): ApplicationCoreInterface
+    public function setRequestStack(RequestStack $requestStack): ApplicationCoreInterface
     {
-        $this->request = $request;
+        $this->requestStack = $requestStack;
 
         return $this;
     }
@@ -246,10 +262,11 @@ class ApplicationCore implements ApplicationCoreInterface
      */
     public function getSectionId(): int
     {
-        $sectionId = 0;
+        $sectionId = self::HOMEPAGE_SECTION_ID;
 
-        if ($this->request) {
-            $tutoriuxRequest = $this->request->attributes->get('_tutoriuxRequest', ['sectionId' => 0]);
+        if ($this->getRequestStack()->getCurrentRequest()) {
+            $tutoriuxRequest = $this->getRequestStack()->getCurrentRequest()
+                ->attributes->get('_tutoriuxRequest', ['sectionId' => self::HOMEPAGE_SECTION_ID]);
             $sectionId = $tutoriuxRequest['sectionId'];
         }
 
@@ -344,7 +361,7 @@ class ApplicationCore implements ApplicationCoreInterface
     public function getLocale(): string
     {
         if (!$this->locale) {
-            $this->locale = $this->getRequest()->getLocale();
+            $this->locale = $this->getRequestStack()->getCurrentRequest()->getLocale();
         }
 
         return $this->locale;
@@ -359,8 +376,8 @@ class ApplicationCore implements ApplicationCoreInterface
      */
     public function getEditLocale(): string
     {
-        if ($this->request->get('edit-locale')) {
-            $this->getSession()->set('edit-locale', $this->request->get('edit-locale'));
+        if ($this->getRequestStack()->getCurrentRequest()->get('edit-locale')) {
+            $this->getSession()->set('edit-locale', $this->getRequestStack()->getCurrentRequest()->get('edit-locale'));
         }
 
         if (!$this->getSession()->get('edit-locale')) {
@@ -494,5 +511,13 @@ class ApplicationCore implements ApplicationCoreInterface
         $this->translator = $translator;
 
         return $this;
+    }
+
+    /**
+     * @return RouteResolver
+     */
+    public function getRouteResolver(): RouteResolver
+    {
+        return $this->routeResolver;
     }
 }
